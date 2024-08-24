@@ -1,0 +1,7 @@
+Fornecedor,M1,M2,M3,M4,DistanciaEntrega_km,Fornecedor1,Fornecedor2,Fornecedor3,Fornecedor4,Fornecedor5
+Fornecedor1,X,X,,,500,0,200,300,100,300
+Fornecedor2,,X,X,X,800,200,0,200,300,100
+Fornecedor3,X,,,X,300,300,200,0,100,100
+Fornecedor4,X,X,X,X,700,100,300,100,0,50
+Fornecedor5,X,,,X,200,300,100,100,50,0
+
