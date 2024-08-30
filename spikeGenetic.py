@@ -202,8 +202,21 @@ def generate_population(materials, suppliers, vehicles, population_size):
 
     return population
 
-# Função principal do algoritmo genético
-def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50, generations=100):
+def tournament_selection(population_fitness, tournament_size=3):
+    tournament = random.sample(population_fitness, tournament_size)
+    tournament.sort(key=lambda x: x[1])  # Ordena o torneio pelo fitness
+    return tournament[0][0]  # Retorna o indivíduo com o melhor fitness
+
+def dynamic_elitism(generations_without_improvement, max_elite_percentage=0.2, min_elite_percentage=0.05):
+    # Reduz a porcentagem de elitismo se não houver melhorias
+    if generations_without_improvement > 10:
+        return min_elite_percentage
+    else:
+        # Aumenta progressivamente o número de elites no início
+        return max_elite_percentage - (generations_without_improvement / 10) * (max_elite_percentage - min_elite_percentage)
+
+def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50, generations=100, tournament_size=5):
+    # Gerar a população inicial
     population = generate_population(materials, suppliers, vehicles, population_size)
     
     best_solution = None
@@ -211,38 +224,38 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
     best_total_cost = float('inf')
     best_total_distance = float('inf')
     
-    mutation_rate = 0.1  # Taxa de mutação inicial
-    stable_generations = 0  # Contador de gerações sem melhoria
-    max_stable_generations = 10  # Número máximo de gerações sem melhoria antes de aumentar a mutação
+    no_improvement_counter = 0
     
     for generation in range(generations):
+        # Avaliar a população
         population_fitness = []
         for solution in population:
             fitness_value, total_cost, total_distance = fitness(solution, suppliers, vehicles, costs)
             population_fitness.append((solution, fitness_value, total_cost, total_distance))
         
+        # Ordenar a população com base na fitness (menor é melhor)
         population_fitness.sort(key=lambda x: x[1])
         
+        # Selecionar a melhor solução da geração
         if population_fitness[0][1] < best_fitness:
             best_solution = population_fitness[0][0]
             best_fitness = population_fitness[0][1]
             best_total_cost = population_fitness[0][2]
             best_total_distance = population_fitness[0][3]
-            stable_generations = 0  # Resetar contador se houver melhoria
+            no_improvement_counter = 0  # Reset the counter when improvement is found
         else:
-            stable_generations += 1
-        
-        # Ajuste adaptativo da taxa de mutação
-        if stable_generations >= max_stable_generations:
-            mutation_rate = min(mutation_rate + 0.1, 0.5)  # Aumentar a taxa de mutação (máx 0.5)
-            stable_generations = 0  # Resetar contador
-        else:
-            mutation_rate = max(mutation_rate - 0.05, 0.1)  # Reduzir a taxa de mutação (mín 0.1)
+            no_improvement_counter += 1
         
         print(f"Generation {generation + 1}: Best Fitness = {best_fitness}, Total Cost = {best_total_cost}, Total Distance = {best_total_distance}")
         
-        selected_population = [x[0] for x in population_fitness[:population_size // 2]]
+        # Seleção dos melhores indivíduos para crossover usando torneio
+        selected_population = []
+        for _ in range(population_size):
+            tournament = random.sample(population_fitness, tournament_size)
+            winner = min(tournament, key=lambda x: x[1])
+            selected_population.append(winner[0])
         
+        # Crossover e Mutação
         new_population = []
         while len(new_population) < population_size:
             parent1 = random.choice(selected_population)
@@ -251,11 +264,19 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
             child1, child2 = crossover(parent1.deliveries, parent2.deliveries)
             new_population.extend([Solucao(child1), Solucao(child2)])
         
-        # Aplicar mutação adaptativa na nova população
-        new_population = mutate_population(new_population, suppliers, vehicles, mutation_rate=mutation_rate)
+        # Aplicar mutação na nova população
+        new_population = mutate_population(new_population, suppliers, vehicles)
         
+        # Reinserir diversidade se não houver melhorias após várias gerações
+        if no_improvement_counter > 10:
+            print("Reinserting diversity by resetting 10 individuals in the population.")
+            new_population[-10:] = generate_population(materials, suppliers, vehicles, 10)
+            no_improvement_counter = 0
+        
+        # Atualizar a população com a nova geração
         population = new_population
     
+    # Imprimir a melhor solução final utilizando os valores armazenados durante as gerações
     print("\nMelhor solução encontrada:")
     print_solution(best_solution)
     print(f"Total Cost: {best_total_cost}, Total Time: {best_total_distance}, Weighted Fitness: {best_fitness}")
@@ -335,6 +356,38 @@ def crossover(parent1, parent2):
     child2 = parent2[:crossover_point] + parent1[crossover_point:]
     
     return child1, child2
+
+def multi_point_crossover(parent1, parent2, num_points=2):
+    if len(parent1) < num_points + 1 or len(parent2) < num_points + 1:
+        return parent1, parent2  # Retorna os pais inalterados se não for possível realizar o crossover
+
+    # Escolher múltiplos pontos de crossover seguros
+    crossover_points = sorted(random.sample(range(1, min(len(parent1), len(parent2))), num_points))
+
+    child1, child2 = [], []
+    swap = False
+    prev_point = 0
+
+    for point in crossover_points:
+        if swap:
+            child1.extend(parent2[prev_point:point])
+            child2.extend(parent1[prev_point:point])
+        else:
+            child1.extend(parent1[prev_point:point])
+            child2.extend(parent2[prev_point:point])
+        swap = not swap
+        prev_point = point
+
+    # Completar a última parte
+    if swap:
+        child1.extend(parent2[prev_point:])
+        child2.extend(parent1[prev_point:])
+    else:
+        child1.extend(parent1[prev_point:])
+        child2.extend(parent2[prev_point:])
+
+    return child1, child2
+
 
 # Função para mutar a população
 def mutate_population(population, suppliers, vehicles, mutation_rate=0.2):
