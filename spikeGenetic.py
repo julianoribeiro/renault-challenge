@@ -209,13 +209,15 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
     
     best_solution = None
     best_fitness = float('inf')
+    best_total_cost = float('inf')
+    best_total_distance = float('inf')
     
     for generation in range(generations):
         # Avaliar a população
         population_fitness = []
         for solution in population:
             fitness_value, total_cost, total_distance = fitness(solution, suppliers, vehicles, costs)
-            population_fitness.append((solution, fitness_value))
+            population_fitness.append((solution, fitness_value, total_cost, total_distance))
         
         # Ordenar a população com base na fitness (menor é melhor)
         population_fitness.sort(key=lambda x: x[1])
@@ -224,8 +226,11 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
         if population_fitness[0][1] < best_fitness:
             best_solution = population_fitness[0][0]
             best_fitness = population_fitness[0][1]
+            best_total_cost = population_fitness[0][2]
+            best_total_distance = population_fitness[0][3]
         
-        print(f"Generation {generation + 1}: Best Fitness = {best_fitness}")
+        # Imprimir a geração atual com o melhor fitness encontrado até agora
+        print(f"Generation {generation + 1}: Best Fitness = {best_fitness}, Total Cost = {best_total_cost}, Total Distance = {best_total_distance}")
         
         # Seleção dos melhores indivíduos para crossover
         selected_population = [x[0] for x in population_fitness[:population_size // 2]]
@@ -245,16 +250,15 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
         # Atualizar a população com a nova geração
         population = new_population
     
-    if best_solution is None:
-        logging.warning("Nenhuma solução viável foi encontrada durante o processo.")
-    else:
-        # Avaliar a melhor solução final
-        weighted_fitness, total_cost, total_distance = fitness(best_solution, suppliers, vehicles, costs)
-        print("\nMelhor solução encontrada:")
-        print_solution(best_solution)
-        print(f"Total Cost: {total_cost}, Total Time: {total_distance}, Weighted Fitness: {weighted_fitness}")
+    # Imprimir a melhor solução final utilizando os valores armazenados durante as gerações
+    print("\nMelhor solução encontrada:")
+    print_solution(best_solution)
+    print(f"Total Cost: {best_total_cost}, Total Time: {best_total_distance}, Weighted Fitness: {best_fitness}")
     
     return best_solution
+
+
+
 
 # Função de alocação de carga direta
 def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehicles, solution):
@@ -327,7 +331,7 @@ def crossover(parent1, parent2):
     return child1, child2
 
 # Função para mutar a população
-def mutate_population(population, suppliers, vehicles, mutation_rate=0.2e):
+def mutate_population(population, suppliers, vehicles, mutation_rate=0.2):
     new_population = []
     for solution in population:
         if random.random() < mutation_rate:
@@ -417,11 +421,4 @@ if missing_vehicles:
 
 # Executar o algoritmo genético
 best_solution = genetic_algorithm(materials, suppliers, vehicles, costs)
-
-# Ajuste para lidar com três valores retornados pela função fitness
-weighted_fitness, total_cost, total_distance = fitness(best_solution, suppliers, vehicles, costs)
-
-print("\nMelhor solução encontrada:")
-print_solution(best_solution)
-print(f"Total Cost: {total_cost}, Total Distance: {total_distance}, Weighted Fitness: {weighted_fitness}")
 
