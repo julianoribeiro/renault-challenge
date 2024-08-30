@@ -204,7 +204,6 @@ def generate_population(materials, suppliers, vehicles, population_size):
 
 # Função principal do algoritmo genético
 def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50, generations=100):
-    # Gerar a população inicial
     population = generate_population(materials, suppliers, vehicles, population_size)
     
     best_solution = None
@@ -212,30 +211,38 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
     best_total_cost = float('inf')
     best_total_distance = float('inf')
     
+    mutation_rate = 0.1  # Taxa de mutação inicial
+    stable_generations = 0  # Contador de gerações sem melhoria
+    max_stable_generations = 10  # Número máximo de gerações sem melhoria antes de aumentar a mutação
+    
     for generation in range(generations):
-        # Avaliar a população
         population_fitness = []
         for solution in population:
             fitness_value, total_cost, total_distance = fitness(solution, suppliers, vehicles, costs)
             population_fitness.append((solution, fitness_value, total_cost, total_distance))
         
-        # Ordenar a população com base na fitness (menor é melhor)
         population_fitness.sort(key=lambda x: x[1])
         
-        # Selecionar a melhor solução da geração
         if population_fitness[0][1] < best_fitness:
             best_solution = population_fitness[0][0]
             best_fitness = population_fitness[0][1]
             best_total_cost = population_fitness[0][2]
             best_total_distance = population_fitness[0][3]
+            stable_generations = 0  # Resetar contador se houver melhoria
+        else:
+            stable_generations += 1
         
-        # Imprimir a geração atual com o melhor fitness encontrado até agora
+        # Ajuste adaptativo da taxa de mutação
+        if stable_generations >= max_stable_generations:
+            mutation_rate = min(mutation_rate + 0.1, 0.5)  # Aumentar a taxa de mutação (máx 0.5)
+            stable_generations = 0  # Resetar contador
+        else:
+            mutation_rate = max(mutation_rate - 0.05, 0.1)  # Reduzir a taxa de mutação (mín 0.1)
+        
         print(f"Generation {generation + 1}: Best Fitness = {best_fitness}, Total Cost = {best_total_cost}, Total Distance = {best_total_distance}")
         
-        # Seleção dos melhores indivíduos para crossover
         selected_population = [x[0] for x in population_fitness[:population_size // 2]]
         
-        # Crossover e Mutação
         new_population = []
         while len(new_population) < population_size:
             parent1 = random.choice(selected_population)
@@ -244,18 +251,17 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
             child1, child2 = crossover(parent1.deliveries, parent2.deliveries)
             new_population.extend([Solucao(child1), Solucao(child2)])
         
-        # Aplicar mutação na nova população
-        new_population = mutate_population(new_population, suppliers, vehicles)
+        # Aplicar mutação adaptativa na nova população
+        new_population = mutate_population(new_population, suppliers, vehicles, mutation_rate=mutation_rate)
         
-        # Atualizar a população com a nova geração
         population = new_population
     
-    # Imprimir a melhor solução final utilizando os valores armazenados durante as gerações
     print("\nMelhor solução encontrada:")
     print_solution(best_solution)
     print(f"Total Cost: {best_total_cost}, Total Time: {best_total_distance}, Weighted Fitness: {best_fitness}")
     
     return best_solution
+
 
 
 
