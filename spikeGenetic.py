@@ -30,20 +30,68 @@ class Delivery:
         self.day = day
         self.period = period
 
+# Classe base ClausulaRestritiva
+class ClausulaRestritiva:
+    def validar(self, solucao):
+        raise NotImplementedError("Método validar deve ser implementado na subclasse")
+
+# Subclasse de ClausulaRestritiva
+class CapacidadeVeiculoClausula(ClausulaRestritiva):
+    def validar(self, solucao):
+        # Valida se a capacidade do veículo não foi excedida em cada entrega
+        for delivery in solucao.deliveries:
+            if delivery.quantity_m3 > delivery.vehicle.capacity_m3 or delivery.quantity_ton > delivery.vehicle.capacity_ton:
+                return False
+        return True
+
+# Classe base ClausulaLimitante
+class ClausulaLimitante:
+    def penalizar(self, solucao):
+        raise NotImplementedError("Método penalizar deve ser implementado na subclasse")
+
+# Subclasse de ClausulaLimitante
+class PenalizacaoMuitasEntregasClausula(ClausulaLimitante):
+    def penalizar(self, solucao):
+        penalidade = 0
+        # Penaliza soluções com mais de 5 entregas no mesmo período
+        entregas_por_periodo = {}
+        for delivery in solucao.deliveries:
+            key = (delivery.day, delivery.period)
+            if key not in entregas_por_periodo:
+                entregas_por_periodo[key] = 0
+            entregas_por_periodo[key] += 1
+            if entregas_por_periodo[key] > 5:
+                penalidade += 10  # Penalidade arbitrária para excesso de entregas
+        return penalidade
+
 # Classe Solucao
 class Solucao:
     def __init__(self, deliveries=None):
         if deliveries is None:
             deliveries = []
         self.deliveries = deliveries
+        self.restricoes = [CapacidadeVeiculoClausula()]  # Lista de instâncias de ClausulaRestritiva
+        self.limitacoes = [PenalizacaoMuitasEntregasClausula()]  # Lista de instâncias de ClausulaLimitante
 
-    def add_delivery(self, delivery):
-        self.deliveries.append(delivery)
+    def calcular_fitness(self):
+        # Verifica se a solução é válida
+        for restricao in self.restricoes:
+            if not restricao.validar(self):
+                return float('inf')  # Retorna um valor muito alto para soluções inválidas
+
+        # Calcula a penalidade total
+        penalidade_total = 0
+        for limitante in self.limitacoes:
+            penalidade_total += limitante.penalizar(self)
+
+        # Calcular o fitness base (simples soma de penalidades neste caso)
+        fitness = penalidade_total
+        return fitness
 
 # Função de fitness
 def fitness(solution, suppliers, vehicles, costs):
     total_cost = 0
-    total_time = 0
+    total_distance = 0
     penalty = 0
 
     vehicle_usage = {}
@@ -99,19 +147,19 @@ def fitness(solution, suppliers, vehicles, costs):
         total_cost += delivery_cost
 
         travel_time = distance_to_delivery
-        total_time += travel_time
+        total_distance += travel_time
 
     logging.debug(f"Penalidades calculadas: Veículo = {penalty}, Rota = {penalty}")
 
-    if total_cost == 0 or total_time == 0:
-        logging.error(f"Cálculo inválido: total_cost = {total_cost}, total_time = {total_time}")
+    if total_cost == 0 or total_distance == 0:
+        logging.error(f"Cálculo inválido: total_cost = {total_cost}, total_distance = {total_distance}")
         return float('inf'), float('inf'), float('inf')
 
-    weighted_fitness = (total_cost * 7) + (total_time * 3) + penalty
+    weighted_fitness = (total_cost * 7) + (total_distance * 3) + penalty
 
-    logging.debug(f"Final da avaliação de fitness: Custo Total {total_cost}, Tempo Total {total_time}, Fitness Ponderado {weighted_fitness}.")
+    logging.debug(f"Final da avaliação de fitness: Custo Total {total_cost}, Tempo Total {total_distance}, Fitness Ponderado {weighted_fitness}.")
 
-    return weighted_fitness, total_cost, total_time
+    return weighted_fitness, total_cost, total_distance
 
 
 # Função para gerar solução inicial
@@ -166,7 +214,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
         # Avaliar a população
         population_fitness = []
         for solution in population:
-            fitness_value, total_cost, total_time = fitness(solution, suppliers, vehicles, costs)
+            fitness_value, total_cost, total_distance = fitness(solution, suppliers, vehicles, costs)
             population_fitness.append((solution, fitness_value))
         
         # Ordenar a população com base na fitness (menor é melhor)
@@ -201,10 +249,10 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
         logging.warning("Nenhuma solução viável foi encontrada durante o processo.")
     else:
         # Avaliar a melhor solução final
-        weighted_fitness, total_cost, total_time = fitness(best_solution, suppliers, vehicles, costs)
+        weighted_fitness, total_cost, total_distance = fitness(best_solution, suppliers, vehicles, costs)
         print("\nMelhor solução encontrada:")
         print_solution(best_solution)
-        print(f"Total Cost: {total_cost}, Total Time: {total_time}, Weighted Fitness: {weighted_fitness}")
+        print(f"Total Cost: {total_cost}, Total Time: {total_distance}, Weighted Fitness: {weighted_fitness}")
     
     return best_solution
 
@@ -279,7 +327,7 @@ def crossover(parent1, parent2):
     return child1, child2
 
 # Função para mutar a população
-def mutate_population(population, suppliers, vehicles, mutation_rate=0.1):
+def mutate_population(population, suppliers, vehicles, mutation_rate=0.2e):
     new_population = []
     for solution in population:
         if random.random() < mutation_rate:
@@ -371,9 +419,9 @@ if missing_vehicles:
 best_solution = genetic_algorithm(materials, suppliers, vehicles, costs)
 
 # Ajuste para lidar com três valores retornados pela função fitness
-weighted_fitness, total_cost, total_time = fitness(best_solution, suppliers, vehicles, costs)
+weighted_fitness, total_cost, total_distance = fitness(best_solution, suppliers, vehicles, costs)
 
 print("\nMelhor solução encontrada:")
 print_solution(best_solution)
-print(f"Total Cost: {total_cost}, Total Time: {total_time}, Weighted Fitness: {weighted_fitness}")
+print(f"Total Cost: {total_cost}, Total Distance: {total_distance}, Weighted Fitness: {weighted_fitness}")
 
