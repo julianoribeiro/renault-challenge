@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(levelname)s 
 
 # Classe Delivery
 class Delivery:
-    def __init__(self, supplier, material, vehicle, quantity_m3, quantity_ton, day, period):
+    def __init__(self, supplier, material, vehicle, quantity_m3, quantity_ton, day, period, distance):
         self.supplier = supplier
         self.material = material
         self.vehicle = vehicle
@@ -29,19 +29,56 @@ class Delivery:
         self.quantity_ton = quantity_ton
         self.day = day
         self.period = period
+        self.distance = distance
 
 # Classe base ClausulaRestritiva
 class ClausulaRestritiva:
     def validar(self, solucao):
         raise NotImplementedError("Método validar deve ser implementado na subclasse")
 
-# Subclasse de ClausulaRestritiva
+# Subclasse de ClausulaRestritiva para capacidade dos veículos
 class CapacidadeVeiculoClausula(ClausulaRestritiva):
     def validar(self, solucao):
-        # Valida se a capacidade do veículo não foi excedida em cada entrega
         for delivery in solucao.deliveries:
             if delivery.quantity_m3 > delivery.vehicle.capacity_m3 or delivery.quantity_ton > delivery.vehicle.capacity_ton:
                 return False
+        return True
+
+# Nova Subclasse de ClausulaRestritiva para quantidade de veículos disponíveis e cálculo de tempo
+class QuantidadeVeiculoClausula(ClausulaRestritiva):
+    def __init__(self, vehicles):
+        self.vehicles = vehicles
+
+    def calcular_tempo(self, distance):
+        # Considerar tempos médios: carga (0.5 dia), rota (600km/dia), descarga (0.5 dia), deslocamento (600km/dia)
+        carga_tempo = 0.5
+        descarga_tempo = 0.5
+        rota_tempo = distance / 600.0
+        deslocamento_tempo = distance / 600.0
+        return carga_tempo + rota_tempo + descarga_tempo + deslocamento_tempo
+
+    def validar(self, solucao):
+        # Criar um dicionário para rastrear o uso de cada tipo de veículo por dia e período
+        vehicle_schedule = {vehicle: [] for vehicle in self.vehicles['Veiculo']}
+        for delivery in solucao.deliveries:
+            tempo_necessario = self.calcular_tempo(delivery.distance)
+            vehicle_schedule[delivery.vehicle].append((delivery.day, delivery.period, tempo_necessario))
+
+        # Verificar se o número de rotas excede a quantidade disponível e se há conflitos de tempo
+        for vehicle, schedules in vehicle_schedule.items():
+            max_quantity = self.vehicles[self.vehicles['Veiculo'] == vehicle]['Quantidade'].values[0]
+            schedules.sort()  # Ordenar por dia e período
+
+            # Verificar se um veículo está disponível para a próxima rota
+            for i in range(len(schedules) - 1):
+                day1, period1, tempo1 = schedules[i]
+                day2, period2, tempo2 = schedules[i + 1]
+                if day2 - day1 < tempo1:  # Considerar períodos como frações de dias
+                    max_quantity -= 1
+
+            if max_quantity < 0:
+                return False
+
         return True
 
 # Classe base ClausulaLimitante
@@ -53,7 +90,6 @@ class ClausulaLimitante:
 class PenalizacaoMuitasEntregasClausula(ClausulaLimitante):
     def penalizar(self, solucao):
         penalidade = 0
-        # Penaliza soluções com mais de 5 entregas no mesmo período
         entregas_por_periodo = {}
         for delivery in solucao.deliveries:
             key = (delivery.day, delivery.period)
@@ -66,25 +102,22 @@ class PenalizacaoMuitasEntregasClausula(ClausulaLimitante):
 
 # Classe Solucao
 class Solucao:
-    def __init__(self, deliveries=None):
+    def __init__(self, deliveries=None, vehicles=None):
         if deliveries is None:
             deliveries = []
         self.deliveries = deliveries
-        self.restricoes = [CapacidadeVeiculoClausula()]  # Lista de instâncias de ClausulaRestritiva
+        self.restricoes = [CapacidadeVeiculoClausula(), QuantidadeVeiculoClausula(vehicles)]  # Lista de instâncias de ClausulaRestritiva
         self.limitacoes = [PenalizacaoMuitasEntregasClausula()]  # Lista de instâncias de ClausulaLimitante
 
     def calcular_fitness(self):
-        # Verifica se a solução é válida
         for restricao in self.restricoes:
             if not restricao.validar(self):
                 return float('inf')  # Retorna um valor muito alto para soluções inválidas
 
-        # Calcula a penalidade total
         penalidade_total = 0
         for limitante in self.limitacoes:
             penalidade_total += limitante.penalizar(self)
 
-        # Calcular o fitness base (simples soma de penalidades neste caso)
         fitness = penalidade_total
         return fitness
 
@@ -161,7 +194,6 @@ def fitness(solution, suppliers, vehicles, costs):
 
     return weighted_fitness, total_cost, total_distance
 
-
 # Função para gerar solução inicial
 def gerar_solucao_inicial(materials, suppliers, vehicles, direct=True):
     deliveries = []
@@ -179,7 +211,7 @@ def gerar_solucao_inicial(materials, suppliers, vehicles, direct=True):
         if remaining_m3 > 0 or remaining_ton > 0:
             logging.warning(f"Não foi possível alocar completamente o material {material}. Quantidade restante: {remaining_m3} m³, {remaining_ton} ton.")
         
-    return Solucao(deliveries)
+    return Solucao(deliveries, vehicles)
 
 # Função para gerar a população inicial
 def generate_population(materials, suppliers, vehicles, population_size):
@@ -202,20 +234,8 @@ def generate_population(materials, suppliers, vehicles, population_size):
 
     return population
 
-def tournament_selection(population_fitness, tournament_size=3):
-    tournament = random.sample(population_fitness, tournament_size)
-    tournament.sort(key=lambda x: x[1])  # Ordena o torneio pelo fitness
-    return tournament[0][0]  # Retorna o indivíduo com o melhor fitness
-
-def dynamic_elitism(generations_without_improvement, max_elite_percentage=0.2, min_elite_percentage=0.05):
-    # Reduz a porcentagem de elitismo se não houver melhorias
-    if generations_without_improvement > 10:
-        return min_elite_percentage
-    else:
-        # Aumenta progressivamente o número de elites no início
-        return max_elite_percentage - (generations_without_improvement / 10) * (max_elite_percentage - min_elite_percentage)
-
-def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50, generations=100, tournament_size=5):
+# Função principal do algoritmo genético com reinserção de diversidade
+def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50, generations=100):
     # Gerar a população inicial
     population = generate_population(materials, suppliers, vehicles, population_size)
     
@@ -224,7 +244,8 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
     best_total_cost = float('inf')
     best_total_distance = float('inf')
     
-    no_improvement_counter = 0
+    generations_without_improvement = 0
+    max_generations_without_improvement = 10  # Quantidade de gerações sem melhoria antes de reinserir diversidade
     
     for generation in range(generations):
         # Avaliar a população
@@ -242,18 +263,21 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
             best_fitness = population_fitness[0][1]
             best_total_cost = population_fitness[0][2]
             best_total_distance = population_fitness[0][3]
-            no_improvement_counter = 0  # Reset the counter when improvement is found
+            generations_without_improvement = 0
         else:
-            no_improvement_counter += 1
+            generations_without_improvement += 1
         
+        # Reinserir diversidade se não houver melhorias
+        if generations_without_improvement >= max_generations_without_improvement:
+            print(f"Reinserting diversity by resetting {population_size // 5} individuals in the population.")
+            population = reset_population_diversity(population, population_size, suppliers, vehicles)
+            generations_without_improvement = 0
+        
+        # Imprimir a geração atual com o melhor fitness encontrado até agora
         print(f"Generation {generation + 1}: Best Fitness = {best_fitness}, Total Cost = {best_total_cost}, Total Distance = {best_total_distance}")
         
-        # Seleção dos melhores indivíduos para crossover usando torneio
-        selected_population = []
-        for _ in range(population_size):
-            tournament = random.sample(population_fitness, tournament_size)
-            winner = min(tournament, key=lambda x: x[1])
-            selected_population.append(winner[0])
+        # Seleção dos melhores indivíduos para crossover
+        selected_population = [x[0] for x in population_fitness[:population_size // 2]]
         
         # Crossover e Mutação
         new_population = []
@@ -267,24 +291,24 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
         # Aplicar mutação na nova população
         new_population = mutate_population(new_population, suppliers, vehicles)
         
-        # Reinserir diversidade se não houver melhorias após várias gerações
-        if no_improvement_counter > 10:
-            print("Reinserting diversity by resetting 10 individuals in the population.")
-            new_population[-10:] = generate_population(materials, suppliers, vehicles, 10)
-            no_improvement_counter = 0
-        
         # Atualizar a população com a nova geração
         population = new_population
     
     # Imprimir a melhor solução final utilizando os valores armazenados durante as gerações
     print("\nMelhor solução encontrada:")
     print_solution(best_solution)
-    print(f"Total Cost: {best_total_cost}, Total Distance: {best_total_distance}, Weighted Fitness: {best_fitness}")
+    print(f"Total Cost: {best_total_cost}, Total Time: {best_total_distance}, Weighted Fitness: {best_fitness}")
     
     return best_solution
 
-
-
+# Função para reinserir diversidade na população
+def reset_population_diversity(population, population_size, suppliers, vehicles):
+    num_individuals_to_reset = population_size // 5  # Reseta 20% da população
+    for i in range(num_individuals_to_reset):
+        direct = i % 2 == 0
+        new_solution = gerar_solucao_inicial(materials, suppliers, vehicles, direct=direct)
+        population[-(i+1)] = new_solution
+    return population
 
 
 # Função de alocação de carga direta
@@ -303,7 +327,8 @@ def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehic
             if load_m3 > 0 and load_ton > 0:
                 day = random.randint(1, 5)  # Seleciona um dia aleatório (1 a 5)
                 period = random.choice(['morning', 'afternoon'])  # Seleciona um período aleatório
-                solution.append(Delivery(supplier, material, vehicle, load_m3, load_ton, day, period))
+                distance = supplier_row['DistanciaEntrega_km']
+                solution.append(Delivery(supplier, material, vehicle, load_m3, load_ton, day, period, distance))
                 remaining_m3 -= load_m3
                 remaining_ton -= load_ton
 
@@ -333,8 +358,9 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
 
         day = random.randint(1, 5)
         period = random.choice(['morning', 'afternoon'])
+        distance = supplier_row['DistanciaEntrega_km']
 
-        delivery = Delivery(supplier_row['Fornecedor'], material, vehicle_row['Veiculo'], supply_m3, supply_ton, day, period)
+        delivery = Delivery(supplier_row['Fornecedor'], material, vehicle_row['Veiculo'], supply_m3, supply_ton, day, period, distance)
         solution.append(delivery)
 
         remaining_m3 -= supply_m3
@@ -344,51 +370,15 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
 
 # Função de crossover
 def crossover(parent1, parent2):
-    # Verificar se as listas dos pais são adequadas para crossover
     if len(parent1) < 2 or len(parent2) < 2:
-        return parent1, parent2  # Retorna os pais inalterados se não for possível realizar o crossover
+        return parent1, parent2
     
-    # Escolher um ponto de crossover seguro
     crossover_point = random.randint(1, min(len(parent1), len(parent2)) - 1)
     
-    # Criar os filhos combinando partes dos pais
     child1 = parent1[:crossover_point] + parent2[crossover_point:]
     child2 = parent2[:crossover_point] + parent1[crossover_point:]
     
     return child1, child2
-
-def multi_point_crossover(parent1, parent2, num_points=2):
-    if len(parent1) < num_points + 1 or len(parent2) < num_points + 1:
-        return parent1, parent2  # Retorna os pais inalterados se não for possível realizar o crossover
-
-    # Escolher múltiplos pontos de crossover seguros
-    crossover_points = sorted(random.sample(range(1, min(len(parent1), len(parent2))), num_points))
-
-    child1, child2 = [], []
-    swap = False
-    prev_point = 0
-
-    for point in crossover_points:
-        if swap:
-            child1.extend(parent2[prev_point:point])
-            child2.extend(parent1[prev_point:point])
-        else:
-            child1.extend(parent1[prev_point:point])
-            child2.extend(parent2[prev_point:point])
-        swap = not swap
-        prev_point = point
-
-    # Completar a última parte
-    if swap:
-        child1.extend(parent2[prev_point:])
-        child2.extend(parent1[prev_point:])
-    else:
-        child1.extend(parent1[prev_point:])
-        child2.extend(parent2[prev_point:])
-
-    return child1, child2
-
-
 
 # Função para mutar a população
 def mutate_population(population, suppliers, vehicles, mutation_rate=0.2):
@@ -396,10 +386,8 @@ def mutate_population(population, suppliers, vehicles, mutation_rate=0.2):
     for solution in population:
         if random.random() < mutation_rate:
             if random.random() < 0.5:
-                # Mutar cenários diretos
                 mutate(solution.deliveries, suppliers, vehicles, direct=True)
             else:
-                # Mutar cenários com múltiplos fornecedores
                 mutate(solution.deliveries, suppliers, vehicles, direct=False)
         new_population.append(solution)
     return new_population
@@ -439,17 +427,14 @@ def print_solution(solution):
     
     for delivery in solution.deliveries:
         if delivery.vehicle != current_vehicle:
-            # Se estamos mudando de veículo, devemos imprimir a rota anterior
             if current_vehicle is not None:
                 print(f"Vehicle: {current_vehicle}")
                 for stop in route:
                     print(f"    Supplier: {stop['supplier']}, Material: {stop['material']}, Quantity (m³): {stop['quantity_m3']}, Quantity (ton): {stop['quantity_ton']}, Day: {stop['day']}, Period: {stop['period']}")
                 print()  # Linha em branco para separar as rotas
-            # Iniciar a rota para o novo veículo
             current_vehicle = delivery.vehicle
             route = []
         
-        # Adicionar a entrega atual à rota
         route.append({
             'supplier': delivery.supplier,
             'material': delivery.material,
@@ -459,7 +444,6 @@ def print_solution(solution):
             'period': delivery.period
         })
     
-    # Imprimir a última rota
     if route:
         print(f"Vehicle: {current_vehicle}")
         for stop in route:
@@ -481,4 +465,3 @@ if missing_vehicles:
 
 # Executar o algoritmo genético
 best_solution = genetic_algorithm(materials, suppliers, vehicles, costs)
-

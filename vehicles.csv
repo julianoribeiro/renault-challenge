@@ -1,14 +1,14 @@
-Veiculo,Comprimento_m,Largura_m,Altura_m,Capacidade_m3,Capacidade_ton
-BitremTopSidercomDolly(Kautex/Behr/Autometal),12.5,2.6,3.07,198.25,26.0
-BitremTopSider(ValeoTérmico),12.5,2.6,3.05,199.55,18.7
-CarretaMegaSider,14.8,2.5,3.13,110.0,25.0
-CarretaReta,14.8,2.5,2.8,96.0,25.0
-CarretaRebaixada,14.8,2.5,3.2,103.0,25.0
-CarretaRetaVanderleia(cavalo4x2),15.0,2.5,2.85,103.0,27.0
-CarretaRetaVanderleia(cavalo6x2),15.0,2.5,2.85,103.0,32.0
-Truck,8.5,2.5,2.8,45.0,12.0
-Toco,6.9,2.48,2.35,36.0,6.0
-Leve3/4,4.07,2.08,2.05,12.0,3.0
-HR,3.18,1.52,1.63,6.0,1.0
-Fiorino,1.3,1.15,1.4,2.0,0.5
+Veiculo,Comprimento_m,Largura_m,Altura_m,Capacidade_m3,Capacidade_ton,Quantidade
+BitremTopSidercomDolly(Kautex/Behr/Autometal),12.5,2.6,3.07,198.25,26.0,2
+BitremTopSider(ValeoTérmico),12.5,2.6,3.05,199.55,18.7,1
+CarretaMegaSider,14.8,2.5,3.13,110.0,25.0,3
+CarretaReta,14.8,2.5,2.8,96.0,25.0,1
+CarretaRebaixada,14.8,2.5,3.2,103.0,25.0,1
+CarretaRetaVanderleia(cavalo4x2),15.0,2.5,2.85,103.0,27.0,2
+CarretaRetaVanderleia(cavalo6x2),15.0,2.5,2.85,103.0,32.0,2
+Truck,8.5,2.5,2.8,45.0,12.0,3
+Toco,6.9,2.48,2.35,36.0,6.0,1
+Leve3/4,4.07,2.08,2.05,12.0,3.0,1
+HR,3.18,1.52,1.63,6.0,1.0,1
+Fiorino,1.3,1.15,1.4,2.0,0.5,4
 
