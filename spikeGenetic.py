@@ -297,7 +297,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, population_size=50,
     # Imprimir a melhor solução final utilizando os valores armazenados durante as gerações
     print("\nMelhor solução encontrada:")
     print_solution(best_solution)
-    print(f"Total Cost: {best_total_cost}, Total Time: {best_total_distance}, Weighted Fitness: {best_fitness}")
+    print(f"Total Cost: {best_total_cost}, Total Distance: {best_total_distance}, Weighted Fitness: {best_fitness}")
     
     return best_solution
 
