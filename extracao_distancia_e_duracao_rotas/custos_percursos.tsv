@@ -1,0 +1,121 @@
+origem_nome	origem_endereco	destino_nome	destino_endereco	distância(km)	tempo(min)
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	24.797	25.75
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f2	R. João Gava, 920 - Abranches, Curitiba - PR	30.654	41.21666666666667
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	26.772	34.68333333333333
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	29.221	40.88333333333333
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	31.361	43.31666666666667
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	34.809	37.733333333333334
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f7	Conj. C, Foz do Iguaçu - PR	671.145	538.7833333333333
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	401.1	328.18333333333334
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	395.052	314.2
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	414.225	328.35
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	861.352	674.0
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f12	Ipanema, Rio de Janeiro - RJ	859.919	657.8
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	851.401	647.5333333333333
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	869.305	673.75
+Renault	Av. Renault, 1300 - Roseira, São José dos Pinhais - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	741.041	533.0333333333333
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f2	R. João Gava, 920 - Abranches, Curitiba - PR	10.002	22.533333333333335
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	6.12	16.0
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	7.404	19.2
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	10.71	24.633333333333333
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	17.062	30.2
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f7	Conj. C, Foz do Iguaçu - PR	639.985	524.1166666666667
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	412.187	334.7
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	406.138	320.7
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	425.312	334.8666666666667
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	872.439	680.5166666666667
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f12	Ipanema, Rio de Janeiro - RJ	871.006	664.3
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	862.488	654.0333333333333
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	880.391	680.25
+f1	R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	739.335	536.0833333333334
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	4.541	9.133333333333333
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	6.383	14.75
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	1.345	3.283333333333333
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	39.541	47.016666666666666
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f7	Conj. C, Foz do Iguaçu - PR	641.104	519.3
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	402.271	337.95
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	396.222	323.96666666666664
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	415.396	338.1333333333333
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	862.523	683.7833333333333
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f12	Ipanema, Rio de Janeiro - RJ	861.09	667.5666666666667
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	852.572	657.3
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	870.476	683.5166666666667
+f2	R. João Gava, 920 - Abranches, Curitiba - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	747.655	555.2166666666667
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	4.969	11.383333333333333
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	5.416	11.116666666666667
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	21.339	40.85
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f7	Conj. C, Foz do Iguaçu - PR	637.699	519.4
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	400.784	334.3666666666667
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	394.735	320.3833333333333
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	413.909	334.53333333333336
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	861.036	680.1833333333333
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f12	Ipanema, Rio de Janeiro - RJ	859.603	663.9833333333333
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	851.085	653.7166666666667
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	868.988	679.9333333333333
+f3	R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	743.612	546.7333333333333
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	6.783	15.533333333333333
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	32.412	37.45
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f7	Conj. C, Foz do Iguaçu - PR	633.36	508.73333333333335
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	404.785	343.6666666666667
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	398.736	329.68333333333334
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	417.91	343.8333333333333
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	865.037	689.4833333333333
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f12	Ipanema, Rio de Janeiro - RJ	863.604	673.2833333333333
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	855.086	663.0166666666667
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	872.989	689.2333333333333
+f4	tAv. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	758.74	547.5333333333333
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	39.246	46.46666666666667
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f7	Conj. C, Foz do Iguaçu - PR	640.809	518.75
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	401.939	338.4166666666667
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	395.89	324.43333333333334
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	415.064	338.5833333333333
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	862.191	684.2333333333333
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f12	Ipanema, Rio de Janeiro - RJ	860.758	668.0333333333333
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	852.24	657.7666666666667
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	870.144	683.9833333333333
+f5	Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	765.575	556.55
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f7	Conj. C, Foz do Iguaçu - PR	650.516	528.8333333333334
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	421.182	347.81666666666666
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	415.133	333.8333333333333
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	434.307	347.98333333333335
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	881.434	693.6333333333333
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f12	Ipanema, Rio de Janeiro - RJ	880.001	677.4333333333333
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	871.483	667.1666666666666
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	889.387	693.3833333333333
+f6	R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	738.897	537.5166666666667
+f7	Conj. C, Foz do Iguaçu - PR	f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	1056.867	776.9833333333333
+f7	Conj. C, Foz do Iguaçu - PR	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	1049.514	764.8
+f7	Conj. C, Foz do Iguaçu - PR	f10	Praça da Luz, 2 - Luz, São Paulo - SP	1057.498	772.6833333333333
+f7	Conj. C, Foz do Iguaçu - PR	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	1504.624	1118.3333333333333
+f7	Conj. C, Foz do Iguaçu - PR	f12	Ipanema, Rio de Janeiro - RJ	1503.191	1102.1166666666666
+f7	Conj. C, Foz do Iguaçu - PR	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	1494.674	1091.85
+f7	Conj. C, Foz do Iguaçu - PR	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	1512.577	1118.0666666666666
+f7	Conj. C, Foz do Iguaçu - PR	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	903.715	791.9666666666667
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	9.737	22.983333333333334
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f10	Praça da Luz, 2 - Luz, São Paulo - SP	8.02	13.266666666666667
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	457.322	365.18333333333334
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f12	Ipanema, Rio de Janeiro - RJ	455.889	348.96666666666664
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	447.371	338.7
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	465.275	364.9166666666667
+f8	Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1131.745	841.6666666666666
+f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	f10	Praça da Luz, 2 - Luz, São Paulo - SP	10.459	32.9
+f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	471.618	378.06666666666666
+f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	f12	Ipanema, Rio de Janeiro - RJ	470.185	361.8666666666667
+f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	461.667	351.6
+f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	479.57	377.81666666666666
+f9	Av. Vital Brasil, 1500 - Butantã, São Paulo - SP	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1123.289	824.3666666666667
+f10	Praça da Luz, 2 - Luz, São Paulo - SP	f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	451.202	358.93333333333334
+f10	Praça da Luz, 2 - Luz, São Paulo - SP	f12	Ipanema, Rio de Janeiro - RJ	449.768	342.73333333333335
+f10	Praça da Luz, 2 - Luz, São Paulo - SP	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	441.251	332.46666666666664
+f10	Praça da Luz, 2 - Luz, São Paulo - SP	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	459.154	358.68333333333334
+f10	Praça da Luz, 2 - Luz, São Paulo - SP	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1143.123	847.0333333333333
+f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	f12	Ipanema, Rio de Janeiro - RJ	19.837	38.31666666666667
+f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	13.992	32.083333333333336
+f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	80.643	107.76666666666667
+f11	Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1582.317	1189.05
+f12	Ipanema, Rio de Janeiro - RJ	f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	12.964	20.05
+f12	Ipanema, Rio de Janeiro - RJ	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	74.498	86.46666666666667
+f12	Ipanema, Rio de Janeiro - RJ	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1576.172	1167.7333333333333
+f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	67.725	77.41666666666667
+f13	R. Prof. Eurico Rabelo - Maracanã, Rio de Janeiro - RJ	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1569.399	1158.6833333333334
+f14	R. da Imperatriz, 220 - Centro, Petrópolis - RJ	f15	Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS	1585.391	1176.2833333333333
