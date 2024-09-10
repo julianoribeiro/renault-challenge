@@ -175,7 +175,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week,
     best_fitness_global = float('inf')
     generations_without_improvement = 0
     total_restarts = 0
-    max_restarts = 40
+    max_restarts = 50
     
     while total_restarts < max_restarts:
         population = generate_population(materials, suppliers, vehicles, densities, population_size, max_trips_per_week)
@@ -210,7 +210,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week,
             else:
                 print(f"Geração {generation + 1}: Ainda não foi encontrada uma solução válida")
             
-            if generations_without_improvement >= 50:
+            if generations_without_improvement >= 20:
                 print(f"Estagnação detectada após {generations_without_improvement} gerações. Reiniciando população.")
                 break
             
@@ -1181,22 +1181,22 @@ def print_solution(solution):
     
 # Funções para ler os arquivos CSV
 def read_material_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
 def read_supplier_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
 def read_cost_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
 def read_vehicle_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
