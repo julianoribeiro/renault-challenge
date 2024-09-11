@@ -1,8 +1,17 @@
-Fornecedor;M1;M2;M3;M4;DistanciaEntrega_km;Fornecedor1;Fornecedor2;Fornecedor3;Fornecedor4;Fornecedor5
-Fornecedor1;X;X;;;100;0;150;250;300;400
-Fornecedor2;;X;X;X;200;150;0;100;200;350
-Fornecedor3;X;;;X;300;250;100;0;150;300
-Fornecedor4;;X;X;;400;300;200;150;0;100
-Fornecedor5;X;;;X;500;400;350;300;100;0
-
+Fornecedor;M1;M2;M3;M4;M5;M6;M7;M8;M9;M10;Fornecedor1;Fornecedor2;Fornecedor3;Fornecedor4;Fornecedor5;Fornecedor6;Fornecedor7;Fornecedor8;Fornecedor9;Fornecedor10;Fornecedor11;Fornecedor12;Fornecedor13;Fornecedor14;Fornecedor15;Endereco;DistanciaEntrega_km
+Fornecedor1;X;;;;X;;;;;;0;10.002;739.335;425.312;880.391;639.985;406.138;862.488;7.404;7.404;6.12;10.71;872.439;412.187;17.062;R. Imac. Conceição, 1155 - Prado Velho, Curitiba - PR;24.797
+Fornecedor2;;X;;;;;;;X;;10.002;0;747.655;415.396;870.476;641.104;396.222;852.572;6.383;6.383;4.541;1.345;862.523;402.271;39.541;R. João Gava, 920 - Abranches, Curitiba - PR;30.654
+Fornecedor3;X;;;;X;;;;;X;739.335;747.655;0;1143.123;1585.391;903.715;1123.289;1569.399;758.74;758.74;743.612;765.575;1582.317;1131.745;738.897;Cais do Porto - Largo do Trabalho, 46 - Cais do Porto, Porto Alegre - RS;741.041
+Fornecedor4;;;X;;;;;X;;;425.312;415.396;1143.123;0;459.154;1057.498;10.459;441.251;417.91;417.91;413.909;415.064;451.202;8.02;434.307;Praça da Luz, 2 - Luz, São Paulo - SP;414.225
+Fornecedor5;X;;;;;;;X;;;880.391;870.476;1585.391;459.154;0;1512.577;479.57;67.725;872.989;872.989;868.988;870.144;80.643;465.275;889.387;R. da Imperatriz, 220 - Centro, Petrópolis - RJ;869.305
+Fornecedor6;X;;;;X;;;;;X;639.985;641.104;903.715;1057.498;1512.577;0;1049.514;1494.674;633.36;633.36;637.699;640.809;1504.624;1056.867;650.516;Conj. C, Foz do Iguaçu - PR;671.145
+Fornecedor7;;X;;;;;;X;;;406.138;396.222;1123.289;10.459;479.57;1049.514;0;461.667;398.736;398.736;394.735;395.89;471.618;9.737;415.133;Av. Vital Brasil, 1500 - Butantã, São Paulo - SP;395.052
+Fornecedor8;;;;;X;;;;;X;862.488;852.572;1569.399;441.251;67.725;1494.674;461.667;0;855.086;855.086;851.085;852.24;13.992;447.371;871.483;R. Prof. Eurico Rabelo, Maracanã, Rio de Janeiro - RJ;851.401
+Fornecedor9;;;;;;;;;;X;7.404;6.383;758.74;417.91;872.989;633.36;398.736;855.086;0;863.604;4.969;6.783;865.037;404.785;32.412;Av. Cândido Hartmann, S/N - Bigorrilho, Curitiba - PR;29.221
+Fornecedor10;;;;;;X;;X;;;7.404;6.383;758.74;417.91;872.989;633.36;398.736;855.086;863.604;0;4.969;6.783;865.037;404.785;32.412;Ipanema, Rio de Janeiro - RJ;859.919
+Fornecedor11;X;;;;X;;;;;;6.12;4.541;743.612;413.909;868.988;637.699;394.735;851.085;4.969;4.969;0;5.416;861.036;400.784;21.339;R. Mal. Hermes, 999 - Centro Cívico, Curitiba - PR;26.772
+Fornecedor12;;;;X;;;;X;;;10.71;1.345;765.575;415.064;870.144;640.809;395.89;852.24;6.783;6.783;5.416;0;862.191;401.939;39.246;Rua Oswaldo Maciel, 97 - Taboão, Curitiba - PR;31.361
+Fornecedor13;;X;;;;;X;;;;872.439;862.523;1582.317;451.202;80.643;1504.624;471.618;13.992;865.037;865.037;861.036;862.191;0;457.322;881.434;Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ;861.352
+Fornecedor14;X;;;;X;;;;;;412.187;402.271;1131.745;8.02;465.275;1056.867;9.737;447.371;404.785;404.785;400.784;401.939;457.322;0;421.182;Av. Pedro Álvares Cabral - Vila Mariana, São Paulo - SP;401.1
+Fornecedor15;;;;;X;;;;;X;17.062;39.541;738.897;434.307;889.387;650.516;415.133;871.483;32.412;32.412;21.339;39.246;881.434;421.182;0;R. João Miqueletto, 1500 - Alto Boqueirão, Curitiba - PR;34.809
 

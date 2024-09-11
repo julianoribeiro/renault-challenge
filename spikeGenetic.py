@@ -6,6 +6,11 @@ from collections import defaultdict
 import json
 from datetime import datetime
 
+LOADING_TIME = 0.5  # Tempo de carga (meio período)
+UNLOADING_TIME = 0.5  # Tempo de descarga (meio período)
+TRANSPORT_TIME_PER_300KM = 0.5  # Tempo de transporte para cada 300km (meio período)
+END_DESTINO = 'Av. Renault, 1300 - Roseira, São José dos Pinhais - PR'
+
 # Configuração de logging
 logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -20,13 +25,14 @@ class Delivery:
         self.dock = dock
         self.stops = []
 
-    def add_stop(self, supplier, material, quantity_m3, quantity_ton, distance):
+    def add_stop(self, supplier, material, quantity_m3, quantity_ton, distance, endereco):
         self.stops.append({
             "supplier": supplier,
             "material": material,
             "quantity_m3": quantity_m3,
             "quantity_ton": quantity_ton,
-            "distance": distance
+            "distance": distance,
+            "endereco": endereco
         })
 
     @property
@@ -202,6 +208,16 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week,
     
     while total_restarts < max_restarts:
         population = generate_population(materials, suppliers, vehicles, densities, population_size, max_trips_per_week)
+
+        for i, solution in enumerate(population):
+            for delivery in solution.deliveries:
+                if delivery.vehicle not in vehicles['Veiculo'].values:
+                    logging.error(f"População inicial, solução {i}: Veículo {delivery.vehicle} não encontrado no DataFrame de veículos")
+                for stop in delivery.stops:
+                    if stop['material'] not in materials['Material'].values:
+                        logging.error(f"População inicial, solução {i}: Material {stop['material']} não encontrado no DataFrame de materiais")
+
+
         if not population:
             print("Falha ao gerar população inicial. Tentando novamente.")
             total_restarts += 1
@@ -593,6 +609,9 @@ def create_random_delivery(materials, suppliers, vehicles, vehicle_counters, doc
     supplier = random.choice(available_suppliers['Fornecedor'].tolist())
     vehicle = random.choice(vehicles['Veiculo'].tolist())
     
+    if vehicle is None:
+        raise ValueError("Erro crítico: Veículo selecionado é None. Isso não deveria acontecer.")
+    
     material_row = materials[materials['Material'] == material].iloc[0]
     vehicle_row = vehicles[vehicles['Veiculo'] == vehicle].iloc[0]
     
@@ -614,14 +633,14 @@ def create_random_delivery(materials, suppliers, vehicles, vehicle_counters, doc
         logging.warning("Não foi possível encontrar uma doca disponível")
         return None
 
-    # Corrigindo a inicialização da variável distance
     distance = suppliers.loc[suppliers['Fornecedor'] == supplier, 'DistanciaEntrega_km'].values[0]
+    endereco = suppliers.loc[suppliers['Fornecedor'] == supplier, 'Endereco'].values[0]
     
     vehicle_counters[vehicle] += 1
     vehicle_id = f"{vehicle}_{vehicle_counters[vehicle]}"
     
     new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period, dock)
-    new_delivery.add_stop(supplier, material, quantity_m3, quantity_ton, distance)
+    new_delivery.add_stop(supplier, material, quantity_m3, quantity_ton, distance, endereco)
     
     return new_delivery
 
@@ -735,9 +754,7 @@ def calculate_material_densities(materials):
         densities[material] = density
     return densities
 
-LOADING_TIME = 0.5  # Tempo de carga (meio período)
-UNLOADING_TIME = 0.5  # Tempo de descarga (meio período)
-TRANSPORT_TIME_PER_300KM = 0.5  # Tempo de transporte para cada 300km (meio período)
+
 
 def calculate_route_time(distance):
     transport_time = (distance / 300) * TRANSPORT_TIME_PER_300KM
@@ -771,6 +788,7 @@ def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehic
             if load_m3 > 1e-6 and load_ton <= vehicle_row.Capacidade_ton:
                 supplier = random.choice(available_suppliers)
                 distance = suppliers.loc[suppliers['Fornecedor'] == supplier, 'DistanciaEntrega_km'].values[0]
+                endereco = suppliers.loc[suppliers['Fornecedor'] == supplier, 'Endereco'].values[0]
                 route_time = calculate_route_time(distance)
 
                 available_time_slot = False
@@ -800,7 +818,7 @@ def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehic
                 vehicle_id = f"{vehicle_row.Veiculo}_{vehicle_counters[vehicle_row.Veiculo]}"
                 
                 new_delivery = Delivery(f"Route{vehicle_counters[vehicle_row.Veiculo]}", vehicle_row.Veiculo, vehicle_id, day, period, dock)
-                new_delivery.add_stop(supplier, material, load_m3, load_ton, distance)
+                new_delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
                 new_deliveries.append(new_delivery)
                 remaining_m3 -= load_m3
                 remaining_ton -= load_ton
@@ -878,7 +896,7 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
             if available_m3 <= 1e-6 or available_ton <= 1e-6:
                 continue
 
-            route.append((supplier_row['Fornecedor'], available_m3, available_ton, direct_distance))
+            route.append((supplier_row['Fornecedor'], available_m3, available_ton, direct_distance, supplier_row['Endereco']))
             total_load_m3 += available_m3
             total_load_ton += available_ton
             total_distance += direct_distance
@@ -915,8 +933,8 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
                 vehicle_counters[vehicle] += 1
                 vehicle_id = f"{vehicle}_{vehicle_counters[vehicle]}"
                 new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period, dock)
-                for supplier, load_m3, load_ton, distance in route:
-                    new_delivery.add_stop(supplier, material, load_m3, load_ton, distance)
+                for supplier, load_m3, load_ton, distance, endereco in route:
+                    new_delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
                 new_deliveries.append(new_delivery)
                 vehicle_usage[vehicle].append((start_time, end_time))
                 dock_usage[(day, period, dock)] += 1
@@ -959,13 +977,14 @@ def gerar_solucao_inicial(materials, suppliers, vehicles, densities, max_trips_p
             available_suppliers = suppliers[suppliers[material] == 'X']
             supplier_row = random.choice(available_suppliers.index)
             supplier = suppliers.loc[supplier_row, 'Fornecedor']
+            endereco = suppliers.loc[supplier_row, 'Endereco']
             distance = suppliers.loc[supplier_row, 'DistanciaEntrega_km']
             
             load_m3 = min(remaining_m3, vehicle_row['Capacidade_m3'])
             load_ton = min(remaining_ton, vehicle_row['Capacidade_ton'])
 
             if load_m3 > 0 and load_ton > 0:
-                route.add_stop(supplier, material, load_m3, load_ton, distance)
+                route.add_stop(supplier, material, load_m3, load_ton, distance, endereco)   
                 remaining_m3 -= load_m3
                 remaining_ton -= load_ton
 
@@ -1134,27 +1153,182 @@ def repair_solution(solution, materials, suppliers, vehicles, densities, max_tri
 
     valid_deliveries = []
     for delivery in solution.deliveries:
+        if delivery.vehicle is None or delivery.vehicle not in vehicles['Veiculo'].values:
+            logging.warning(f"Entrega {delivery.route_id} tem veículo inválido. Atribuindo novo veículo.")
+            delivery.vehicle = random.choice(vehicles['Veiculo'].tolist())
+            delivery.vehicle_id = f"{delivery.vehicle}_{random.randint(1, 1000)}"
+
         if check_time_availability(delivery.vehicle, delivery.day, delivery.period, vehicle_usage[delivery.vehicle]):
             valid_deliveries.append(delivery)
             for stop in delivery.stops:
+                if stop['material'] not in materials['Material'].values:
+                    logging.error(f"Material {stop['material']} não encontrado no DataFrame de materiais")
+                    continue
                 delivered_materials[stop['material']]['m3'] += stop['quantity_m3']
                 delivered_materials[stop['material']]['ton'] += stop['quantity_ton']
             vehicle_usage[delivery.vehicle].append((delivery.day, delivery.period))
+        else:
+            logging.warning(f"Entrega {delivery.route_id} removida devido a conflito de horário")
 
     solution.deliveries = valid_deliveries
 
+    # Alocação mais agressiva
     for material, quantities in delivered_materials.items():
         required_m3 = materials.loc[materials['Material'] == material, 'Quantidade_m3'].values[0]
         required_ton = materials.loc[materials['Material'] == material, 'Quantidade_ton'].values[0]
 
-        if quantities['m3'] < required_m3 * 0.99 or quantities['ton'] < required_ton * 0.99:
+        if quantities['m3'] < required_m3 * 0.95 or quantities['ton'] < required_ton * 0.95:
             remaining_m3 = max(0, required_m3 - quantities['m3'])
             remaining_ton = max(0, required_ton - quantities['ton'])
 
             logging.info(f"Reparando déficit para {material}: Adicionando {remaining_m3:.2f} m³ / {remaining_ton:.2f} ton")
-            new_deliveries = allocate_load(material, remaining_m3, remaining_ton, suppliers, vehicles, solution.deliveries, materials, densities, max_trips_per_week)
+            new_deliveries = allocate_load_aggressively(material, remaining_m3, remaining_ton, suppliers, vehicles, solution.deliveries, materials, densities, max_trips_per_week)
             solution.deliveries.extend(new_deliveries)
 
+    # Balanceamento de carga
+    solution = balance_load(solution, materials, vehicles)
+
+    # Otimização local
+    solution = local_optimization(solution, materials, suppliers, vehicles, densities, max_trips_per_week)
+
+    # Verificação final
+    for delivery in solution.deliveries:
+        if delivery.vehicle is None or delivery.vehicle not in vehicles['Veiculo'].values:
+            logging.error(f"Após reparo: Veículo {delivery.vehicle} não encontrado no DataFrame de veículos")
+        for stop in delivery.stops:
+            if stop['material'] not in materials['Material'].values:
+                logging.error(f"Após reparo: Material {stop['material']} não encontrado no DataFrame de materiais")
+
+    return solution
+
+def allocate_load_aggressively(material, remaining_m3, remaining_ton, suppliers, vehicles, existing_deliveries, materials, densities, max_trips_per_week):
+    new_deliveries = []
+    available_suppliers = suppliers[suppliers[material] == 'X']
+    
+    while remaining_m3 > 0 and remaining_ton > 0:
+        vehicle = select_best_vehicle(remaining_m3, remaining_ton, vehicles)
+        vehicle_capacity_m3 = vehicles.loc[vehicles['Veiculo'] == vehicle, 'Capacidade_m3'].values[0]
+        vehicle_capacity_ton = vehicles.loc[vehicles['Veiculo'] == vehicle, 'Capacidade_ton'].values[0]
+        
+        load_m3 = min(remaining_m3, vehicle_capacity_m3)
+        load_ton = min(remaining_ton, vehicle_capacity_ton)
+        
+        supplier = select_best_supplier(material, load_m3, load_ton, available_suppliers)
+        if supplier is None:
+            logging.warning(f"Não foi possível encontrar um fornecedor para {material}")
+            break
+        
+        day, period, dock = find_available_slot(vehicle, existing_deliveries)
+        if day is None:
+            logging.warning(f"Não foi possível encontrar um slot de tempo disponível para {vehicle}")
+            break
+        
+        new_delivery = create_delivery(vehicle, supplier, material, load_m3, load_ton, day, period, dock, suppliers)
+        if new_delivery:
+            new_deliveries.append(new_delivery)
+            remaining_m3 -= load_m3
+            remaining_ton -= load_ton
+            existing_deliveries.append(new_delivery)
+            logging.info(f"Nova entrega criada: {load_m3:.2f} m³ / {load_ton:.2f} ton de {material} usando {vehicle}")
+        else:
+            logging.warning(f"Falha ao criar entrega para {load_m3:.2f} m³ / {load_ton:.2f} ton de {material}")
+            break
+    
+    return new_deliveries
+
+
+def balance_load(solution, materials, vehicles):
+    for material in materials['Material']:
+        material_deliveries = [d for d in solution.deliveries if any(stop['material'] == material for stop in d.stops)]
+        total_m3 = sum(stop['quantity_m3'] for d in material_deliveries for stop in d.stops if stop['material'] == material)
+        total_ton = sum(stop['quantity_ton'] for d in material_deliveries for stop in d.stops if stop['material'] == material)
+        
+        required_m3 = materials.loc[materials['Material'] == material, 'Quantidade_m3'].values[0]
+        required_ton = materials.loc[materials['Material'] == material, 'Quantidade_ton'].values[0]
+        
+        if total_m3 > 0 and total_ton > 0:
+            scale_factor_m3 = required_m3 / total_m3
+            scale_factor_ton = required_ton / total_ton
+            scale_factor = min(scale_factor_m3, scale_factor_ton)
+            
+            for delivery in material_deliveries:
+                for stop in delivery.stops:
+                    if stop['material'] == material:
+                        stop['quantity_m3'] *= scale_factor
+                        stop['quantity_ton'] *= scale_factor
+    
+    return solution
+
+
+def select_best_vehicle(required_m3, required_ton, vehicles):
+    suitable_vehicles = vehicles[(vehicles['Capacidade_m3'] >= required_m3) & (vehicles['Capacidade_ton'] >= required_ton)]
+    if suitable_vehicles.empty:
+        logging.warning(f"Não foi possível encontrar um veículo adequado para {required_m3:.2f} m³ / {required_ton:.2f} ton")
+        return vehicles.loc[vehicles['Capacidade_m3'].idxmax()]['Veiculo']
+    return suitable_vehicles.iloc[0]['Veiculo']
+
+def select_best_supplier(material, required_m3, required_ton, available_suppliers):
+    if available_suppliers.empty:
+        return None
+    return available_suppliers.iloc[0]['Fornecedor']
+
+def find_available_slot(vehicle, existing_deliveries):
+    for day in range(1, 6):
+        for period in ['morning', 'afternoon']:
+            if check_time_availability(vehicle, day, period, existing_deliveries):
+                dock = find_least_used_dock(day, period, defaultdict(int))
+                if dock:
+                    return day, period, dock
+    return None, None, None
+
+def create_delivery(vehicle, supplier, material, load_m3, load_ton, day, period, dock, suppliers):
+    if vehicle is None:
+        logging.error("Tentativa de criar entrega com veículo None")
+        return None
+
+    delivery = Delivery(f"Route{random.randint(1, 1000)}", vehicle, f"{vehicle}_{random.randint(1, 100)}", day, period, dock)
+    distance = suppliers.loc[suppliers['Fornecedor'] == supplier, 'DistanciaEntrega_km'].values[0]
+    endereco = suppliers.loc[suppliers['Fornecedor'] == supplier, 'Endereco'].values[0]
+    delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
+    return delivery
+
+def local_optimization(solution, materials, suppliers, vehicles, densities, max_trips_per_week):
+    for _ in range(10):  # Número de iterações de otimização local
+        if not solution.deliveries:
+            logging.warning("Não há entregas para otimizar")
+            break
+
+        delivery_to_optimize = random.choice(solution.deliveries)
+        material = delivery_to_optimize.stops[0]['material']
+        
+        # Tentar realocar a carga para um veículo mais eficiente ou um fornecedor mais próximo
+        new_vehicle = select_best_vehicle(delivery_to_optimize.stops[0]['quantity_m3'], 
+                                          delivery_to_optimize.stops[0]['quantity_ton'], 
+                                          vehicles)
+        
+        new_supplier = select_best_supplier(material, 
+                                            delivery_to_optimize.stops[0]['quantity_m3'], 
+                                            delivery_to_optimize.stops[0]['quantity_ton'], 
+                                            suppliers[suppliers[material] == 'X'])
+        
+        if new_supplier is None:
+            logging.warning(f"Não foi possível encontrar um fornecedor para {material}")
+            continue
+
+        if new_vehicle != delivery_to_optimize.vehicle or new_supplier != delivery_to_optimize.stops[0]['supplier']:
+            solution.deliveries.remove(delivery_to_optimize)
+            new_delivery = create_delivery(new_vehicle, new_supplier, material, 
+                                           delivery_to_optimize.stops[0]['quantity_m3'], 
+                                           delivery_to_optimize.stops[0]['quantity_ton'], 
+                                           delivery_to_optimize.day, delivery_to_optimize.period, 
+                                           delivery_to_optimize.dock, suppliers)
+            
+            if new_delivery is not None:
+                solution.deliveries.append(new_delivery)
+                logging.debug(f"Otimização local: Entrega modificada de {delivery_to_optimize.vehicle} para {new_vehicle}")
+            else:
+                logging.warning("Falha ao criar nova entrega durante a otimização local")
+    
     return solution
 
 
@@ -1172,17 +1346,16 @@ def print_solution(solution):
             current_vehicle = delivery.vehicle_id
         
         print(f"  Rota {delivery.route_id}: Dia {delivery.day}, {delivery.period.capitalize()}, Doca: {delivery.dock}")
+        print(f"    Destino: {END_DESTINO}")
         print(f"    Distância Total: {delivery.total_distance:.2f} km")
         print("    Paradas:")
         
         total_m3 = 0
         total_ton = 0
         for i, stop in enumerate(delivery.stops, 1):
-            print(f"      Parada {i}: Fornecedor: {stop['supplier']}, Material: {stop['material']}, "
-                  f"Quantidade: {stop['quantity_m3']:.2f} m³ / {stop['quantity_ton']:.2f} ton, "
-                  f"Distância: {stop['distance']:.2f} km")
-            total_m3 += stop['quantity_m3']
-            total_ton += stop['quantity_ton']
+            print(f"      Parada {i}: Fornecedor: {stop['supplier']}, Endereço: {stop['endereco']}, "
+              f"Material: {stop['material']}, Quantidade: {stop['quantity_m3']:.2f} m³ / {stop['quantity_ton']:.2f} ton, "
+              f"Distância: {stop['distance']:.2f} km")
         
         print(f"    Total da rota: {total_m3:.2f} m³ / {total_ton:.2f} ton")
     
@@ -1245,6 +1418,7 @@ def save_solution_to_json(solution, filename=None):
         "deliveries": [
             {
                 "route_id": d.route_id,
+                "destination": END_DESTINO,
                 "vehicle": d.vehicle,
                 "vehicle_id": d.vehicle_id,
                 "day": convert_to_serializable(d.day),
@@ -1257,7 +1431,8 @@ def save_solution_to_json(solution, filename=None):
                         "material": stop["material"],
                         "quantity_m3": convert_to_serializable(stop["quantity_m3"]),
                         "quantity_ton": convert_to_serializable(stop["quantity_ton"]),
-                        "distance": convert_to_serializable(stop["distance"])
+                        "distance": convert_to_serializable(stop["distance"]),
+                        "endereco": stop["endereco"]
                     } for stop in d.stops
                 ]
             } for d in solution.deliveries
