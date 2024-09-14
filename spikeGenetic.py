@@ -6,6 +6,7 @@ from collections import defaultdict
 import json
 from datetime import datetime
 
+NUM_DOCAS = 9
 LOADING_TIME = 0.5  # Tempo de carga (meio período)
 UNLOADING_TIME = 0.5  # Tempo de descarga (meio período)
 TRANSPORT_TIME_PER_300KM = 0.5  # Tempo de transporte para cada 300km (meio período)
@@ -65,37 +66,40 @@ class CapacidadeVeiculoClausula(ClausulaRestritiva):
                 logging.debug(f"Falha na restrição de Capacidade: {vehicle} excedeu a quantidade permitida em {usage['count']} / {max_trips}")
                 return False
             if usage['m3'] > vehicle_row['Capacidade_m3'] * usage['count']:
-                logging.debug(f"Falha na restrição de Capacidade: {vehicle} excedeu a capacidade em m3.")
+                logging.debug(f"Falha na restrição de Capacidade: {vehicle} excedeu a capacidade em m3. Capacidade: {vehicle_row['Capacidade_m3'] * usage['count']:.2f}, Usado: {usage['m3']:.2f}")
                 return False
             if usage['ton'] > vehicle_row['Capacidade_ton'] * usage['count']:
-                logging.debug(f"Falha na restrição de Capacidade: {vehicle} excedeu a capacidade em toneladas.")
+                logging.debug(f"Falha na restrição de Capacidade: {vehicle} excedeu a capacidade em toneladas. Capacidade: {vehicle_row['Capacidade_ton'] * usage['count']:.2f}, Usado: {usage['ton']:.2f}")
                 return False
 
         return True
 
 # Subclasse de ClausulaRestritiva para quantidade de veículos disponíveis e cálculo de tempo
 class QuantidadeVeiculoClausula(ClausulaRestritiva):
-    def __init__(self, vehicles):
+    def __init__(self, vehicles, max_trips_per_week):
         self.vehicles = vehicles
+        self.max_trips_per_week = max_trips_per_week
 
     def validar(self, solucao):
-        vehicle_schedule = defaultdict(list)
+        vehicle_schedule = defaultdict(lambda: defaultdict(list))
         for delivery in solucao.deliveries:
             route_time = calculate_route_time(delivery.total_distance)
-            start_time = delivery.day * 2 + (0.5 if delivery.period == 'morning' else 1)
+            start_time = delivery.period == 'morning' and 0 or 0.5
             end_time = start_time + route_time
 
             # Verificar sobreposição com rotas existentes
-            for existing_start, existing_end in vehicle_schedule[delivery.vehicle]:
-                if (start_time < existing_end and end_time > existing_start) or \
-                   (existing_start < end_time and existing_end > start_time):
-                    logging.debug(f"Falha na restrição de Quantidade: {delivery.vehicle} tem sobreposição de horários.")
+            day_schedule = vehicle_schedule[delivery.vehicle][delivery.day]
+            for existing_start, existing_end in day_schedule:
+                if (start_time < existing_end and end_time > existing_start):
+                    logging.debug(f"Falha na restrição de Quantidade: {delivery.vehicle} tem sobreposição de horários no dia {delivery.day}.")
                     return False
 
-            vehicle_schedule[delivery.vehicle].append((start_time, end_time))
+            day_schedule.append((start_time, end_time))
 
         for vehicle, schedules in vehicle_schedule.items():
-            if len(schedules) > self.vehicles[self.vehicles['Veiculo'] == vehicle]['Quantidade'].values[0] * 10:
+            total_trips = sum(len(day_schedule) for day_schedule in schedules.values())
+            max_trips = self.vehicles[self.vehicles['Veiculo'] == vehicle]['Quantidade'].values[0] * self.max_trips_per_week[vehicle]
+            if total_trips > max_trips:
                 logging.debug(f"Falha na restrição de Quantidade: {vehicle} excedeu o número máximo de rotas permitidas.")
                 return False
 
@@ -144,7 +148,7 @@ class Solucao:
         if vehicles is not None and max_trips_per_week is not None:
             self._vehicles = vehicles
             self._max_trips_per_week = max_trips_per_week
-            self.restricoes = [CapacidadeVeiculoClausula(vehicles, max_trips_per_week), QuantidadeVeiculoClausula(vehicles)]
+            self.restricoes = [CapacidadeVeiculoClausula(vehicles, max_trips_per_week), QuantidadeVeiculoClausula(vehicles, max_trips_per_week)]
             self.limitacoes = [PenalizacaoMuitasEntregasClausula(), PenalizacaoEntregasNaMesmaDocaClausula()]
         else:
             raise ValueError("Vehicles e max_trips_per_week devem ser fornecidos")
@@ -185,16 +189,26 @@ class Solucao:
         new_solution.update_fitness(other.fitness, other.total_cost, other.total_distance)
         return new_solution
 
-def find_least_used_dock(day, period, dock_usage):
-    available_docks = [f"Doca{i}" for i in range(1, 10)]
-    dock_counts = {dock: dock_usage.get((day, period, dock), 0) for dock in available_docks}
+def find_available_dock(day, period, dock_usage):
+    available_docks = [f"Doca{i}" for i in range(1, NUM_DOCAS + 1)]
+    random.shuffle(available_docks)  # Embaralha a lista de docas
     
-    if all(count >= 5 for count in dock_counts.values()):
-        return None  # Todas as docas estão cheias para este dia/período
+    least_used = float('inf')
+    least_used_docks = []
     
-    least_used_docks = [dock for dock, count in dock_counts.items() if count == min(dock_counts.values())]
+    for dock in available_docks:
+        usage = dock_usage.get((day, period, dock), 0)
+        if usage < 5:
+            if usage < least_used:
+                least_used = usage
+                least_used_docks = [dock]
+            elif usage == least_used:
+                least_used_docks.append(dock)
     
-    return random.choice(least_used_docks)
+    if least_used_docks:
+        return random.choice(least_used_docks)
+    
+    return None  
 
 def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week, population_size=100, generations=100, elite_size=10):
     print("Iniciando algoritmo genético")
@@ -260,7 +274,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week,
             new_population.extend(elite)
             
             # Adicionar diversidade
-            if generation % 10 == 0:
+            if generation % 5 == 0:
                 new_individuals = generate_population(materials, suppliers, vehicles, densities, population_size // 5, max_trips_per_week)
                 if new_individuals:
                     new_population = new_population[:-len(new_individuals)] + new_individuals
@@ -325,6 +339,16 @@ def calculate_fitness(solution, suppliers, costs, materials, vehicles):
         
         penalty += 50 * (deviation_m3 + deviation_ton)  # Penalidade ajustada
         logging.debug(f"Penalidade aplicada por desvio: {penalty}")
+
+    dock_usage = defaultdict(int)
+    for delivery in solution.deliveries:
+        dock_usage[delivery.dock] += 1
+
+    dock_usage_values = list(dock_usage.values())
+    dock_usage_std = np.std(dock_usage_values)  # Desvio padrão do uso das docas
+    dock_balance_penalty = dock_usage_std * 10  # Ajuste este fator conforme necessário
+
+    penalty += dock_balance_penalty   
 
     # Adicionar pequena penalidade para número de entregas
     num_deliveries = len(solution.deliveries)
@@ -560,18 +584,16 @@ def mutate(solution, mutation_rate, materials, suppliers, vehicles):
                     max_m3 = min(material_row['Quantidade_m3'], vehicle_row['Capacidade_m3'])
                     max_ton = min(material_row['Quantidade_ton'], vehicle_row['Capacidade_ton'])
                     
-                    change_factor = random.uniform(0.8, 1.2)
-                    new_m3 = stop['quantity_m3'] * change_factor
-                    new_ton = new_m3 * (material_row['Quantidade_ton'] / material_row['Quantidade_m3'])
-                    
-                    if new_ton > max_ton:
-                        new_ton = max_ton
-                        new_m3 = new_ton / (material_row['Quantidade_ton'] / material_row['Quantidade_m3'])
-                    
-                    stop['quantity_m3'] = min(new_m3, max_m3)
-                    stop['quantity_ton'] = min(new_ton, max_ton)
-                    logging.debug(f"Quantidade alterada para {stop['quantity_m3']:.2f} m³ / {stop['quantity_ton']:.2f} ton")
-            
+                    change_factor = random.uniform(0.5, 1.5)  # Permitir mudanças maiores
+                new_m3 = min(stop['quantity_m3'] * change_factor, max_m3)
+                new_ton = min(new_m3 * (material_row['Quantidade_ton'] / material_row['Quantidade_m3']), max_ton)
+
+                # Adicionar verificação extra aqui
+                new_m3 = min(new_m3, vehicle_row['Capacidade_m3'])
+                new_ton = min(new_ton, vehicle_row['Capacidade_ton'])
+
+                stop['quantity_m3'] = new_m3
+                stop['quantity_ton'] = new_ton
             elif mutation_type == 'remove':
                 dock_usage[(delivery.day, delivery.period, delivery.dock)] -= 1
                 solution.deliveries.remove(delivery)
@@ -589,7 +611,7 @@ def mutate(solution, mutation_rate, materials, suppliers, vehicles):
 
             elif mutation_type == 'dock':
                 old_dock = delivery.dock
-                new_dock = find_least_used_dock(delivery.day, delivery.period, dock_usage)
+                new_dock = find_available_dock(delivery.day, delivery.period, dock_usage)
                 if new_dock and new_dock != old_dock:
                     dock_usage[(delivery.day, delivery.period, old_dock)] -= 1
                     dock_usage[(delivery.day, delivery.period, new_dock)] += 1
@@ -620,6 +642,10 @@ def create_random_delivery(materials, suppliers, vehicles, vehicle_counters, doc
     
     quantity_m3 = random.uniform(0, max_quantity_m3)
     quantity_ton = min(quantity_m3 * (material_row['Quantidade_ton'] / material_row['Quantidade_m3']), max_quantity_ton)
+
+    # Adicionar verificação extra aqui
+    quantity_m3 = min(quantity_m3, vehicle_row['Capacidade_m3'])
+    quantity_ton = min(quantity_ton, vehicle_row['Capacidade_ton'])
     
     if quantity_ton > vehicle_row['Capacidade_ton']:
         quantity_ton = vehicle_row['Capacidade_ton']
@@ -627,7 +653,7 @@ def create_random_delivery(materials, suppliers, vehicles, vehicle_counters, doc
 
     day = random.randint(1, 5)
     period = random.choice(['morning', 'afternoon'])
-    dock = find_least_used_dock(day, period, dock_usage)
+    dock = find_available_dock(day, period, dock_usage)
     
     if dock is None:
         logging.warning("Não foi possível encontrar uma doca disponível")
@@ -783,51 +809,31 @@ def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehic
                 continue
 
             load_m3 = min(remaining_m3, vehicle_row.Capacidade_m3)
-            load_ton = load_m3 * density
+            load_ton = min(remaining_ton, vehicle_row.Capacidade_ton, load_m3 * density)
 
-            if load_m3 > 1e-6 and load_ton <= vehicle_row.Capacidade_ton:
+            if load_m3 > 1e-6 and load_ton > 1e-6:
                 supplier = random.choice(available_suppliers)
                 distance = suppliers.loc[suppliers['Fornecedor'] == supplier, 'DistanciaEntrega_km'].values[0]
                 endereco = suppliers.loc[suppliers['Fornecedor'] == supplier, 'Endereco'].values[0]
                 route_time = calculate_route_time(distance)
 
-                available_time_slot = False
-                for day in range(1, 6):
-                    for period in ['morning', 'afternoon']:
-                        start_time = day * 2 + (0.5 if period == 'morning' else 1)
-                        end_time = start_time + route_time
-
-                        existing_times = [(slot[0], slot[0] + calculate_route_time(slot[2])) 
-                                          for slot in vehicle_usage[vehicle_row.Veiculo]]
-
-                        if all(not (start_time < exist_end and end_time > exist_start)
-                               for exist_start, exist_end in existing_times):
-                            
-                            # Encontrar a doca menos utilizada para este dia e período
-                            dock = find_least_used_dock(day, period, dock_usage)
-                            if dock is not None:
-                                available_time_slot = True
-                                break
-                    if available_time_slot:
-                        break
-
-                if not available_time_slot:
-                    continue
-
-                vehicle_counters[vehicle_row.Veiculo] += 1
-                vehicle_id = f"{vehicle_row.Veiculo}_{vehicle_counters[vehicle_row.Veiculo]}"
+                day, period, dock = find_available_slot(vehicle_row.Veiculo, vehicle_usage, dock_usage)
                 
-                new_delivery = Delivery(f"Route{vehicle_counters[vehicle_row.Veiculo]}", vehicle_row.Veiculo, vehicle_id, day, period, dock)
-                new_delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
-                new_deliveries.append(new_delivery)
-                remaining_m3 -= load_m3
-                remaining_ton -= load_ton
-                vehicle_usage[vehicle_row.Veiculo].append((start_time, period, distance))
-                dock_usage[(day, period, dock)] += 1
-                
-                logging.debug(f"Alocado {load_m3:.2f} m³ / {load_ton:.2f} ton de {material} para {supplier} usando {vehicle_row.Veiculo} (ID: {vehicle_id}) na {dock}")
-                allocated = True
-                break
+                if day is not None:
+                    vehicle_counters[vehicle_row.Veiculo] += 1
+                    vehicle_id = f"{vehicle_row.Veiculo}_{vehicle_counters[vehicle_row.Veiculo]}"
+                    
+                    new_delivery = Delivery(f"Route{vehicle_counters[vehicle_row.Veiculo]}", vehicle_row.Veiculo, vehicle_id, day, period, dock)
+                    new_delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
+                    new_deliveries.append(new_delivery)
+                    remaining_m3 -= load_m3
+                    remaining_ton -= load_ton
+                    vehicle_usage[vehicle_row.Veiculo].append((day, period, distance))
+                    dock_usage[(day, period, dock)] += 1
+                    
+                    logging.debug(f"Alocado {load_m3:.2f} m³ / {load_ton:.2f} ton de {material} para {supplier} usando {vehicle_row.Veiculo} (ID: {vehicle_id}) na {dock}")
+                    allocated = True
+                    break
 
         if not allocated:
             logging.warning(f"Não foi possível alocar mais carga para {material}. Restante: {remaining_m3:.2f} m³ / {remaining_ton:.2f} ton")
@@ -859,13 +865,8 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
 
     max_routes_per_vehicle = 10
 
-    for _ in range(max_routes_per_vehicle):
-        if remaining_m3 <= 1e-6 or remaining_ton <= 1e-6:
-            break
-
-        available_vehicles = vehicles[(vehicles['Capacidade_m3'] >= remaining_m3) & 
-                                      (vehicles['Capacidade_ton'] >= remaining_ton) &
-                                      (vehicles['Veiculo'].apply(lambda v: len(vehicle_usage[v]) < vehicles.loc[vehicles['Veiculo'] == v, 'Quantidade'].values[0] * max_routes_per_vehicle))]
+    while remaining_m3 > 1e-6 or remaining_ton > 1e-6:
+        available_vehicles = vehicles[(vehicles['Capacidade_m3'] > 0) & (vehicles['Capacidade_ton'] > 0)]
         
         if available_vehicles.empty:
             break
@@ -891,7 +892,7 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
                 break
 
             available_m3 = min(remaining_m3, vehicle_capacity_m3 - total_load_m3)
-            available_ton = min(remaining_ton, vehicle_capacity_ton - total_load_ton)
+            available_ton = min(remaining_ton, vehicle_capacity_ton - total_load_ton, available_m3 * density)
 
             if available_m3 <= 1e-6 or available_ton <= 1e-6:
                 continue
@@ -911,32 +912,16 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
         if route:
             route_time = calculate_route_time(total_distance) + (total_stops - 1) * 0.5  # Adiciona meio período para cada parada adicional
 
-            # Encontrar um slot de tempo disponível para a rota
-            available_time_slot = False
-            for day in range(1, 6):
-                for period in ['morning', 'afternoon']:
-                    start_time = day * 2 + (0.5 if period == 'morning' else 1)
-                    end_time = start_time + route_time
+            day, period, dock = find_available_slot(vehicle, vehicle_usage, dock_usage)
 
-                    if all(not (start_time < existing_end and end_time > existing_start)
-                        for existing_start, existing_end in vehicle_usage[vehicle]):
-                        
-                        # Encontrar a doca menos utilizada para este dia e período
-                        dock = find_least_used_dock(day, period, dock_usage)
-                        if dock is not None:
-                            available_time_slot = True
-                            break
-                if available_time_slot:
-                    break
-
-            if available_time_slot:
+            if day is not None:
                 vehicle_counters[vehicle] += 1
                 vehicle_id = f"{vehicle}_{vehicle_counters[vehicle]}"
                 new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period, dock)
                 for supplier, load_m3, load_ton, distance, endereco in route:
                     new_delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
                 new_deliveries.append(new_delivery)
-                vehicle_usage[vehicle].append((start_time, end_time))
+                vehicle_usage[vehicle].append((day, period, total_distance))
                 dock_usage[(day, period, dock)] += 1
                 logging.debug(f"Alocado {total_load_m3:.2f} m³ / {total_load_ton:.2f} ton de {material} usando {vehicle} (ID: {vehicle_id}) com múltiplos fornecedores na {dock}")
             else:
@@ -950,6 +935,7 @@ def gerar_solucao_inicial(materials, suppliers, vehicles, densities, max_trips_p
     deliveries = []
     route_counter = 1
     dock_usage = defaultdict(int)
+    vehicle_usage = defaultdict(list)
 
     for _, material_row in materials.iterrows():
         material = material_row['Material']
@@ -957,40 +943,39 @@ def gerar_solucao_inicial(materials, suppliers, vehicles, densities, max_trips_p
         remaining_ton = material_row['Quantidade_ton']
 
         while remaining_m3 > 0 and remaining_ton > 0:
-            vehicle = random.choice(vehicles['Veiculo'].tolist())
-            vehicle_row = vehicles[vehicles['Veiculo'] == vehicle].iloc[0]
-            day = random.randint(1, 5)
-            period = random.choice(['morning', 'afternoon'])
+            vehicle = select_best_vehicle(remaining_m3, remaining_ton, vehicles, vehicle_usage)
+            
+            if vehicle is None:
+                break
 
-            dock = find_least_used_dock(day, period, dock_usage)
+            vehicle_row = vehicles[vehicles['Veiculo'] == vehicle].iloc[0]
+            day, period, dock = find_available_slot(vehicle, vehicle_usage, dock_usage)
+            
             if dock is None:
-                continue  # Pula para a próxima iteração se não houver docas disponíveis
+                continue
 
             dock_usage[(day, period, dock)] += 1
 
-            route = Delivery(f"Route{route_counter}", vehicle, f"{vehicle}_{route_counter}", day, period, dock)
-
- 
-            route_m3 = 0
-            route_ton = 0
-
             available_suppliers = suppliers[suppliers[material] == 'X']
+            if available_suppliers.empty:
+                break
+
             supplier_row = random.choice(available_suppliers.index)
             supplier = suppliers.loc[supplier_row, 'Fornecedor']
             endereco = suppliers.loc[supplier_row, 'Endereco']
             distance = suppliers.loc[supplier_row, 'DistanciaEntrega_km']
             
             load_m3 = min(remaining_m3, vehicle_row['Capacidade_m3'])
-            load_ton = min(remaining_ton, vehicle_row['Capacidade_ton'])
+            load_ton = min(remaining_ton, vehicle_row['Capacidade_ton'], load_m3 * densities[material])
 
             if load_m3 > 0 and load_ton > 0:
+                route = Delivery(f"Route{route_counter}", vehicle, f"{vehicle}_{route_counter}", day, period, dock)
                 route.add_stop(supplier, material, load_m3, load_ton, distance, endereco)   
-                remaining_m3 -= load_m3
-                remaining_ton -= load_ton
-
-            if route.stops:
                 deliveries.append(route)
                 route_counter += 1
+                remaining_m3 -= load_m3
+                remaining_ton -= load_ton
+                vehicle_usage[vehicle].append((day, period, distance))
 
     return Solucao(deliveries, vehicles, max_trips_per_week)
 
@@ -1001,60 +986,50 @@ def allocate_load(material, remaining_m3, remaining_ton, suppliers, vehicles, ex
 
     # Atualizar o uso de veículos e docas com base nas entregas existentes
     for delivery in existing_deliveries:
-        start_time = delivery.day * 2 + (0.5 if delivery.period == 'morning' else 1)
-        end_time = start_time + calculate_route_time(delivery.total_distance)
-        vehicle_usage[delivery.vehicle].append((start_time, delivery.period, delivery.total_distance))
+        route_time = calculate_route_time(delivery.total_distance)
+        vehicle_usage[delivery.vehicle].append((delivery.day, delivery.period, route_time))
         dock_usage[(delivery.day, delivery.period, delivery.dock)] += 1
 
-    # Primeira tentativa: allocate_load_with_distance_check
-    distance_check_deliveries = allocate_load_with_distance_check(
-        material, remaining_m3, remaining_ton, suppliers, vehicles, 
-        existing_deliveries, materials, densities, dock_usage
-    )
-    all_deliveries.extend(distance_check_deliveries)
+    while remaining_m3 > 1e-6 and remaining_ton > 1e-6:
+        vehicle = select_best_vehicle(remaining_m3, remaining_ton, vehicles, vehicle_usage)
+        
+        if vehicle is None:
+            break
 
-    # Atualizar remaining_m3 e remaining_ton
-    for delivery in distance_check_deliveries:
-        for stop in delivery.stops:
-            remaining_m3 -= stop['quantity_m3']
-            remaining_ton -= stop['quantity_ton']
-        # Atualizar o uso de veículos e docas
-        start_time = delivery.day * 2 + (0.5 if delivery.period == 'morning' else 1)
-        end_time = start_time + calculate_route_time(delivery.total_distance)
-        vehicle_usage[delivery.vehicle].append((start_time, delivery.period, delivery.total_distance))
-        dock_usage[(delivery.day, delivery.period, delivery.dock)] += 1
+        vehicle_row = vehicles[vehicles['Veiculo'] == vehicle].iloc[0]
+        max_m3 = min(remaining_m3, vehicle_row['Capacidade_m3'])
+        max_ton = min(remaining_ton, vehicle_row['Capacidade_ton'])
 
-    # Se ainda houver carga restante, tenta alocação direta
-    if remaining_m3 > 1e-6 and remaining_ton > 1e-6:
-        direct_deliveries = allocate_direct_load(
-            material, remaining_m3, remaining_ton, suppliers, vehicles, 
-            existing_deliveries + all_deliveries, materials, densities, 
-            max_trips_per_week, vehicle_usage, dock_usage
-        )
-        all_deliveries.extend(direct_deliveries)
+        load_m3 = max_m3
+        load_ton = min(max_ton, load_m3 * densities[material])
 
-    # Ajuste final das quantidades alocadas para respeitar a capacidade do veículo
-    for delivery in all_deliveries:
-        vehicle_row = vehicles[vehicles['Veiculo'] == delivery.vehicle].iloc[0]
-        max_m3 = vehicle_row['Capacidade_m3']
-        max_ton = vehicle_row['Capacidade_ton']
+        if load_m3 <= 1e-6 or load_ton <= 1e-6:
+            break
 
-        total_m3 = sum(stop['quantity_m3'] for stop in delivery.stops)
-        total_ton = sum(stop['quantity_ton'] for stop in delivery.stops)
+        if load_m3 > vehicle_row['Capacidade_m3'] or load_ton > vehicle_row['Capacidade_ton']:
+            load_m3 = min(load_m3, vehicle_row['Capacidade_m3'])
+            load_ton = min(load_ton, vehicle_row['Capacidade_ton'])
 
-        if total_m3 > max_m3:
-            scale_factor = max_m3 / total_m3
-            for stop in delivery.stops:
-                stop['quantity_m3'] *= scale_factor
-                stop['quantity_ton'] *= scale_factor
-            logging.debug(f"Ajustando quantidade m³ de {delivery.stops[0]['material']} de {total_m3:.2f} para {max_m3:.2f} devido à capacidade do veículo {delivery.vehicle}.")
 
-        if total_ton > max_ton:
-            scale_factor = max_ton / total_ton
-            for stop in delivery.stops:
-                stop['quantity_m3'] *= scale_factor
-                stop['quantity_ton'] *= scale_factor
-            logging.debug(f"Ajustando quantidade ton de {delivery.stops[0]['material']} de {total_ton:.2f} para {max_ton:.2f} devido à capacidade do veículo {delivery.vehicle}.")
+        supplier = select_best_supplier(material, load_m3, load_ton, suppliers[suppliers[material] == 'X'])
+        
+        if supplier is None:
+            break
+
+        day, period, dock = find_available_slot(vehicle, vehicle_usage, dock_usage)
+        
+        if day is None:
+            break
+
+        new_delivery = create_delivery(vehicle, supplier, material, load_m3, load_ton, day, period, dock, suppliers)
+        
+        if new_delivery:
+            all_deliveries.append(new_delivery)
+            remaining_m3 -= load_m3
+            remaining_ton -= load_ton
+            route_time = calculate_route_time(new_delivery.total_distance)
+            vehicle_usage[vehicle].append((day, period, route_time))
+            dock_usage[(day, period, dock)] += 1
 
     return all_deliveries
 
@@ -1074,7 +1049,7 @@ def log_solution_stats(solution, total_allocated_m3, total_allocated_ton, total_
         logging.info(f"Utilização do veículo {vehicle}: {count} rotas ({utilization:.2f}%)")
 
 
-def is_valid_solution(solution, materials):
+def is_valid_solution(solution, materials, generation=0, max_generations=1000):
     if not solution.deliveries:
         logging.warning("Solução inválida: sem entregas")
         return False
@@ -1101,7 +1076,8 @@ def is_valid_solution(solution, materials):
                      f"Desvio: {deviation_m3:.2%} (m³), {deviation_ton:.2%} (ton)")
     
     average_deviation = total_deviation / (2 * len(materials))
-    is_valid = average_deviation <= 0.3  # Aumentando a tolerância para 30%
+    max_deviation = 0.3 + (0.2 * (1 - generation / max_generations))  # Começa em 50% e diminui até 30%
+    is_valid = average_deviation <= max_deviation
     
     if is_valid:
         logging.info(f"Solução válida encontrada com desvio médio de {average_deviation:.2%}")
@@ -1117,7 +1093,7 @@ def check_time_availability(vehicle, day, period, existing_deliveries):
             if existing_day == day and existing_period == period:
                 return False
         elif isinstance(existing_delivery, Delivery):
-            if existing_delivery.day == day and existing_delivery.period == period:
+            if existing_delivery.day == day and existing_delivery.period == period and existing_delivery.vehicle == vehicle:
                 return False
     return True
 
@@ -1150,92 +1126,153 @@ def generate_valid_delivery(material, vehicle, supplier, day, period, vehicles, 
 def repair_solution(solution, materials, suppliers, vehicles, densities, max_trips_per_week):
     delivered_materials = defaultdict(lambda: {'m3': 0, 'ton': 0})
     vehicle_usage = defaultdict(list)
+    dock_usage = defaultdict(int)
 
     valid_deliveries = []
-    for delivery in solution.deliveries:
-        if delivery.vehicle is None or delivery.vehicle not in vehicles['Veiculo'].values:
-            logging.warning(f"Entrega {delivery.route_id} tem veículo inválido. Atribuindo novo veículo.")
-            delivery.vehicle = random.choice(vehicles['Veiculo'].tolist())
-            delivery.vehicle_id = f"{delivery.vehicle}_{random.randint(1, 1000)}"
+    invalid_deliveries = []
 
-        if check_time_availability(delivery.vehicle, delivery.day, delivery.period, vehicle_usage[delivery.vehicle]):
+    for delivery in solution.deliveries:
+        vehicle_row = vehicles[vehicles['Veiculo'] == delivery.vehicle].iloc[0]
+        for stop in delivery.stops:
+            stop['quantity_m3'] = min(stop['quantity_m3'], vehicle_row['Capacidade_m3'])
+            stop['quantity_ton'] = min(stop['quantity_ton'], vehicle_row['Capacidade_ton'])
+
+        if delivery.vehicle is None or delivery.vehicle not in vehicles['Veiculo'].values:
+            logging.warning(f"Entrega {delivery.route_id} tem veículo inválido. Será realocada.")
+            invalid_deliveries.append(delivery)
+            continue
+
+        day, period, dock = find_available_slot(delivery.vehicle, vehicle_usage, dock_usage)
+        
+        if day is not None:
+            delivery.day = day
+            delivery.period = period
+            delivery.dock = dock
             valid_deliveries.append(delivery)
+            
             for stop in delivery.stops:
                 if stop['material'] not in materials['Material'].values:
                     logging.error(f"Material {stop['material']} não encontrado no DataFrame de materiais")
                     continue
                 delivered_materials[stop['material']]['m3'] += stop['quantity_m3']
                 delivered_materials[stop['material']]['ton'] += stop['quantity_ton']
-            vehicle_usage[delivery.vehicle].append((delivery.day, delivery.period))
+            
+            vehicle_usage[delivery.vehicle].append((day, period, delivery.total_distance))
+            dock_usage[(day, period, dock)] += 1
         else:
-            logging.warning(f"Entrega {delivery.route_id} removida devido a conflito de horário")
+            logging.warning(f"Entrega {delivery.route_id} não pôde ser realocada. Será recriada.")
+            invalid_deliveries.append(delivery)
 
     solution.deliveries = valid_deliveries
 
-    # Alocação mais agressiva
-    for material, quantities in delivered_materials.items():
-        required_m3 = materials.loc[materials['Material'] == material, 'Quantidade_m3'].values[0]
-        required_ton = materials.loc[materials['Material'] == material, 'Quantidade_ton'].values[0]
-
-        if quantities['m3'] < required_m3 * 0.95 or quantities['ton'] < required_ton * 0.95:
-            remaining_m3 = max(0, required_m3 - quantities['m3'])
-            remaining_ton = max(0, required_ton - quantities['ton'])
-
-            logging.info(f"Reparando déficit para {material}: Adicionando {remaining_m3:.2f} m³ / {remaining_ton:.2f} ton")
-            new_deliveries = allocate_load_aggressively(material, remaining_m3, remaining_ton, suppliers, vehicles, solution.deliveries, materials, densities, max_trips_per_week)
-            solution.deliveries.extend(new_deliveries)
-
-    # Balanceamento de carga
-    solution = balance_load(solution, materials, vehicles)
-
-    # Otimização local
-    solution = local_optimization(solution, materials, suppliers, vehicles, densities, max_trips_per_week)
-
-    # Verificação final
-    for delivery in solution.deliveries:
-        if delivery.vehicle is None or delivery.vehicle not in vehicles['Veiculo'].values:
-            logging.error(f"Após reparo: Veículo {delivery.vehicle} não encontrado no DataFrame de veículos")
+    # Realocar entregas inválidas e adicionar entregas para materiais em falta
+    for delivery in invalid_deliveries:
         for stop in delivery.stops:
-            if stop['material'] not in materials['Material'].values:
-                logging.error(f"Após reparo: Material {stop['material']} não encontrado no DataFrame de materiais")
+            material = stop['material']
+            remaining_m3 = stop['quantity_m3']
+            
+            new_deliveries = allocate_load_aggressively(material, remaining_m3, remaining_m3 * densities[material], suppliers, vehicles, 
+                                                        solution.deliveries, materials, densities, max_trips_per_week)
+            solution.deliveries.extend(new_deliveries)
+            
+            for new_delivery in new_deliveries:
+                for new_stop in new_delivery.stops:
+                    delivered_materials[new_stop['material']]['m3'] += new_stop['quantity_m3']
+                    delivered_materials[new_stop['material']]['ton'] += new_stop['quantity_ton']
+
+    # Verificar se todos os materiais foram entregues e adicionar entregas para materiais em falta
+        for _, material_row in materials.iterrows():
+            material = material_row['Material']
+            required_m3 = material_row['Quantidade_m3']
+            delivered_m3 = delivered_materials[material]['m3']
+
+            if abs(delivered_m3 - required_m3) / required_m3 > 0.05:  # Se o desvio for maior que 5%
+                remaining_m3 = required_m3 - delivered_m3
+                new_deliveries = allocate_load_aggressively(material, abs(remaining_m3), abs(remaining_m3 * densities[material]), suppliers, vehicles, 
+                                                            solution.deliveries, materials, densities, max_trips_per_week)
+                
+                if remaining_m3 > 0:  # Se falta material
+                    solution.deliveries.extend(new_deliveries)
+                else:  # Se há excesso de material
+                    remove_excess_deliveries(solution, material, abs(remaining_m3))
 
     return solution
+
+def remove_excess_deliveries(solution, material, excess_m3):
+    excess_remaining = excess_m3
+    for delivery in sorted(solution.deliveries, key=lambda d: sum(s['quantity_m3'] for s in d.stops if s['material'] == material), reverse=True):
+        if excess_remaining <= 0:
+            break
+        for stop in delivery.stops:
+            if stop['material'] == material:
+                if stop['quantity_m3'] <= excess_remaining:
+                    excess_remaining -= stop['quantity_m3']
+                    delivery.stops.remove(stop)
+                else:
+                    stop['quantity_m3'] -= excess_remaining
+                    stop['quantity_ton'] -= excess_remaining * (stop['quantity_ton'] / stop['quantity_m3'])
+                    excess_remaining = 0
+        if not delivery.stops:
+            solution.deliveries.remove(delivery)
+
 
 def allocate_load_aggressively(material, remaining_m3, remaining_ton, suppliers, vehicles, existing_deliveries, materials, densities, max_trips_per_week):
     new_deliveries = []
     available_suppliers = suppliers[suppliers[material] == 'X']
+    vehicle_usage = defaultdict(list)
+    dock_usage = defaultdict(int)
+
+    for delivery in existing_deliveries:
+        vehicle_usage[delivery.vehicle].append((delivery.day, delivery.period, delivery.total_distance))
+        dock_usage[(delivery.day, delivery.period, delivery.dock)] += 1
     
-    while remaining_m3 > 0 and remaining_ton > 0:
-        vehicle = select_best_vehicle(remaining_m3, remaining_ton, vehicles)
+    while remaining_m3 > 1e-6:  # Removemos a verificação de remaining_ton
+        vehicle = select_best_vehicle(remaining_m3, remaining_m3 * densities[material], vehicles, vehicle_usage)
+        
+        if vehicle is None:
+            logging.warning(f"Não foi possível encontrar um veículo adequado para {remaining_m3:.2f} m³ de {material}")
+            break
+
+        day, period, dock = find_available_slot(vehicle, vehicle_usage, dock_usage)
+        
+        if day is None:
+            logging.warning(f"Não foi possível encontrar um slot disponível para {vehicle}")
+            break
+
         vehicle_capacity_m3 = vehicles.loc[vehicles['Veiculo'] == vehicle, 'Capacidade_m3'].values[0]
         vehicle_capacity_ton = vehicles.loc[vehicles['Veiculo'] == vehicle, 'Capacidade_ton'].values[0]
         
         load_m3 = min(remaining_m3, vehicle_capacity_m3)
-        load_ton = min(remaining_ton, vehicle_capacity_ton)
+        load_ton = min(load_m3 * densities[material], vehicle_capacity_ton)
+
+        # Adicionar verificação extra aqui
+        load_m3 = min(load_m3, vehicle_capacity_m3)
+        load_ton = min(load_ton, vehicle_capacity_ton)
         
+        if load_ton > vehicle_capacity_ton:
+            load_ton = vehicle_capacity_ton
+            load_m3 = load_ton / densities[material]
+        
+        if load_m3 <= 1e-6:  # Verificamos apenas o volume
+            logging.warning(f"Carga muito pequena para alocar: {load_m3:.2f} m³ / {load_ton:.2f} ton")
+            break
+
         supplier = select_best_supplier(material, load_m3, load_ton, available_suppliers)
         if supplier is None:
             logging.warning(f"Não foi possível encontrar um fornecedor para {material}")
             break
-        
-        day, period, dock = find_available_slot(vehicle, existing_deliveries)
-        if day is None:
-            logging.warning(f"Não foi possível encontrar um slot de tempo disponível para {vehicle}")
-            break
-        
+
         new_delivery = create_delivery(vehicle, supplier, material, load_m3, load_ton, day, period, dock, suppliers)
         if new_delivery:
             new_deliveries.append(new_delivery)
             remaining_m3 -= load_m3
-            remaining_ton -= load_ton
-            existing_deliveries.append(new_delivery)
+            vehicle_usage[vehicle].append((day, period, new_delivery.total_distance))
+            dock_usage[(day, period, dock)] += 1
             logging.info(f"Nova entrega criada: {load_m3:.2f} m³ / {load_ton:.2f} ton de {material} usando {vehicle}")
         else:
             logging.warning(f"Falha ao criar entrega para {load_m3:.2f} m³ / {load_ton:.2f} ton de {material}")
-            break
     
     return new_deliveries
-
 
 def balance_load(solution, materials, vehicles):
     for material in materials['Material']:
@@ -1259,31 +1296,109 @@ def balance_load(solution, materials, vehicles):
     
     return solution
 
-
-def select_best_vehicle(required_m3, required_ton, vehicles):
-    suitable_vehicles = vehicles[(vehicles['Capacidade_m3'] >= required_m3) & (vehicles['Capacidade_ton'] >= required_ton)]
-    if suitable_vehicles.empty:
-        logging.warning(f"Não foi possível encontrar um veículo adequado para {required_m3:.2f} m³ / {required_ton:.2f} ton")
-        return vehicles.loc[vehicles['Capacidade_m3'].idxmax()]['Veiculo']
-    return suitable_vehicles.iloc[0]['Veiculo']
-
 def select_best_supplier(material, required_m3, required_ton, available_suppliers):
     if available_suppliers.empty:
+        logging.warning(f"Não há fornecedores disponíveis para o material {material}")
         return None
-    return available_suppliers.iloc[0]['Fornecedor']
 
-def find_available_slot(vehicle, existing_deliveries):
-    for day in range(1, 6):
+    # Criar uma cópia do DataFrame para evitar modificações no original
+    suppliers_copy = available_suppliers.copy()
+
+    # Calcular um score para cada fornecedor baseado na distância
+    # Quanto menor a distância, melhor o score
+    suppliers_copy['score'] = 1 / (suppliers_copy['DistanciaEntrega_km'] + 1)  # +1 para evitar divisão por zero
+
+    # Normalizar o score
+    max_score = suppliers_copy['score'].max()
+    suppliers_copy['normalized_score'] = suppliers_copy['score'] / max_score
+
+    # Adicionar um elemento aleatório para evitar sempre escolher o mesmo fornecedor
+    suppliers_copy['random_factor'] = np.random.uniform(0.9, 1.1, size=len(suppliers_copy))
+    suppliers_copy['final_score'] = suppliers_copy['normalized_score'] * suppliers_copy['random_factor']
+
+    # Selecionar o fornecedor com o melhor score final
+    best_supplier = suppliers_copy.loc[suppliers_copy['final_score'].idxmax(), 'Fornecedor']
+
+    logging.debug(f"Selecionado fornecedor {best_supplier} para {required_m3:.2f} m³ / {required_ton:.2f} ton de {material}")
+    return best_supplier
+
+
+def select_best_vehicle(required_m3, required_ton, vehicles, vehicle_usage):
+    # 1) Tenta achar um veículo que tenha capacidade maior que o remaining e que não tenha sido usado ainda
+    unused_suitable_vehicles = vehicles[
+        (vehicles['Capacidade_m3'] >= required_m3) & 
+        (vehicles['Capacidade_ton'] >= required_ton) & 
+        (~vehicles['Veiculo'].isin(vehicle_usage.keys()))
+    ]
+    
+    if not unused_suitable_vehicles.empty:
+        return unused_suitable_vehicles.iloc[0]['Veiculo']
+
+    # 2) Se não achou, veja o veículo que ainda não foi utilizado que tenha a maior capacidade
+    unused_vehicles = vehicles[~vehicles['Veiculo'].isin(vehicle_usage.keys())]
+    if not unused_vehicles.empty:
+        return unused_vehicles.sort_values('Capacidade_m3', ascending=False).iloc[0]['Veiculo']
+
+    # 3) Se não achou veículos não utilizados, utiliza um veículo que já tenha feito rota,
+    # mas com a rota mais curta (para potencializar a não dar conflito de horário).
+    # Dê preferência nestes pela maior capacidade
+    used_vehicles = vehicles[vehicles['Veiculo'].isin(vehicle_usage.keys())]
+    
+    if not used_vehicles.empty:
+        # Calcular a distância total para cada veículo usado
+        vehicle_distances = {v: sum(route[2] for route in routes) for v, routes in vehicle_usage.items()}
+        
+        # Ordenar veículos usados pela menor distância total e maior capacidade
+        sorted_vehicles = used_vehicles.sort_values(
+            by=['Capacidade_m3', 'Capacidade_ton'],
+            ascending=[False, False]
+        )
+        
+        return min(sorted_vehicles['Veiculo'], key=lambda v: vehicle_distances.get(v, 0))
+
+    logging.warning(f"Não foi possível encontrar um veículo adequado para {required_m3:.2f} m³ / {required_ton:.2f} ton")
+    return None
+
+
+def find_available_slot(vehicle, vehicle_usage, dock_usage, max_days=4):
+    for day in range(1, max_days + 1):
         for period in ['morning', 'afternoon']:
-            if check_time_availability(vehicle, day, period, existing_deliveries):
-                dock = find_least_used_dock(day, period, defaultdict(int))
+            start_time = period == 'morning' and 0 or 0.5
+            end_time = start_time + 0.5  # Assumindo que cada período dura 0.5 unidades de tempo
+
+            # Verificar se o slot está disponível para o veículo
+            is_available = True
+            for used_day, used_period, used_time in vehicle_usage.get(vehicle, []):
+                if used_day == day:
+                    used_start = used_period == 'morning' and 0 or 0.5
+                    used_end = used_start + used_time
+                    if (start_time < used_end and end_time > used_start):
+                        is_available = False
+                        break
+
+            if is_available:
+                dock = find_available_dock(day, period, dock_usage)
                 if dock:
                     return day, period, dock
+
+    # Se não encontrar um slot, tente criar um novo dia
+    new_day = max_days + 1
+    
+    for period in ['morning', 'afternoon']:
+        dock = find_available_dock(new_day, period, dock_usage)
+        if dock:
+            return new_day, period, dock
+
+    logging.warning(f"Não foi possível encontrar um slot disponível para {vehicle}")
     return None, None, None
 
 def create_delivery(vehicle, supplier, material, load_m3, load_ton, day, period, dock, suppliers):
     if vehicle is None:
         logging.error("Tentativa de criar entrega com veículo None")
+        return None
+
+    if load_m3 <= 1e-6 or load_ton <= 1e-6:
+        logging.warning(f"Tentativa de criar entrega com carga muito pequena: {load_m3:.2f} m³ / {load_ton:.2f} ton")
         return None
 
     delivery = Delivery(f"Route{random.randint(1, 1000)}", vehicle, f"{vehicle}_{random.randint(1, 100)}", day, period, dock)
@@ -1292,7 +1407,16 @@ def create_delivery(vehicle, supplier, material, load_m3, load_ton, day, period,
     delivery.add_stop(supplier, material, load_m3, load_ton, distance, endereco)
     return delivery
 
+
 def local_optimization(solution, materials, suppliers, vehicles, densities, max_trips_per_week):
+    vehicle_usage = defaultdict(list)
+    dock_usage = defaultdict(int)
+
+    # Preencher vehicle_usage e dock_usage com as entregas existentes
+    for delivery in solution.deliveries:
+        vehicle_usage[delivery.vehicle].append((delivery.day, delivery.period, delivery.total_distance))
+        dock_usage[(delivery.day, delivery.period, delivery.dock)] += 1
+
     for _ in range(10):  # Número de iterações de otimização local
         if not solution.deliveries:
             logging.warning("Não há entregas para otimizar")
@@ -1302,29 +1426,43 @@ def local_optimization(solution, materials, suppliers, vehicles, densities, max_
         material = delivery_to_optimize.stops[0]['material']
         
         # Tentar realocar a carga para um veículo mais eficiente ou um fornecedor mais próximo
-        new_vehicle = select_best_vehicle(delivery_to_optimize.stops[0]['quantity_m3'], 
-                                          delivery_to_optimize.stops[0]['quantity_ton'], 
-                                          vehicles)
+        new_vehicle = select_best_vehicle(
+            delivery_to_optimize.stops[0]['quantity_m3'], 
+            delivery_to_optimize.stops[0]['quantity_ton'], 
+            vehicles,
+            vehicle_usage
+        )
         
-        new_supplier = select_best_supplier(material, 
-                                            delivery_to_optimize.stops[0]['quantity_m3'], 
-                                            delivery_to_optimize.stops[0]['quantity_ton'], 
-                                            suppliers[suppliers[material] == 'X'])
+        new_supplier = select_best_supplier(
+            material, 
+            delivery_to_optimize.stops[0]['quantity_m3'], 
+            delivery_to_optimize.stops[0]['quantity_ton'], 
+            suppliers[suppliers[material] == 'X']
+        )
         
         if new_supplier is None:
             logging.warning(f"Não foi possível encontrar um fornecedor para {material}")
             continue
 
         if new_vehicle != delivery_to_optimize.vehicle or new_supplier != delivery_to_optimize.stops[0]['supplier']:
+            # Remover a entrega antiga do vehicle_usage e dock_usage
+            vehicle_usage[delivery_to_optimize.vehicle].remove((delivery_to_optimize.day, delivery_to_optimize.period, delivery_to_optimize.total_distance))
+            dock_usage[(delivery_to_optimize.day, delivery_to_optimize.period, delivery_to_optimize.dock)] -= 1
+
             solution.deliveries.remove(delivery_to_optimize)
-            new_delivery = create_delivery(new_vehicle, new_supplier, material, 
-                                           delivery_to_optimize.stops[0]['quantity_m3'], 
-                                           delivery_to_optimize.stops[0]['quantity_ton'], 
-                                           delivery_to_optimize.day, delivery_to_optimize.period, 
-                                           delivery_to_optimize.dock, suppliers)
+            new_delivery = create_delivery(
+                new_vehicle, new_supplier, material, 
+                delivery_to_optimize.stops[0]['quantity_m3'], 
+                delivery_to_optimize.stops[0]['quantity_ton'], 
+                delivery_to_optimize.day, delivery_to_optimize.period, 
+                delivery_to_optimize.dock, suppliers
+            )
             
             if new_delivery is not None:
                 solution.deliveries.append(new_delivery)
+                # Adicionar a nova entrega ao vehicle_usage e dock_usage
+                vehicle_usage[new_delivery.vehicle].append((new_delivery.day, new_delivery.period, new_delivery.total_distance))
+                dock_usage[(new_delivery.day, new_delivery.period, new_delivery.dock)] += 1
                 logging.debug(f"Otimização local: Entrega modificada de {delivery_to_optimize.vehicle} para {new_vehicle}")
             else:
                 logging.warning("Falha ao criar nova entrega durante a otimização local")
@@ -1356,6 +1494,8 @@ def print_solution(solution):
             print(f"      Parada {i}: Fornecedor: {stop['supplier']}, Endereço: {stop['endereco']}, "
               f"Material: {stop['material']}, Quantidade: {stop['quantity_m3']:.2f} m³ / {stop['quantity_ton']:.2f} ton, "
               f"Distância: {stop['distance']:.2f} km")
+            total_m3 += stop['quantity_m3']
+            total_ton += stop['quantity_ton']
         
         print(f"    Total da rota: {total_m3:.2f} m³ / {total_ton:.2f} ton")
     
