@@ -3,6 +3,8 @@ import numpy as np
 import random
 from collections import defaultdict
 import logging
+import json
+from datetime import datetime
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -260,7 +262,7 @@ def mutate(solution, carriers, mutation_rate):
     return solution
 
 # Algoritmo genético principal
-def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, population_size=100, generations=100, tournament_size=5, crossover_rate=0.8, mutation_rate=0.2, reset_threshold=20, reset_percentage=0.10):
+def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, population_size=100, generations=200, tournament_size=5, crossover_rate=0.8, mutation_rate=0.2, reset_threshold=50, reset_percentage=0.3):
     total_cars = len(outbound_data)
     
     try:
@@ -305,8 +307,9 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
         
         new_population = []
         
-        # Elitismo: manter o melhor indivíduo
-        new_population.append(population[0])
+        # Elitismo: manter os melhores indivíduos
+        elite_size = int(population_size * 0.1)  # 10% de elitismo
+        new_population.extend(population[:elite_size])
         
         while len(new_population) < population_size:
             parent1 = tournament_selection(population, tournament_size)
@@ -318,19 +321,39 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
                 child = random.choice([parent1, parent2])
             
             child = mutate(child, carriers, mutation_rate)
+            
+            # Aplicar busca local com uma certa probabilidade
+            if random.random() < 0.1:  # 10% de chance de aplicar busca local
+                child = local_search(child, distances, total_cars)
+            
             new_population.append(child)
         
         population = new_population
     
     return best_solution
 
-import json
-from datetime import datetime
+def local_search(solution, distances, total_cars):
+    
+    for _ in range(10):  # Número de iterações da busca local
+        route1, route2 = random.sample(solution.deliveries, 2)
+        if route1.cars and route2.cars:
+            car1 = random.choice(route1.cars)
+            car2 = random.choice(route2.cars)
+            route1.cars.remove(car1)
+            route2.cars.remove(car2)
+            route1.cars.append(car2)
+            route2.cars.append(car1)
+    
+    # Recalcular o fitness após a busca local
+    solution.calculate_fitness(distances, total_cars)
+    return solution
+
+
 
 def save_solution_to_json(solution, filename=None):
     if filename is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"best_solution_{timestamp}.json"
+        filename = f"best_outbound_solution_{timestamp}.json"
     
     def convert_to_serializable(obj):
         if isinstance(obj, np.integer):
@@ -456,7 +479,7 @@ def main():
             print("Carros:")
             for car in delivery.cars:
                 print(f"  VIN: {car['vin']}, Modelo: {car['model']}, Destino: {car['destination']}")
-            save_solution_to_json(best_solution)
+        save_solution_to_json(best_solution)
     else:
         print("Não foi possível encontrar uma solução válida.")
         print("Detalhes do problema:")
