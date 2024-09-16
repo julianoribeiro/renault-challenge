@@ -1,0 +1,824 @@
+Cidade;ES;Transportadora
+Ananindeua;PA;BB
+Mirassol;SP;AA
+Martinho Campos ;MG ;AA
+Macae;RJ;AA
+Sete Lagoas;MT;AA
+Cataguases;MS;AA
+Palmas;TO;BB
+Belo Horizonte;MG;AA
+BELO HORIZONTE;MG;AA
+Paracatu;MG;AA
+Patos De Minas;MG;AA
+Curvelo;MG;AA
+Janauba;MG;AA
+Pirapora;MG;AA
+Manhuacu;MG;AA
+Governador Valadares;MG;AA
+Ipatinga;MG;AA
+Teofilo Otoni;MG;AA
+Diadema;SP;AA
+Maua;SP;AA
+Santo Andre;SP;AA
+Sao Bernardo do Campo;SP;AA
+Sao Bernardo Do Campo;SP;AA
+Sao Caetano do Sul;SP;AA
+Sao Caetano Do Sul;SP;AA
+Hortolandia;SP;AA
+Dumont;SP;AA
+Meridiano;SP;AA
+Itaperuna;RJ;AA
+Duque de Caxias;RJ;AA
+Duque De Caxias;RJ;AA
+Nova Iguacu;RJ;AA
+Caxambu;MG;AA
+Bastos;SP;AA
+Betim;MG;AA
+BETIM;MG;AA
+Contagem;MG;AA
+Sabara;MG;AA
+Frutal;MG;AA
+Araxa;MG;AA
+Patrocinio;MG;AA
+Curitiba;PR;BB
+Pinhais;PR;BB
+Sao Jose dos Pinhais;PR;BB
+SAO JOSE DOS PINHAIS;PR;BB
+Barra do Garcas;PR;BB
+Almirante Tamandare;PR;BB
+Sao Jose dos Pinhais;PR;BB
+Varzea Grande;MT;BB
+Sapezal;MT;BB
+Cacoal;RO;BB
+CACOAL;RO;BB
+Ijui;RS;CC
+Espumoso;RS;CC
+Balneario Gaivotas;SC;CC
+Itaperucu Mirim;MA;BB
+Niquelandia;GO;BB
+Unai;MG;AA
+Uberaba;MG;AA
+Uberlandia;MG;AA
+Indianopolis;MG;AA
+Ituiutaba;MG;AA
+Coimbra;MG;AA
+Juiz de Fora;MG;AA
+Juiz De Fora;MG;AA
+Tres Rios;RJ;AA
+Uba;MG;AA
+Itabira;MG;AA
+Nova Era;MG;AA
+Divinopolis;MG;AA
+Barueri;SP;AA
+Itapevi;SP;AA
+Osasco;SP;AA
+Sao Paulo;SP;AA
+Taboao Da Serra;SP;AA
+Aruja;SP;AA
+Guarulhos;SP;AA
+Itapui;SP;AA
+Itaquaquecetuba;SP;AA
+Mogi das Cruzes;SP;AA
+Mogi Das Cruzes;SP;AA
+Poa;SP;AA
+Suzano;SP;AA
+Atibaia;SP;AA
+Braganca Paulista;SP;AA
+Vinhedo;SP;AA
+Louveira;SP;AA
+LOUVEIRA;SP;AA
+Piracicaba;SP;AA
+Campinas;SP;AA
+Indaiatuba;SP;AA
+Monte Mor;SP;AA
+Valinhos;SP;AA
+Itapira;SP;AA
+Avare;SP;AA
+Itapetininga;SP;AA
+Itu;SP;AA
+Salto;SP;AA
+Sorocaba;SP;AA
+Votorantim;SP;AA
+Aluminio;SP;AA
+Porto feliz;SP;AA
+Jundiai;SP;AA
+Varzea Paulista;SP;AA
+Batatais;SP;AA
+Franca;SP;AA
+Jaboticabal;SP;AA
+Sao Joaquim Da Barra;SP;AA
+Monte Alto;SP;AA
+Ribeirao Preto;SP;AA
+Morro Agudo;SP;AA
+Lavras;MG;AA
+Passos;MG;AA
+Santa Juliana;MG;AA
+Varginha;MG;AA
+Pederneiras;SP;AA
+Capão Bonito;SP;AA
+Olimpia;SP;AA
+Catanduva;SP;AA
+Jales;SP;AA
+Votuporanga;SP;AA
+Rifaina;SP;AA
+Descalvado;SP;AA
+Sao Carlos;SP;AA
+Lins;SP;AA
+Presidente Prudente;SP;AA
+Tupa;SP;AA
+Pirapozinho;SP;AA
+Clementina;SP;AA
+Assis;SP;AA
+Ourinhos;SP;AA
+Santa Cruz Do Rio Pardo;SP;AA
+Santa Cruz do Rio Pardo;SP;AA
+Paraguaçu Paulista;SP;AA
+Bauru;SP;AA
+Agudos;SP;AA
+Junqueiropolis;SP;AA
+Barretos;SP;AA
+Bebedouro;SP;AA
+Barbacena;MG;AA
+Conselheiro Lafaiete;MG;AA
+Ouro Branco;MG;AA
+Sao Bras Do Suacui;MG;AA
+Sao Joao Del Rei;MG;AA
+Araruama;RJ;AA
+Cabo Frio;RJ;AA
+Campos Dos Goytacazes;RJ;AA
+Marica;RJ;AA
+Sao Pedro da Aldeia;RJ;AA
+Sao Pedro Da Aldeia;RJ;AA
+Campos dos Goytacazes;RJ;AA
+Barra Do Pirai;RJ;AA
+Petropolis;RJ;AA
+PETROPOLIS;RJ;AA
+Rio de Janeiro;RJ;AA
+Rio De Janeiro;RJ;AA
+Itaborai;RJ;AA
+Nova Friburgo;RJ;AA
+Teresopolis;RJ;AA
+Rio das Ostras;RJ;AA
+Angra Dos Reis;RJ;AA
+Itaguai;RJ;AA
+Mesquita;RJ;AA
+Sao Joao de Meriti;RJ;AA
+Sao Joao De Meriti;RJ;AA
+Lagoa Da Prata;MG;AA
+Formiga;MG;AA
+Mariana;MG;AA
+Santa Luzia;MG;AA
+Arceburgo;MG;AA
+Manhumirim;MG;AA
+Carmo da Paranaiba;MG;AA
+Porto Firme;MG;AA
+Confins;MG;AA
+Lagoa Santa;MG;AA
+Nova Lima;MG;AA
+Pedro Leopoldo;MG;AA
+Vespasiano;MG;AA
+Ibirite;MG;AA
+Sao Gotardo;MG;AA
+Tres Marias;MG;AA
+Joao Pinheiro;MG;AA
+Vazante;MG;AA
+Santa Vitoria;MG;AA
+Araguari;MG;AA
+Carbonita;MG;AA
+Montes Claros;MG;AA
+Rio Pardo De Minas;MG;AA
+Diamantina;MG;AA
+Caratinga;MG;AA
+Leopoldina;MG;AA
+Muriae;MG;AA
+Guanhaes;MG;AA
+Timoteo;MG;AA
+Santana do Paraiso;MG;AA
+Araucaria;PR;BB
+Campo Largo;PR;BB
+Quirinopolis;GO;BB
+Cavalcante;GO;BB
+Ceres;GO;BB
+Mambai;GO;BB
+Rio Verde;GO;BB
+Porangatu;GO;BB
+Goiania;GO;BB
+Anapolis;GO;BB
+Goianesia;GO;BB
+Morrinhos;GO;BB
+Sao Luis De Montes Belos;GO;BB
+Buriti Alegre;GO;BB
+Cristalina;GO;BB
+Catalao;GO;BB
+Itumbiara;GO;BB
+Goiatuba;GO;BB
+Brasilia;DF;BB
+Valparaiso de Goias;GO;BB
+Valparaiso De Goias;GO;BB
+Posse;GO;BB
+Estreito;MA;BB
+Araguaina;TO;BB
+Porto Nacional;TO;BB
+Guarai;TO;BB
+Paranaa;TO;BB
+Paraiso do Tocantins;TO;BB
+Imperatriz;MA;BB
+Bacabal;MA;BB
+Sao Luis;MA;BB
+Pedreiras;MA;BB
+Paulino Neves;MA;BB
+Santa Ines;MA;BB
+Acailandia; MA;BB
+Pinheiro;MA;BB
+Marituba;PA;BB
+Curionopolis;PA;BB
+Maraba;PA;BB
+Parauapebas;PA;BB
+Tucurui;PA;BB
+Redencao;PA;BB
+Tucuma;PA;BB
+Santarem;PA;BB
+Barcarena;PA;BB
+Belem;PA;BB
+Capanema;PA;BB
+Castanhal;PA;BB
+Ulianopolis;PA;BB
+Xinguara;PA;BB
+Canaa dos Carajas;PA;BB
+Boa Vista;RR;BB
+Manaus;AM;BB
+Carapicuiba;SP;BB
+Cajamar;SP;BB
+Cotia;SP;BB
+Embu Das Artes;SP;BB
+Ferraz De Vasconcelos;SP;BB
+Mairipora;SP;BB
+Ribeirao Pires;SP;BB
+Santana De Parnaiba;SP;BB
+Niteroi;RJ;BB
+Chapadao Do Sul;MS;BB
+Campo Grande;MS;BB
+Dourados;MS;BB
+Navirai;MS;BB
+Tres Lagoas;MS;BB
+Nova Alvorada do Sul;MS;BB
+Paranaiba;MS;BB
+Canarana;MT;BB
+Querencia;MT;BB
+Caceres;MT;BB
+Pontes E Lacerda;MT;BB
+Colider;MT;BB
+Nova Ubirata;MT;BB
+Sorriso;MT;BB
+Nobres;MT;BB
+Sinop;MT;BB
+Cuiaba;MT;BB
+Rondonopolis;MT;BB
+Rio Branco;AC;BB
+Porto Velho;RO;BB
+Criciuma;SC;CC
+Rio Grande;RS;CC
+Caxias do Sul;RS;CC
+Caxias Do Sul;RS;CC
+Guaiba;RS;CC
+Novo Hamburgo;RS;CC
+Porto Alegre;RS;CC
+Estancia Velha;RS;CC
+Canoas;RS;CC
+Brusque;SC;CC
+Itapoa;SC;CC
+Joinville;SC;CC
+Timbo;SC;CC
+Santa Cecilia;SC;CC
+Tiangua;CE;DD
+Porto Belo;SC;CC
+Herval Do Oeste;SC;CC
+Catanduvas;SC;CC
+Canoinhas;SC;CC
+Tres Barras;SC;CC
+Almenara;MG;AA
+Erechim;RS;CC
+Entre Rios do Sul;RS;CC
+Bage;RS;CC
+Santa Maria;RS;CC
+Teresina;PI;DD
+Arapiraca;AL;DD
+Maceio;AL;DD
+Alagoinhas;BA;DD
+Camacari;BA;DD
+Feira de Santana;BA;DD
+Feira De Santana;BA;DD
+Lauro de Freitas;BA;DD
+Lauro De Freitas;BA;DD
+Salvador;BA;DD
+Brotas de Macaubas;BA;DD
+Vitoria da Conquista;BA;DD
+Vitoria Da Conquista;BA;DD
+Colatina;ES;DD
+Linhares;ES;DD
+Serra;ES;DD
+Vila Velha;ES;DD
+Vitoria;ES;DD
+Sobral;CE;DD
+SOBRAL;CE;DD
+Crateus;CE;DD
+Quixada;CE;DD
+Macaiba;RN;DD
+Mossoro;RN;DD
+Natal;RN;DD
+Parnamirim;RN;DD
+Cabedelo;PB;DD
+Campina Grande;PB;DD
+Conde;PB;DD
+Guarabira;PB;DD
+Joao Pessoa;PB;DD
+Vitoria de Santo Antao;PE;DD
+Timbauba;PE;DD
+Cabo de Santo Agostinho;PE;DD
+Cabo De Santo Agostinho;PE;DD
+Jaboatao dos Guararapes;PE;DD
+Jaboatao Dos Guararapes;PE;DD
+Arcoverde;PE;DD
+Caruaru;PE;DD
+Garanhuns;PE;DD
+GARANHUNS;PE;DD
+Paranatinga;MT;BB
+Ferraz de Vasconcelos;SP;BB
+Goiana;MG;AA
+Ipu;CE;DD
+Trairi ;CE;DD
+Jandaira;RN;DD
+Tucano;BA;DD
+Remanso;BA;DD
+Castelo;ES;DD
+Vicosa;MG;AA
+Visconde Do Rio Branco;MG;AA
+Guaraciaba;MG;AA
+Oratorios;MG;AA
+Piranga;MG;AA
+Itapagipe;MG;AA
+Sao Miguel Do Anta;MG;AA
+Barra Longa;MG;AA
+Joao Monlevade;MG;AA
+Dionisio;MG;AA
+Santa Barbara;MG;AA
+Cubatao;SP;AA
+Guaruja;SP;AA
+Itanhaem;SP;AA
+Peruibe;SP;AA
+Praia Grande;SP;AA
+Registro;SP;AA
+Santos;SP;AA
+Sao Vicente;SP;AA
+Ilha Comprida;SP;AA
+Bom Despacho;MG;AA
+Itauna;MG;AA
+Para De Minas;MG;AA
+Oliveira;MG;AA
+Embu Guacu;SP;AA
+Itatiba;SP;AA
+Americana;SP;AA
+Amparo;SP;AA
+Jaguariuna;SP;AA
+Rio Das Pedras;SP;AA
+Santa Barbara D'Oeste;SP;AA
+Sumare;SP;AA
+Socorro;SP;AA
+Itupeva;SP;AA
+Nova Odessa;SP;AA
+Paulinia;SP;AA
+Angatuba;SP;AA
+Boituva;SP;AA
+Botucatu;SP;AA
+Cerquilho;SP;AA
+Itapeva;SP;AA
+Piraju;SP;AA
+Tatui;SP;AA
+Cerqueira Cezar;SP;AA
+Sao Roque;SP;AA
+Francisco Morato;SP;AA
+Franco Da Rocha;SP;AA
+Cajuru;SP;AA
+Patrocinio Paulista;SP;AA
+Serrana;SP;AA
+Pitangueiras;SP;AA
+Pradopolis;SP;AA
+Cravinhos;SP;AA
+Sertaozinho;SP;AA
+Areado;MG;AA
+Guaxupe;MG;AA
+Sao Sebastiao do Paraiso;MG;AA
+Perdoes;MG;AA
+Alfenas;MG;AA
+Tres Coracoes;MG;AA
+Caraguatatuba;SP;AA
+Jacarei;SP;AA
+Sao Sebastiao;SP;AA
+Ubatuba;SP;AA
+Rosana;SP;AA
+Cacapava;SP;AA
+Campos Do Jordao;SP;AA
+Cruzeiro;SP;AA
+Guaratingueta;SP;AA
+Pindamonhangaba;SP;AA
+Sao Jose dos Campos;SP;AA
+Sao Jose Dos Campos;SP;AA
+Taubate;SP;AA
+Lorena;SP;AA
+Ouroeste;SP;AA
+Buritizal;SP;AA
+Suzanopolis;SP;AA
+Fernandopolis;SP;AA
+Novo Horizonte;SP;AA
+Sao Jose do Rio Preto;SP;AA
+Sao Jose Do Rio Preto;SP;AA
+Orindiuva;SP;AA
+Pontes Gestal;SP;AA
+Itapolis;SP;AA
+Americo Brasiliense;SP;AA
+Araraquara;SP;AA
+Araras;SP;AA
+Boa Esperanca Do Sul;SP;AA
+Ipeuna;SP;AA
+Matao;SP;AA
+Rio Claro;SP;AA
+Conchal;SP;AA
+Limeira;SP;AA
+Mogi Guacu;SP;AA
+Mogi Mirim;SP;AA
+Iracemapolis;SP;AA
+Pocos de Caldas;MG;AA
+Pocos De Caldas;MG;AA
+Pouso Alegre;MG;AA
+Sao Joao da Boa Vista;SP;AA
+Sao Joao Da Boa Vista;SP;AA
+Sao Jose Do Rio Pardo;SP;AA
+Andradina;SP;AA
+Nova Independencia;SP;AA
+Pauliceia;SP;AA
+Dracena;SP;AA
+Quata;SP;AA
+Birigui;SP;AA
+Mirante do Paranapanema;SP;AA
+Aracatuba;SP;AA
+Jau;SP;AA
+Lencois Paulista;SP;AA
+Marilia;SP;AA
+Leme;SP;AA
+Pirassununga;SP;AA
+Porto Ferreira;SP;AA
+Luis Antonio;SP;AA
+Cachoeira de Macacu;RJ;AA
+Barra Mansa;RJ;AA
+Resende;RJ;AA
+Volta Redonda;RJ;AA
+Porto Real;RJ;AA
+Itaocara;RJ;AA
+Cantagalo;RJ;AA
+Carmo;RJ;AA
+Belford Roxo;RJ;AA
+Nilopolis;RJ;AA
+Campo Belo;MG;AA
+Itajuba;MG;AA
+Sao Lourenco;MG;AA
+Ouro Preto;MG;AA
+Itabirito;MG;AA
+Itarare;SP;AA
+Jaguariaiva;SP;AA
+Adamantina;SP;AA
+Pompeia;SP;AA
+Guarapuava;PR;AA
+Laranjeiras Do Sul;PR;AA
+Paranagua;PR;AA
+Paranacity;PR;AA
+Ponta Grossa;PR;AA
+Saudade do iguaçu;PR;AA
+Ibipora;PR;AA
+Londrina;PR;AA
+Marialva;PR;AA
+Maringa;PR;AA
+Francisco Beltrao;PR;AA
+Cascavel;PR;AA
+Uniao Da Vitoria;PR;AA
+Ibaiti;PR;AA
+Irati;PR;AA
+Wenceslau Braz;PR;AA
+Senges;PR;AA
+Rio Negro;PR;AA
+Jussara;PR;AA
+Apucarana;PR;AA
+Arapongas;PR;AA
+Cornelio Procopio;PR;AA
+Cianorte;PR;AA
+Mandaguari;PR;AA
+Jacarezinho;PR;AA
+Cambe;PR;AA
+Ortigueira;PR;AA
+California;PR;AA
+Loanda;PR;AA
+Pato Branco;PR;AA
+Foz do Iguacu;PR;AA
+Foz Do Iguacu;PR;AA
+Medianeira;PR;AA
+Toledo;PR;AA
+Curiuva;PR;AA
+Arapoti;PR;AA
+Carambei;PR;AA
+Castro;PR;AA
+Telemaco Borba;PR;AA
+Nova Londrina;PR;AA
+Paranavai;PR;AA
+Nossa Senhora das Graças;PR;AA
+Colombo;PR;BB
+Senador Canedo;GO;BB
+Goianira;GO;BB
+Cacu;GO;BB
+Perolandia;GO;BB
+Chapadao Do Ceu;GO;BB
+Edeia;GO;BB
+Pedro Afonso;TO;BB
+Codo;MA;BB
+Bom Jesus do Tocantins;PA;BB
+Vitoria Do Xingu;PA;BB
+Sao Miguel do Araguaia;GO;BB
+Santana;AP;BB
+Santa Isabel do Para;PA;BB
+Benevides;PA;BB
+Novo Progresso;PA;BB
+Caieiras;SP;BB
+Guararema;SP;BB
+Itapecerica Da Serra;SP;BB
+Sao Goncalo;RJ;BB
+Sao Gabriel do Oeste;MS;BB
+Alto Taquari;MS;BB
+Costa Rica;MS;BB
+Ribas do Rio Pardo;MS;BB
+Amambai;MS;BB
+Rio Brilhante;MS;BB
+Sidrolandia;MS;BB
+Agua Boa;MT;BB
+Nova Olimpia;MT;BB
+Guaranta Do Norte;MT;BB
+Sao Jose do Rio Claro;MT;BB
+Sao Jose Do Rio Claro;MT;BB
+Santa Rita do Trivelato;MT;BB
+São Felix do Araguaia;MT ;BB
+Sao Jose do Xingu;MT;BB
+Diamantino;MT;BB
+Cruzeiro Do Sul;AC;BB
+Ararangua;SC;CC
+Palhoca;SC;CC
+PALHOCA;SC;CC
+Tubarao;SC;CC
+Santa Vitoria Do Palmar;RS;CC
+Candiota;RS;CC
+Pelotas;RS;CC
+Jaguarao;RS;CC
+Camaqua;RS;CC
+Lagoa Vermelha;RS;CC
+Alvorada;RS;CC
+Bento Goncalves;RS;CC
+Cachoeirinha;RS;CC
+Canela;RS;CC
+Garibaldi;RS;CC
+Gravatai;RS;CC
+Lajeado;RS;CC
+LAJEADO;RS;CC
+Montenegro;RS;CC
+Sapucaia Do Sul;RS;CC
+Soledade;RS;CC
+Taquara;RS;CC
+Triunfo;RS;CC
+Dois Irmãos;RS;CC
+Esteio;RS;CC
+Gramado;RS;CC
+Igrejinha;RS;CC
+Osorio;RS;CC
+Santo Antonio da Patrulha;RS;CC
+Torres;RS;CC
+Viamao;RS;CC
+Palmares do Sul;SC;CC
+Vacaria;RS;CC
+Blumenau;SC;CC
+Gaspar;SC;CC
+Rio do Sul;SC;CC
+Rio Do Sul;SC;CC
+Sao Francisco Do Sul;SC;CC
+Otacilio Costa;SC;CC
+Ituporanga;SC;CC
+Guaramirim;SC;CC
+Fraiburgo;SC;CC
+Balneario Camboriu;SC;CC
+Tijucas;SC;CC
+Itapema;SC;CC
+Rio Negrinho;SC;CC
+Piratuba;SC;CC
+Cacador;SC;CC
+Joacaba;SC;CC
+Lages;SC;CC
+Mafra;SC;CC
+Porto Uniao;SC;CC
+Sao Miguel D'Oeste;SC;CC
+Xanxere;SC;CC
+XANXERE;SC;CC
+SAO MIGUEL DO OESTE;SC;CC
+Xaxim;SC;CC
+Cruz Alta;RS;CC
+Panambi;RS;CC
+Passo Fundo;RS;CC
+Santa Rosa;RS;CC
+Tapejara;RS;CC
+Tres De Maio;RS;CC
+Tres Passos;RS;CC
+Palmeira das Missoes;RS;CC
+Marau;RS;CC
+Carazinho;RS;CC
+Flores da Cunha;RS;CC
+Santiago;RS;CC
+Horizontina;RS;CC
+Alegrete;RS;CC
+Cachoeira do Sul;RS;CC
+Cachoeira Do Sul;RS;CC
+Julio De Castilho;RS;CC
+Sao Borja;RS;CC
+Sao Gabriel;RS;CC
+Uruguaiana;RS;CC
+Rosario Do Sul;RS;CC
+Bom Jesus;PI;DD
+Lagoa do Barro do Piaui;PI;DD
+Baixa Grande Do Ribeiro;PI;DD
+Luis Eduardo Magalhaes;BA;DD
+Igreja Nova;AL;DD
+Coruripe;AL;DD
+Itabaiana;SE;DD
+Aracaju;SE;DD
+ARACAJU;SE;DD
+Aracajú;SE;DD
+Itaporanga D'Ajuda;SE;DD
+Candeias;MG;DD
+Mulungu do Morro;BA;DD
+Santo Antonio de Jesus;BA;DD
+Santo Antonio De Jesus;BA;DD
+SANTO ANTONIO DE JESUS;BA;DD
+Correntina;BA;DD
+Seabra;BA;DD
+Eunapolis;BA;DD
+Ilheus;BA;DD
+Itabuna;BA;DD
+Aracruz;ES;DD
+Nova Venecia;ES;DD
+Sao Mateus;ES;DD
+Venda Nova Do Imigrante;ES;DD
+Cachoeiro de Itapemirim;ES;DD
+Cachoeiro De Itapemirim;ES;DD
+Sao Goncalo Do Amarante;CE;DD
+Cruz;CE;DD
+Eusebio;CE;DD
+Fortaleza;CE;DD
+Itapipoca;CE;DD
+Maracanau;CE;DD
+Itarema;CE;DD
+Icapui;CE;DD
+Lajes;RN;DD
+Areia Branca;RN;DD
+Barauna;RN;DD
+Barreiras;BA;DD
+Iguatu;CE;DD
+Juazeiro do Norte;CE;DD
+Juazeiro Do Norte;CE;DD
+Senhor do Bonfim;BA;DD
+Senhor Do Bonfim;BA;DD
+SENHOR DO BONFIM;BA;DD
+Patos;PB;DD
+Olinda;PE;DD
+Recife;PE;DD
+Ouricuri;PE;DD
+Araripina;PE;DD
+Paulo Afonso;BA;DD
+Mirassol D'Oeste;MT;BB
+Campo Mourao;PR;AA
+Umuarama;PR;AA
+Itapissuma;PE;DD
+Pau dos Ferros;RN;DD
+Ipora;GO;BB
+Uruacu;GO;BB
+Aparecida De Goiania;GO;BB
+Cidade Ocidental;GO;BB
+Caldas Novas;GO;BB
+Formosa;GO;BB
+Luziania;GO;BB
+Taguatinga;DF;BB
+Raposa;MA;BB
+Caxias;MA;BB
+Chapadinha;MA;BB
+Balsas;MA;BB
+Oriximina;PA;BB
+Paragominas;PA;BB
+Corumbiara;RO;BB
+Florianopolis;SC;CC
+Sao Jose;SC;CC
+Sao Leopoldo;RS;CC
+Nova Prata;RS;CC
+Nova Russas;CE;DD
+Itajai;SC;CC
+Jaragua do Sul;SC;CC
+Jaragua Do Sul;SC;CC
+Curitibanos;SC;CC
+Videira;SC;CC
+Chapeco;SC;CC
+Concordia;SC;CC
+Aratiba;RS;CC
+Frederico Westphalen;RS;CC
+Santana Do Livramento;RS;CC
+Santa Cruz do Sul;RS;CC
+Santa Cruz Do Sul;RS;CC
+Parnaiba;PI;DD
+Floriano;PI;DD
+São Miguel dos Campos;AL;DD
+Rio Largo;AL;DD
+Nossa Senhora Do Socorro;SE;DD
+Umburanas;BA;DD
+Capim Grosso;BA;DD
+Irece;BA;DD
+Jacobina;BA;DD
+Itaberaba;BA;DD
+Bom Jesus Da Lapa;BA;DD
+Jequie;BA;DD
+Afonso Claudio;ES;DD
+Cariacica;ES;DD
+Guarapari;ES;DD
+Viana;ES;DD
+Caucaia;CE;DD
+Quixeramobim;CE;DD
+Caico;RN;DD
+Petrolina;PE;DD
+Bayeux;PB;DD
+Sousa;PB;DD
+Cajazeiras;PB;DD
+Carpina;PE;DD
+CARPINA;PE;DD
+Ipojuca;PE;DD
+Afogados da Ingazeira;PE;DD
+Salgueiro;PE;DD
+Palmeiras De Goias;GO;BB
+Macapa;AP;BB
+Biguacu;SC;CC
+Picos;PI;DD
+Serrinha;BA;DD
+Valenca;BA;DD
+Barrocas;BA;DD
+Simoes Filho;BA;DD
+Brumado;BA;DD
+Porto Seguro;BA;DD
+Teixeira De Freitas;BA;DD
+Livramento De Nossa Senhora;BA;DD
+Mucuri;BA;DD
+Juazeiro;BA;DD
+Serra Talhada;PE;DD
+Parauna;GO;BB
+Alta Floresta;MT;BB
+Sao Bento do Sul;SC;CC
+Sao Bento Do Sul;SC;CC
+Santo Angelo;RS;CC
+Lagarto;SE;DD
+Caetite;BA;DD
+Guanambi;BA;DD
+Ibotirama;BA;DD
+Corumba;MS;BB
+CORUMBA;MS;BB
+Bataguassu;MS;BB
+Campo Verde;MT;BB
+Navegantes;SC;CC
+Jatai;GO;BB
+Mineiros;GO;BB
+Gurupi;TO;BB
+Coxim;MS;BB
+Bonito;MS;BB
+Jardim;MS;BB
+Aquidauana;MS;BB
+Caarapo;MS;BB
+Camapua;MS;BB
+Maracaju;MS;BB
+Nova Andradina;MS;BB
+Ponta Pora;MS;BB
+Confresa;MT;BB
+Barra Do Garcas;MT;BB
+Campo Novo Do Parecis;MT;BB
+Juara;MT;BB
+Lucas Do Rio Verde;MT;BB
+Santo Antonio Do Leste;MT;BB
+Itiquira;MT;BB
+Nova Mutum;MT;BB
+Primavera Do Leste;MT;BB
+Juina;MT;BB
+Tangara Da Serra;MT;BB
+Ariquemes;RO;BB
+Buritis;RO;BB
+Cerejeiras;RO;BB
+Ji Parana;RO;BB
+Vilhena;RO;BB
+Altamira;PA;BB
+Cavalhada;RS;CC
+Brasnorte;MT;BB
+Dona Ines;MA;BB
+
