@@ -29,6 +29,7 @@ class Delivery:
         self.cars = []
         self.total_morphology = 0
         self.total_distance = 0
+        self.cost = 0
 
     def add_car(self, vin, model, origin, destination, city, morphology):
         if self.total_morphology + morphology <= MAX_MORPHOLOGY:
@@ -65,16 +66,28 @@ class Delivery:
         self.total_distance = total_distance
         return total_distance
 
+    def calculate_cost(self, costs):
+        # Encontrar a faixa de custo apropriada
+        for km, cost_per_km in sorted(costs.items(), key=lambda x: x[0], reverse=True):
+            if self.total_distance >= km:
+                self.cost = self.total_distance * cost_per_km
+                break
+        return self.cost
+    
 # Classe para representar uma solução
 class Solution:
     def __init__(self, deliveries):
         self.deliveries = deliveries
         self.fitness = float('inf')
+        self.total_cost = 0
+        self.total_distance = 0
 
-    def calculate_fitness(self, distances, total_cars):
-        total_distance = sum(delivery.calculate_distance(distances) for delivery in self.deliveries)
+    def calculate_fitness(self, distances, costs, total_cars):
+        self.total_distance = sum(delivery.calculate_distance(distances) for delivery in self.deliveries)
+        self.total_cost = sum(delivery.calculate_cost(costs) for delivery in self.deliveries)
         penalty = self.calculate_penalty(total_cars)
-        self.fitness = total_distance + penalty
+        #self.fitness = total_distance + penalty
+        self.fitness = (self.total_distance * 0.3) + (self.total_cost * 0.7) + penalty
         return self.fitness
 
     def calculate_penalty(self, total_cars):
@@ -91,8 +104,8 @@ class Solution:
                 penalty += (IDEAL_MORPHOLOGY - delivery.total_morphology) * 100
             
             # Penalidade para rotas com poucos carros
-            if len(delivery.cars) < 3:
-                penalty += (3 - len(delivery.cars)) * 100
+            if len(delivery.cars) < 5:
+                penalty += (5 - len(delivery.cars)) * 100
         
         return penalty
 
@@ -278,7 +291,7 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
     for generation in range(generations):
         # Avaliar a população
         for solution in population:
-            solution.calculate_fitness(distances, total_cars)
+            solution.calculate_fitness(distances, costs, total_cars)
         
         # Ordenar a população pelo fitness
         population.sort(key=lambda x: x.fitness)
@@ -324,7 +337,7 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
             
             # Aplicar busca local com uma certa probabilidade
             if random.random() < 0.1:  # 10% de chance de aplicar busca local
-                child = local_search(child, distances, total_cars)
+                child = local_search(child, distances, costs, total_cars)
             
             new_population.append(child)
         
@@ -332,7 +345,7 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
     
     return best_solution
 
-def local_search(solution, distances, total_cars):
+def local_search(solution, distances, costs, total_cars):
     
     for _ in range(10):  # Número de iterações da busca local
         route1, route2 = random.sample(solution.deliveries, 2)
@@ -345,7 +358,7 @@ def local_search(solution, distances, total_cars):
             route2.cars.append(car1)
     
     # Recalcular o fitness após a busca local
-    solution.calculate_fitness(distances, total_cars)
+    solution.calculate_fitness(distances, costs, total_cars)
     return solution
 
 
@@ -368,6 +381,8 @@ def save_solution_to_json(solution, filename=None):
     solution_dict = {
         "fitness": solution.fitness,
         "total_routes": len(solution.deliveries),
+        "total_distance": solution.total_distance,
+        "total_routes": solution.total_cost,
         "total_cars_allocated": sum(len(delivery.cars) for delivery in solution.deliveries),
         "deliveries": [
             {
@@ -377,7 +392,8 @@ def save_solution_to_json(solution, filename=None):
                 "period": d.period,
                 "dock": d.dock,
                 "total_morphology": convert_to_serializable(d.total_morphology),
-                "total_distance": convert_to_serializable(d.total_distance),
+                "distance": convert_to_serializable(d.total_distance),
+                "cost": convert_to_serializable(d.cost),
                 "cars": [
                     {
                         "vin": car['vin'],
@@ -468,6 +484,8 @@ def main():
     
         print("Melhor solução encontrada:")
         print(f"Fitness: {best_solution.fitness}")
+        print(f"Distância total: {best_solution.total_distance:.2f}")
+        print(f"Custo total: {best_solution.total_cost:.2f}")
         print(f"Número total de rotas: {len(best_solution.deliveries)}")
         print(f"Número total de carros alocados: {sum(len(delivery.cars) for delivery in best_solution.deliveries)}")
         for delivery in best_solution.deliveries:
@@ -476,6 +494,7 @@ def main():
             print(f"Dia: {delivery.day}, Período: {delivery.period}, Doca: {delivery.dock}")
             print(f"Morfologia total: {delivery.total_morphology}")
             print(f"Distância total: {delivery.total_distance}")
+            print(f"Custo da rota: {delivery.cost:.2f}")
             print("Carros:")
             for car in delivery.cars:
                 print(f"  VIN: {car['vin']}, Modelo: {car['model']}, Destino: {car['destination']}")
