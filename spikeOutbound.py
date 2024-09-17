@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 
 # Configuração de logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Constantes
 NUM_DOCAS = 9
@@ -31,14 +31,15 @@ class Delivery:
         self.total_distance = 0
         self.cost = 0
 
-    def add_car(self, vin, model, origin, destination, city, morphology):
-        if self.total_morphology + morphology <= MAX_MORPHOLOGY:
+    def add_car(self, vin, model, origin, destination, city, state, morphology):
+        if self.total_morphology + morphology <= MAX_MORPHOLOGY and morphology > 0:
             self.cars.append({
                 'vin': vin,
                 'model': model,
                 'origin': origin,
                 'destination': destination,
                 'city': city,
+                'state': state,
                 'morphology': morphology
             })
             self.total_morphology += morphology
@@ -143,75 +144,86 @@ def read_costs(file_path):
 # Função para gerar uma população inicial
 def generate_initial_population(outbound_data, carriers, morphologies, population_size):
     population = []
-    max_attempts = MAX_ATTEMPTS
     total_cars = len(outbound_data)
 
     for _ in range(population_size):
-        attempts = 0
-        while attempts < max_attempts:
-            deliveries = []
-            unassigned_cars = outbound_data.copy()
-            route_id = 1
+        deliveries = []
+        unassigned_cars = outbound_data.copy()
+        unassigned_mask = pd.Series(True, index=unassigned_cars.index)
+        route_id = 1
 
-            while not unassigned_cars.empty:
-                available_cities = unassigned_cars['Cidade'].unique()
-                possible_carriers = set.union(*[set(carriers.get(city, [])) for city in available_cities])
-                if not possible_carriers:
-                    logging.warning(f"Não há transportadoras disponíveis para as cidades restantes: {available_cities}")
-                    break
-
-                carrier = random.choice(list(possible_carriers))
-                
-                day = random.randint(1, MAX_DAYS)
-                period = random.choice(['morning', 'afternoon'])
-                dock = f"Doca{random.randint(1, NUM_DOCAS)}"
-                
-                delivery = Delivery(f"Route{route_id}", carrier, day, period, dock)
-                
-                # Criar uma cópia explícita dos carros elegíveis
-                eligible_cars = unassigned_cars[unassigned_cars['Cidade'].isin([city for city, carrier_list in carriers.items() if carrier in carrier_list])].copy()
-                
-                # Adicionar a coluna de morfologia
-                eligible_cars['morphology'] = eligible_cars['Modelo'].map(morphologies)
-                
-                # Ordenar carros por morfologia (do maior para o menor)
-                eligible_cars = eligible_cars.sort_values('morphology', ascending=False)
-                
-                cars_added = 0
-                for _, car in eligible_cars.iterrows():
-                    if car['Modelo'] not in morphologies:
-                        logging.warning(f"Modelo {car['Modelo']} não encontrado em morphologies")
-                        continue
-                    if delivery.add_car(car['VIN'], car['Modelo'], car['Origem'], car['Destino'], car['Cidade'], car['morphology']):
-                        unassigned_cars = unassigned_cars[unassigned_cars['VIN'] != car['VIN']]
-                        cars_added += 1
-                    
-                    if delivery.total_morphology >= IDEAL_MORPHOLOGY or len(delivery.cars) >= 11:
-                        break
-                
-                if delivery.cars:
-                    deliveries.append(delivery)
-                    route_id += 1
-                    logging.debug(f"Rota {route_id-1} criada com {cars_added} carros, morfologia total: {delivery.total_morphology}")
-                else:
-                    logging.debug(f"Não foi possível adicionar carros à rota {route_id} para a transportadora {carrier}")
-
-            if unassigned_cars.empty:
-                solution = Solution(deliveries)
-                population.append(solution)
-                logging.info(f"Solução válida gerada com {len(deliveries)} rotas após {attempts + 1} tentativas")
+        while unassigned_mask.any():
+            # Selecionar uma cidade com carros não alocados
+            cities_with_unassigned_cars = unassigned_cars.loc[unassigned_mask, 'Cidade']
+            if cities_with_unassigned_cars.empty:
                 break
-            else:
-                logging.debug(f"Tentativa {attempts + 1}: {len(unassigned_cars)} carros não alocados")
-                attempts += 1
+            city = cities_with_unassigned_cars.value_counts().idxmax()
 
-        if attempts >= max_attempts:
-            logging.warning(f"Não foi possível gerar uma solução válida após {max_attempts} tentativas.")
+            # Selecionar uma transportadora que atenda a cidade
+            possible_carriers = carriers.get(city, [])
+            if not possible_carriers:
+                # Marcar os carros desta cidade como não alocáveis
+                unassigned_mask &= unassigned_cars['Cidade'] != city
+                continue
+            carrier = random.choice(possible_carriers)
 
-    if not population:
-        raise ValueError("Não foi possível gerar nenhuma solução válida para a população inicial.")
+            day = random.randint(1, MAX_DAYS)
+            period = random.choice(['morning', 'afternoon'])
+            dock = f"Doca{random.randint(1, NUM_DOCAS)}"
+
+            delivery = Delivery(f"Route{route_id}", carrier, day, period, dock)
+
+            # Adicionar carros da mesma cidade à rota
+            city_mask = (unassigned_cars['Cidade'] == city) & unassigned_mask
+            city_cars = unassigned_cars[city_mask]
+
+            for idx, car in city_cars.iterrows():
+                morphology = morphologies.get(car['Modelo'], None)
+                if morphology is None:
+                    continue
+                if delivery.add_car(car['VIN'], car['Modelo'], car['Origem'], car['Destino'], car['Cidade'], car['Estado'], morphology):
+                    unassigned_mask.at[idx] = False
+                else:
+                    break  # Se não puder adicionar mais carros, parar
+
+            # Se ainda houver capacidade, adicionar carros do mesmo estado
+            if delivery.total_morphology < MAX_MORPHOLOGY:
+                state = car['Estado']  # Usar o estado da cidade atual
+                state_mask = (unassigned_cars['Estado'] == state) & unassigned_mask & (~city_mask)
+                state_cars = unassigned_cars[state_mask]
+
+                for idx, car in state_cars.iterrows():
+                    morphology = morphologies.get(car['Modelo'], None)
+                    if morphology is None:
+                        continue
+                    if delivery.add_car(car['VIN'], car['Modelo'], car['Origem'], car['Destino'], car['Cidade'], car['Estado'], morphology):
+                        unassigned_mask.at[idx] = False
+                    else:
+                        break  # Se não puder adicionar mais carros, parar
+
+            # Se ainda houver capacidade, adicionar carros de outros estados
+            if delivery.total_morphology < MAX_MORPHOLOGY:
+                other_mask = unassigned_mask & (~city_mask) & (~state_mask)
+                other_cars = unassigned_cars[other_mask]
+                for idx, car in other_cars.iterrows():
+                    morphology = morphologies.get(car['Modelo'], None)
+                    if morphology is None:
+                        continue
+                    if delivery.add_car(car['VIN'], car['Modelo'], car['Origem'], car['Destino'], car['Cidade'], car['Estado'], morphology):
+                        unassigned_mask.at[idx] = False
+                    else:
+                        break  # Se não puder adicionar mais carros, parar
+
+            if delivery.cars:
+                deliveries.append(delivery)
+                route_id += 1
+
+        solution = Solution(deliveries)
+        population.append(solution)
 
     return population
+
+
 
 # Função de seleção por torneio
 def tournament_selection(population, tournament_size):
@@ -223,59 +235,88 @@ def crossover(parent1, parent2):
     child_deliveries = []
     used_cars = set()
     
-    for delivery in parent1.deliveries + parent2.deliveries:
-        new_delivery = Delivery(delivery.route_id, delivery.carrier, delivery.day, delivery.period, delivery.dock)
-        for car in delivery.cars:
-            if car['vin'] not in used_cars and new_delivery.add_car(**car):
-                used_cars.add(car['vin'])
-        if new_delivery.cars:
-            child_deliveries.append(new_delivery)
+    # Escolher pontos de corte
+    size = min(len(parent1.deliveries), len(parent2.deliveries))
+    if size < 2:
+        return parent1  # Não é possível aplicar crossover
     
-    return Solution(child_deliveries)
+    cx_point1 = random.randint(0, size - 2)
+    cx_point2 = random.randint(cx_point1 + 1, size - 1)
+    
+    # Iniciar o filho com rotas do primeiro pai entre os pontos de corte
+    child_routes = parent1.deliveries[cx_point1:cx_point2]
+    used_cars = {car['vin'] for delivery in child_routes for car in delivery.cars}
+    
+    # Preencher o restante com rotas do segundo pai sem duplicar carros
+    for delivery in parent2.deliveries:
+        if all(car['vin'] not in used_cars for car in delivery.cars):
+            child_routes.append(delivery)
+            used_cars.update(car['vin'] for car in delivery.cars)
+    
+    # Adicionar rotas faltantes do primeiro pai, se necessário
+    for delivery in parent1.deliveries:
+        if all(car['vin'] not in used_cars for car in delivery.cars):
+            child_routes.append(delivery)
+            used_cars.update(car['vin'] for car in delivery.cars)
+    
+    # **Remover entregas vazias após o crossover**
+    child_routes = [delivery for delivery in child_routes if delivery.cars]
+    
+    # Criar a nova solução filho com as rotas resultantes
+    return Solution(child_routes)
+
+
 
 # Função de mutação
 def mutate(solution, carriers, mutation_rate):
-    for delivery in solution.deliveries:
-        if random.random() < mutation_rate:
-            # Mudar transportadora
-            if delivery.cars:
-                common_carriers = set.intersection(*[set(carriers[car['city']]) for car in delivery.cars])
-                if common_carriers:
-                    delivery.carrier = random.choice(list(common_carriers))
-                else:
-                    # Se não houver transportadora comum, escolha uma aleatória que possa atender pelo menos uma cidade
-                    possible_carriers = set.union(*[set(carriers[car['city']]) for car in delivery.cars])
-                    if possible_carriers:
-                        delivery.carrier = random.choice(list(possible_carriers))
-        
-        if random.random() < mutation_rate:
-            # Mudar dia ou período
-            delivery.day = random.randint(1, MAX_DAYS)
-            delivery.period = random.choice(['morning', 'afternoon'])
-        
-        if random.random() < mutation_rate:
-            # Mudar doca
-            delivery.dock = f"Doca{random.randint(1, NUM_DOCAS)}"
-        
-        if random.random() < mutation_rate:
-            # Tentar adicionar ou remover um carro
-            if delivery.cars and len(delivery.cars) > 1:
-                removed_car = delivery.cars.pop()
-                delivery.total_morphology -= removed_car['morphology']
-            elif len(delivery.cars) < len(solution.deliveries):
-                other_delivery = random.choice(solution.deliveries)
-                if other_delivery.cars:
-                    car_to_move = other_delivery.cars.pop()
-                    other_delivery.total_morphology -= car_to_move['morphology']
-                    if delivery.add_car(**car_to_move):
-                        pass
-                    else:
-                        other_delivery.add_car(**car_to_move)
-    
+    deliveries = solution.deliveries
+    num_mutations = max(1, int(len(deliveries) * mutation_rate))
+
+    # Mutação de troca de carros entre entregas, respeitando o agrupamento
+    for _ in range(num_mutations):
+        delivery1, delivery2 = random.sample([d for d in deliveries if d.cars], 2)
+        if delivery1 != delivery2:
+            # Verificar se as entregas são do mesmo agrupamento (cidade ou estado)
+            cities_delivery1 = set(car['city'] for car in delivery1.cars)
+            cities_delivery2 = set(car['city'] for car in delivery2.cars)
+
+            # Permitir trocas apenas se as entregas tiverem cidades em comum ou estados em comum
+            if cities_delivery1 & cities_delivery2:
+                # Cidades em comum, pode trocar
+                pass
+            else:
+                states_delivery1 = set(car['state'] for car in delivery1.cars)
+                states_delivery2 = set(car['state'] for car in delivery2.cars)
+                if not states_delivery1 & states_delivery2:
+                    continue  # Não trocar se não houver estados em comum
+
+            car1 = random.choice(delivery1.cars)
+            car2 = random.choice(delivery2.cars)
+
+            # Calcular nova morfologia após a troca
+            new_morph1 = delivery1.total_morphology - car1['morphology'] + car2['morphology']
+            new_morph2 = delivery2.total_morphology - car2['morphology'] + car1['morphology']
+
+            # Verificar se a troca é válida
+            if new_morph1 <= MAX_MORPHOLOGY and new_morph2 <= MAX_MORPHOLOGY:
+                # Trocar os carros
+                delivery1.cars.remove(car1)
+                delivery1.cars.append(car2)
+                delivery1.total_morphology = new_morph1
+
+                delivery2.cars.remove(car2)
+                delivery2.cars.append(car1)
+                delivery2.total_morphology = new_morph2
+
+    # Remover entregas vazias, se houver
+    solution.deliveries = [delivery for delivery in deliveries if delivery.cars]
+
     return solution
 
+
+
 # Algoritmo genético principal
-def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, population_size=100, generations=200, tournament_size=5, crossover_rate=0.8, mutation_rate=0.2, reset_threshold=50, reset_percentage=0.3):
+def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, population_size=100, generations=300, tournament_size=5, crossover_rate=0.8, mutation_rate=0.2, reset_threshold=50, reset_percentage=0.3):
     total_cars = len(outbound_data)
     
     try:
@@ -301,14 +342,14 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
             best_fitness = population[0].fitness
             best_solution = population[0]
             generations_without_improvement = 0
-            logging.info(f"Generation {generation + 1}: New Best Fitness = {best_fitness}")
+            print(f"Generation {generation + 1}: New Best Fitness = {best_fitness:.2f}, Total Cost = {best_solution.total_cost:.2f}, Total Distance = {best_solution.total_distance:.2f}")
         else:
             generations_without_improvement += 1
-            logging.info(f"Generation {generation + 1}: Best Fitness = {best_fitness}")
+            print(f"Generation {generation + 1}: Best Fitness = {best_fitness:.2f}, Total Cost = {best_solution.total_cost:.2f}, Total Distance = {best_solution.total_distance:.2f}")
         
         # Verificar se é necessário fazer reset parcial
         if generations_without_improvement >= reset_threshold:
-            logging.info(f"Resetting {reset_percentage*100}% of the population due to {generations_without_improvement} generations without improvement")
+            print(f"Resetting {reset_percentage*100}% of the population due to {generations_without_improvement} generations without improvement")
             reset_size = int(population_size * reset_percentage)
             try:
                 new_individuals = generate_initial_population(outbound_data, carriers, morphologies, reset_size)
@@ -334,6 +375,7 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
                 child = random.choice([parent1, parent2])
             
             child = mutate(child, carriers, mutation_rate)
+
             
             # Aplicar busca local com uma certa probabilidade
             if random.random() < 0.1:  # 10% de chance de aplicar busca local
@@ -346,20 +388,44 @@ def genetic_algorithm(outbound_data, carriers, morphologies, distances, costs, p
     return best_solution
 
 def local_search(solution, distances, costs, total_cars):
-    
     for _ in range(10):  # Número de iterações da busca local
-        route1, route2 = random.sample(solution.deliveries, 2)
-        if route1.cars and route2.cars:
-            car1 = random.choice(route1.cars)
-            car2 = random.choice(route2.cars)
-            route1.cars.remove(car1)
-            route2.cars.remove(car2)
-            route1.cars.append(car2)
-            route2.cars.append(car1)
-    
+        delivery1, delivery2 = random.sample([d for d in solution.deliveries if len(d.cars) > 0], 2)
+        if delivery1 != delivery2:
+            # Verificar se as entregas são do mesmo agrupamento (cidade ou estado)
+            cities_delivery1 = set(car['city'] for car in delivery1.cars)
+            cities_delivery2 = set(car['city'] for car in delivery2.cars)
+
+            if cities_delivery1 & cities_delivery2:
+                # Cidades em comum, pode trocar
+                pass
+            else:
+                states_delivery1 = set(car['state'] for car in delivery1.cars)
+                states_delivery2 = set(car['state'] for car in delivery2.cars)
+                if not states_delivery1 & states_delivery2:
+                    continue  # Não trocar se não houver estados em comum
+
+            car1 = random.choice(delivery1.cars)
+            car2 = random.choice(delivery2.cars)
+
+            # Calcular nova morfologia após a troca
+            new_morph1 = delivery1.total_morphology - car1['morphology'] + car2['morphology']
+            new_morph2 = delivery2.total_morphology - car2['morphology'] + car1['morphology']
+
+            # Verificar se a troca é válida
+            if new_morph1 <= MAX_MORPHOLOGY and new_morph2 <= MAX_MORPHOLOGY:
+                # Trocar os carros
+                delivery1.cars.remove(car1)
+                delivery1.cars.append(car2)
+                delivery1.total_morphology = new_morph1
+
+                delivery2.cars.remove(car2)
+                delivery2.cars.append(car1)
+                delivery2.total_morphology = new_morph2
+
     # Recalcular o fitness após a busca local
     solution.calculate_fitness(distances, costs, total_cars)
     return solution
+
 
 
 
@@ -423,10 +489,10 @@ def main():
     costs = read_costs('costOutbound.csv')
     
     # Verificar dados
-    logging.info(f"Número de morfologias: {len(morphologies)}")
-    logging.info(f"Número de cidades com transportadoras: {len(carriers)}")
+    print(f"Número de morfologias: {len(morphologies)}")
+    print(f"Número de cidades com transportadoras: {len(carriers)}")
     logging.info(f"Número de distâncias: {len(distances)}")
-    logging.info(f"Número de carros para entrega (após filtragem): {len(outbound_data)}")
+    print(f"Número de carros para entrega: {len(outbound_data)}")
     logging.info(f"Número de faixas de custo: {len(costs)}")
     
     # Verificar se todos os modelos em outbound_data têm uma morfologia correspondente
@@ -448,7 +514,7 @@ def main():
     total_morphology = sum(outbound_data['Modelo'].map(morphologies))
     logging.info(f"Morfologia total de todos os carros: {total_morphology}")
     estimated_min_routes = total_morphology / MAX_MORPHOLOGY
-    logging.info(f"Número mínimo estimado de rotas necessárias: {estimated_min_routes:.2f}")
+    print(f"Número mínimo estimado de rotas necessárias: {estimated_min_routes:.2f}")
 
     # Imprimir informações detalhadas sobre os carros
     logging.info("Detalhes dos carros para entrega:")
@@ -471,7 +537,7 @@ def main():
             logging.error(f"  {origin} -> {destination}")
 
    # Executar o algoritmo genético
-    logging.info("Iniciando o algoritmo genético...")
+    print("Iniciando o algoritmo genético...")
     best_solution = genetic_algorithm(outbound_data, carriers, morphologies, distances, costs)
     
     if best_solution:
