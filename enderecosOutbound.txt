@@ -1,0 +1,257 @@
+830709, PR, São José dos Pinhais, Bairro Borda do Campo, Av. Renault, 1300, Borda do Campo
+27537000, RJ, RESENDE, Rodovia Presidente Dutra,  Km 298
+31250010, MG, Belo Horizonte, Caiçara, Av. Presidente Carlos Luz, 1.155
+31748038, MG, Belo Horizonte, ROD PAPA JOAO PAULO II 1990, LOJA 2
+1, MG, Belo Horizonte
+31275083, MG, Belo Horizonte , São Luiz, Av. Pres.. Antônio Carlos, 7951
+31750083, MG, BELO HORIZONTE, AV. PRES.. ANTÔNIO CARLOS, 7951
+30494270, MG, BELO HORIZONTE, ESTORIL, Av Barão Homem de Melo, 3560 Bloco B
+15025000, SP, São José do Rio Preto, Boa Vista, Av. Baddy Bassit, 5350
+1, MG, Uberlandia
+38408100, MG, UBERLANDIA, AV JOAO NAVES DE AVILA 3330
+SP, Ribeirao Preto, AV MARIA DE JESUS CONDEIXA 1315
+1, MG, Patrocinio
+28970000, RJ, Araruama, Paraty, Rod Amaral Peixoto Km 90 Lt 1 Qd 25
+28940000, RJ, São Pedro da Aldeia, Balneario São Pedro da Aldeia, Rod Amaral Peixoto Km 106 Mod 1
+1, RJ, Macae
+RJ, Macaé, Botafogo, Av. Lacerda Agostinho,  s/n, Área de Virgem Santa
+1, RJ, Marica
+28051250, RJ, Campos dos Goytacazes, Parque Leopoldina, Rua Doutor Silvio Bastos Tavares, 9
+28020801, RJ, CAMPOS DOS GOYTACAZES, Parque Turf Club, Av. Senador Tarcisio Miranda, 561-569
+13478540, SP, Americana, Tripoli, Av. Nossa Senhora de Fatima, 2499
+1, SP, Rio Claro
+13503183, SP, Rio Claro, Cidade Claret, Av Presidente Tancredo de Almeida Neves, 800
+13570672, SP, São Carlos, Vilas Alpes, Av. Getulio Vargas, 727
+1, SP, Araras
+1, SP, Louveira
+13041300, SP, Campinas, R IBIUNA 106, SALA 03
+SP, Sao Paulo, R RICARDO CAVATTON 348
+87300005, PR, Campo Mourao, AV CAPITAO INDIO BANDEIRA 2499
+86070545, PR, Londrina, Jd Shangri-la, Av Tiradentes, 977
+1, PR, Londrina
+1, PR, Maringa
+87030120, PR, Maringá, Zona 07, Av. Colombo, 3981
+88117000, SC, São José, Barreiros, Rua Leoberto Leal, 250
+88161080, SC, Biguacu, Universitario, Rua Conego Rodolfo Machado, 500
+88133015, SC, Palhoca, Passa Vinte, Rua Madre Paulina, S/N
+1, SC, Navegantes
+94930615, RS, Cachoeirinha, Distrito Industrial, Av. Cruzeiro, 840, Pavilhão 1A
+93510060, Vila Nova, Novo Hamburgo, Av. Nicolau Becker, 220
+96413000, RS, Bage, Santa Tecla, Av. Santa Tecla, 2030
+97015513, RS, Santa Maria, Centro, Av. Presidente Vargas, 2121
+97070805, RS, Santa Maria, AV HELVIO BASSO 1277, LOTE A-1
+1, RS, Santa Cruz do Sul
+RS, Santa Cruz do Sul, ROD BR-471 S/N, KM 124
+58410185, PB, Campina Grande, catole, Av. Prefeito Severino Bezerra Cabral
+1, RN, Natal
+59140970, RN, Parnamirim, Pq das Nações, Av dos Astros 75
+54510000, PE, Cabo de Santo Agostinho, Centro, Ante BR 101 Sul 2220, km 92
+55295610, PE, GARANHUNS, HELIOPOLIS, AV EUCLIDES DOURADO 214
+41295360, BA, Salvador, Piraja, R. Elisio Mesquita, 610
+41730101, BA, Salvador, Paralela, AV LUIS VIANA FILHO, 6700
+1, CE, JUAZEIRO DO NORTE
+63040000, CE, JUAZEIRO DO NORTE, LAGOA SECA, AV DEPUTADO LEAO SAMPAIO, 501
+58900000, PB, Cajazeiras, Jardim Oasis, Rua Rotary, 1467
+56328000, PE, Petrolina, Vila Eduardo , AV. Monsenhor Angelo Sampaio, 940
+29162702, ES, Serra , Planalto de Carapina , Rod. Governador Mario Covas, 135 - Loja C
+29056186, ES, VITORIA, AV LEITAO DA SILVA 1484
+60150050, CE, Fortaleza, Aldeota, Av. Julio Ventura, 100
+1, CE, FORTALEZA
+60191156, CE, Fortaleza, Manuel Dias Branco, Av Santos Dumont, 7600
+1, RJ, Niteroi
+24350310, RJ, Niterói, Piratininga, Estrada Francisco da Cruz Nunes,  4718 Lote 26 Qd 424
+09820135, SP, São Bernardo do Campo, Demarchi, Av. Nicola Demarchi, 1500
+09551020, SP, São Caetano do Sul, Barcelona, Rua Antonio Galo, 301
+MS, Dourados, AV MARCELINO PIRES 8360
+1, MS, Corumba
+79040335, MS, Campo Grande, Chacara Cachoeira, Avenida Ministro João Arinos, 4701
+1, MS, Campo Grande
+65071380, MA, Sao Luis, Av AVENIDA DOS HOLANDESES, 7
+65076820, MA, São Luís, Jaracaty, Avenida Professor Carlos Cunha, 144
+83005450, PR, São José dos Pinhais, Centro, Av. das Torres, 2800
+1, PR, Sao Jose dos Pinhais
+AM, Manaus, AV DJALMA BATISTA 3505, PAVMTOC
+69048010, AM, Manaus, Da Paz, Avenida Torquato Tapajos, 1290 PAVMTOE
+67013000, PA, Ananindeua, Atalaia, AC BR 316 KM 02, 220 - Loja 02
+69906214, AC, Rio Branco, Triângulo Velho, Via Chico Mendes, 2280
+57052400, AL, Maceio, Gruta de Lourdes, Av. Fernandes lima, 3595
+MACEIO, GRUTA DE LOURDES, Av. Fernandes Lima, 3204
+68900067, AP, Macapa, Centro, Rua Leopoldo Machado, 1981
+47807510, BA, Barreiras, Vila Rica, Rod BR-020, 209
+1, BA, BARREIRAS
+45827000, BA, Eunápolis, Motor, Av Antonio Carlos Magalhães 300
+44077750, BA, Feira de Santana, Santa Monica, Av. Presidente Dutra, 2771
+44075516, BA, Feira de Santana, PONTO CENTRAL, AV PRESIDENTE DUTRA, 1180
+1, BA, SALVADOR
+41745130, BA, Salvador, Trobogy, Av. Luiz Viana, 6700
+42700000, BA, LAURO DE FREITAS, ITINGA, Av. Santos Dumont, 2376
+45023000, BA, Vitoria da Conquista, Jurema, Av. Bartolomeu de Gusmao, 583
+60192024, CE, Fortaleza, Coco, Av. Santos Dumont, 7580
+60140230, CE, Fortaleza, aldeota, Av. Julio Ventura
+1, DF, Brasilia
+DF, Brasilia, AV COMERCIAL LTE 04
+71200040, DF, Brasilia, Sia Sul, Trecho 4 Lotes 690/720
+DF, BRASILIA
+71950550, DF, Brasilia, Aguas Claras, Quadra QS 1, Rua 212, n°19,20, Lotes 19, 21 e 23, Parte A
+29075010, ES, Vitoria, goiabeiras, Av. Fernando Ferrari
+GO, ANAPOLIS
+75124145, GO, ANAPOLIS, Setor Sul Jamil Miguel, Av. Brasil, 3639 Quadra 15 lote 01
+1, GO, Goiania
+74810030, GO, Goiânia, Jd.Goiás, Av. E - C/ Rua 62, C/ Rua 53, Quadra B-23 , Lotes 01-15/22 -24A, S/N
+75533020, GO, ITUMBIARA, NOSSA SRA. APARECIDA, Av. Modesto de Carvalho, 3250
+GO, RIO VERDE
+35164840, MG, Ipatinga, Novo Cruzeiro, Av. Claudio Moura, 801
+1, MG, Juiz De Fora
+36033000, MG, Juiz de Fora, Teixeiras, Av Deusdedith Salgado, 2630
+1, MG, Montes Claros
+MG, Montes Claros, AV DEPUTADO ESTEVES RODRIGUES 1379
+37704355, MG, Poços de Caldas, Jd Elizabete, Av Mansur Frayha, 1255
+MG, Pouso Alegre, Ipiranga, ROD JK (BR 459) KM: 107
+35701242, MG, Sete Lagoas, Sao Jorge, Av. Marechal Castelo Branco, 1340
+MG, Unai, R PREFEITO JOAO COSTA 780
+37026080, MG, Varginha, Jd. Andere, Av. Princesa do Sul, 891 -  Loja 01
+MT, Cuiaba, AV MIGUEL SUTIL 1841
+1, MT, Cuiaba
+78065000, MT, CUIABA, JD. KENNEDY, Av. Fernando Correa da Costa, 1682
+78710186, MT, Rondonopolis, Jardim Guanabara II, RUA FERNANDO CORREA DA COSTA 3328, 3328
+78550528, MT, Sinop, Industrial Norte, Rua Colonizador Enio Pipino, 4804
+78115805, MT, Varzea Grande, Ponte Nova, Avenida da FEB, 1533 - Lote Manga
+67020000, PA, ANANINDEUA, aGUAS LINDAS, Rod. BR 316 Km 04, 3530
+68508050, PA, Marabá, Nova Marabá, Rua Folha 32 Quadra 05 Lotes 20B/21/21B/22/23, S/N
+1, PA, Maraba
+68515000, PA, Parauapebas, Lot Nova Carajas I, Rod Pa 275, Qd 101 Lote 45
+58040000, PB, Joao Pessoa, Tambauzinho, Av. Presidente Epitacio Pessoa, 2122
+PB, JOAO PESSOA
+54270165, PE, Jabotao dos Guararapes, Curado,  Rua 80, nº330 lote 01 Quadra B
+1, PE, Recife
+1, PI, Teresina
+64049010, PI, Teresina, Bairro dos Noivos, Av. João XXIII, 1950
+85816290, PR, Cascavel, São Cristovão, Av. Brasil, 1339
+80220001, PR, Curitiba, Parolin, Av. Marechal Floriano Peixoto, 3588
+80050010, PR, Curitiba, Alto da XV, Av. Marechal Deodoro, 2262
+80710370, PR, Curitiba, Campina do Siqueira, Rua Otelo Queirolo, nº 252
+85601275, PR, Fco. Beltrão, Av. Luiz Antonio Faedo, 2001
+85055010, PR, Guarapuava, AV MANOEL RIBAS 4638
+85055010, PR, Guarapuava, Conradinho, Av. Manoel Ribas, 4638
+25085370, RJ, Duque de Caxias, AV KENNEDY 179, LETRA A
+59609700, RN, Mossoro, Nova Betania, Avenida João da Escóssia, 925
+76806640, RO, Porto Velho, Bairro Floresta, Rua da Beira E 5770 Parte B
+69301000, RR, Boa Vista, Centro, Av. Ville Roy, 5403 - Sl. E
+95700000, RS, Bento Goncalves, Planalto, Av. Humberto de Alencar Castelo Branco, 618
+RS, Cachoeirinha, AVENIDA GENERAL FLORES DA CUNH 3653
+RS, PORTO ALEGRE
+95054030, RS, Caxias Do Sul, sagrada família, Av. Rubens Bento Alves
+95054030, RS, Caxias do Sul, Juventude, Av. Rubem Bento Alves, 536
+1, RS, Caxias do Sul
+99708292, RS, Erechim, Pres. Castelo Branco, Rod. BR-153, 2840
+98700000, RS, IjuI, Sol Nascente, Av. Coronel Dico, 1626
+95913176, RS,  Lajeado ,  São Cristovão,  Rod. BR 386, n° 1951 - KM 346
+RS, Novo Hamburgo
+99030284, RS, Passo Fundo, Boqueirão , Av. Brasil Oeste 3880
+96065030, RS, Pelotas, Três Vendas, Av. Augusto Simões Lopes, 06
+91740001, RS, Porto Alegre, Cavalhadas, Av Cavalhada, 2097
+97095465, RS, Santa Maria, km 3, Av. João Pozzobon
+93025000, RS, São Leopoldo, São João Batista, Av. Getulio Vargas, 1100A
+95600000, RS, Taquara, Santa Maria, Av Fernando Ferrari, 3360
+97510431, RS, Uruguaiana, Centro, Av. Presidente Vargas, 3511
+88900000, SC, Ararangua, Cidade Alta, Av. 7 de Setembro, 838
+89012000, SC, Blumenau, Victor Konder, Rua São Paulo, 470
+89500000, SC, Cacador, São Cristóvão, Av Engenheiro Lourenço Faoro 975
+89460000, SC, Canoinhas, Campo Água Verde, Av Rubens Ribeiro da Silva, 720
+89804000, SC, CHAPECO, PASSO DOS FORTES, Rua 21 de Abril, 280
+89805096, SC, Chapeco, Passo dos Fortes , Rua Francisco Alvez - Impar, 250 E
+89700000, SC, Concórdia, São Cristóvão, Rua Tancredo de Almeida Neves, 5110
+88801001, SC, Criciúma, Prospera, Av. Centenario, 5820
+88035001, SC, Florianópolis, Itacorubi, Av. Madre Benvenuta, 1850
+88048000, SC, Florianópolis, Rio Tavares, Rodovia SC 405, 619
+1, SC, Florianopolis
+88095070, SC, FLORIANOPOLIS, JARDIM ATLÂNTICO, Rua Max Schrann, 3805
+88035000, SC, FLORIANOPOLIS, SANTA MONICA, Av. Madre Benvenuta, 1720
+88307303, SC, Itajai, AV VEREADOR ABRAHAO JOAO FRANC 3055
+89600000, SC, Joaçaba, Centro, Av. Rio Branco, 288
+89204002, SC, Joinville, América, Rua Dr. João Collin, 2200
+88523090, SC, Lages, Coral, Av. Presidente Vargas, 1515
+89300000, SC, Mafra, Jd. America, R. Tenente Geronazzo, 325
+89163020, SC, Rio do Sul, ROD BR 470 5800, SL 02
+88700000, SC, Tubarao, Vila Esperança, Rua Januario Correa Bitencourtt, 369
+49055020, SE, Aracaju, Getulio Vargas, TV Adauto Botelho, 100
+16015535, SP, Araçatuba, Vila Bandeirantes, Av Brasilia 920
+1, SP, Aracatuba
+14801538, SP, Araraquara, Jd dos Manacas, Rua Raphael Lucas Martinez, 924
+12942530, SP, Atibaia, Alvinópolis, Av. Prof. Carlos Alberto Carvalho, 402
+06455001, SP, Barueri , Alphaville Industrial , Alameda Araguaia, 2299 Sala 4
+1, SP, Botucatu
+SP, Braganca Paulista, AV DOM PEDRO I 1600
+13092523, SP, Campinas, Vila Brandina, AV. Mackenzie, 1715
+SP, FROBIG-Cotia
+SP, FROBIG-Guarulhos
+9852040, SP, São Bernardo do Campo, Cooperativa, Estrada Particular Eiji Kikuti 90
+13338010, SP, Indaiatuba, Vila Vitoria I, Av. Visconde de Indaiatuba, 775
+13309640, SP, São Paulo, São Paulo, ITU, Av. Tiradentes, 432 - Parque Indutrial
+13215276, SP, Jundiaí, Vila Rio Branco, Av. Antonio Frederico Ozana, 6161
+13486190, SP, Limeira, Jd. Nereide, Av. Major Levy Sobrinho, 2565 Bl B
+SP, FROBIG-Mogi das Cruzes
+8735200, SP, Mogi das Cruzes, Vila Cidinha, Av. Francisco Ferreira Lopes, 46
+8735000, SP, MOGI DAS CRUZES, CENTRO, Av. Fernando Costa, 863
+13800207, SP, Mogi Mirim, Jardim Aurea, Rua Padre Roque, 1993
+sp, FROBIG-Osasco
+1, SP, Piracicaba
+13420901, SP, Piracicaba, Sertaozinho, Estrada Piracicaba - Tupi s/n
+SP, Presidente Prudente, AV JOAQUIM CONSTANTINO 1895
+SP, Presidente Prudente, AV JOAQUIM CONSTANTINO 1895, SALA 3
+11050201, SP, Santos, Vila Mathias, Av. Washington Luiz, 21
+1, SP, Sao Bernardo do Campo
+9810250, SP, S. Bernardo do  Campo, Assunção, Av. João Firmino, 100
+1, SP, Sao Jose do Rio Preto
+4260020, SP, São Paulo, Ipiranga, Av. Dr Ricardo Jafet, 1.301
+03295000, SP, São Paulo, Vila Prudente, Av. Prof Luiz Ignacio Anhaia Mello, 3555
+04795913, SP, SAO PAULO, VILA ALMEIDA, AV. das Nações Unidas , 21.612- Prédio 1
+05533000, SP, SAO PAULO, Instituto Previdencia , Avenida Eliseu de Almeida, 732
+08070000, SP, Sao Paulo, Vila Norma, AV São Miguel, 8878
+9632050, SP, Sao Paulo, R GUMERCINDO FLEURY 70
+SP, FROBIG-Sao Paulo
+SP, Sao Paulo, R PRAIA DO TUMIARU 110
+02190120, SP, Sao Paulo, Parque Novo Mundo, R Da Baracela, S/N, Parte 2
+1, SP, Sao Paulo
+08070000, SP , São Paulo , Vila Norma , Avenida São Miguel, 8870
+1, SP, Sorocaba
+2, SP, Sorocaba, Cerrado, Av. Armando Pannunzio, 776
+08630000, SP, Suzano, Palmeiras, Rod Indio Tibirica, 14650
+SP, FROBIG-Suzano
+15500051, SP, Votuporanga, Parque Brasilia, Av Brasil, 4948
+77001010, TO, Palmas, Plano Diretor Norte, Quadra 101 Norte, Avenida NS 1, Conjunto 02, Lote 11, Sala 1A
+TO, Palmas, QUADRA 101 NORTE, AVEN S/N, LOTE 11
+21515001, RJ, Rio de Janeiro, Barros Filho, Av. Brasil, 20431
+21021550, RJ, Rio de Janeiro, Olaria, Rua Pirangi, 102
+1, RJ, Rio de Janeiro
+25655171, RJ, Petrópolis, Coronel Veiga, Rua Coronel Veiga, 888
+76963749, RO, CACOAL, CENTRO, AVENIDA AMAZONAS, 2018
+18706243, SP, AVARE, COLINA DA BOA VISTA, R. LUIZ PEREIRA DIAS, 26
+9550051, SP, Sao Caetano do Sul, BARCELONA, Rua Tapajos, 97
+SC, XANXERE
+83206000, PR, Paranaguá, Estradinha, Alameda Coronel Elisio Pereira
+35030970, MG, VILA BRETAS, GOVERNADOR VALADARES, AV. JK, 674
+96845545, RS, SANTA CRUZ DO SUL, SCHULZ, Rod BR 471- KM 56, 3510
+BA, ALAGOINHAS
+1, PR, Almirante Tamandaré
+89900000, SC, SAO MIGUEL DO OESTE, SAO GOTARDO, R WILLY BARTH, 1868
+13323505, SP, Jardim Santa Cruz, Salto, AV MARECHAL RONDON 1920
+77817805, TO, ARAGUAINA, SETOR ALASKA, Av. Marginal Neblina , s/n
+1, Mt, Barra do Garcas
+32669900, MG, BETIM, AV DO CONTORNO 1750
+1, RJ, Barra Mansa
+RJ, Barra Mansa, RODOVIA LЪCIO MEIRA 170
+44436612, BA, Santo Antonio de Jesus, Renato Machado, Rua TV Barro Vermelho, 90 - Loja A BR
+55819317, PE, Carpina, Bairro Novo, ROD BR 408 - 945 - LOJA
+1, GO, Mineiros
+48970000, BA, Senhor do Bonfim, Rodovia, Rodovia Lomanto Junior BR 407 S/N
+MG, Itabira, R SANTA MARIA 145
+86700055, PR, ARAPONGAS, RUA ANDORINHAS, 100, 100
+86700055, PR, ARAPONGAS, CENTRO, RUA ANDORINHAS, 100
+62050255, CE, Sobral, Dom Expedito, Av. Monsenhor Jose Aloisio Pinto, 585
+1, BA, LAURO DE FREITAS
+SP, POA
+1, PB, Bayeux
+49025620, SE, ARACAJU, JARDINS, Avenida Presidente Tancredo Neves, 600
+RS, AOLAJEADO, ROD BR-386 1951
+
