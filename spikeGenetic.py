@@ -11,13 +11,12 @@ logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(levelname)s 
 
 # Classe Delivery
 class Delivery:
-    def __init__(self, route_id, vehicle, vehicle_id, day, period, total_distance):
+    def __init__(self, route_id, vehicle, vehicle_id, day, period):
         self.route_id = route_id
         self.vehicle = vehicle
         self.vehicle_id = vehicle_id
         self.day = day
         self.period = period
-        self.total_distance = total_distance
         self.stops = []
 
     def add_stop(self, supplier, material, quantity_m3, quantity_ton, distance):
@@ -28,6 +27,10 @@ class Delivery:
             "quantity_ton": quantity_ton,
             "distance": distance
         })
+
+    @property
+    def total_distance(self):
+        return sum(stop['distance'] for stop in self.stops)
 
 # Classe base ClausulaRestritiva
 class ClausulaRestritiva:
@@ -172,7 +175,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week,
     best_fitness_global = float('inf')
     generations_without_improvement = 0
     total_restarts = 0
-    max_restarts = 20
+    max_restarts = 50
     
     while total_restarts < max_restarts:
         population = generate_population(materials, suppliers, vehicles, densities, population_size, max_trips_per_week)
@@ -207,7 +210,7 @@ def genetic_algorithm(materials, suppliers, vehicles, costs, max_trips_per_week,
             else:
                 print(f"Geração {generation + 1}: Ainda não foi encontrada uma solução válida")
             
-            if generations_without_improvement >= 50:
+            if generations_without_improvement >= 20:
                 print(f"Estagnação detectada após {generations_without_improvement} gerações. Reiniciando população.")
                 break
             
@@ -487,15 +490,14 @@ def mutate(solution, mutation_rate, materials, suppliers, vehicles):
                         continue
                     
                     available_suppliers = suppliers[suppliers[stop['material']] == 'X']
-                    logging.debug(f"Mutação de fornecedor para material {stop['material']}")
-                    logging.debug(f"Fornecedores disponíveis: {available_suppliers['Fornecedor'].tolist()}")
-                    
                     if not available_suppliers.empty:
                         new_supplier = random.choice(available_suppliers['Fornecedor'].tolist())
+                        new_distance = suppliers.loc[suppliers['Fornecedor'] == new_supplier, 'DistanciaEntrega_km'].values[0]
                         stop['supplier'] = new_supplier
-                        stop['distance'] = suppliers.loc[suppliers['Fornecedor'] == new_supplier, 'DistanciaEntrega_km'].values[0]
+                        stop['distance'] = new_distance
                     else:
                         logging.warning(f"Nenhum fornecedor disponível para o material {stop['material']}")
+
             
             elif mutation_type == 'vehicle':
                 total_m3 = sum(stop['quantity_m3'] for stop in delivery.stops)
@@ -578,7 +580,7 @@ def create_random_delivery(materials, suppliers, vehicles, vehicle_counters):
     vehicle_counters[vehicle] += 1
     vehicle_id = f"{vehicle}_{vehicle_counters[vehicle]}"
     
-    new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period, distance)
+    new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period)
     new_delivery.add_stop(supplier, material, quantity_m3, quantity_ton, distance)
     
     return new_delivery
@@ -737,7 +739,6 @@ def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehic
                         start_time = day * 2 + (0.5 if period == 'morning' else 1)
                         end_time = start_time + route_time
 
-                        # Extrair apenas o início e o fim do período para a verificação
                         existing_times = [(slot[0], slot[0] + calculate_route_time(slot[2])) 
                                           for slot in vehicle_usage[vehicle_row.Veiculo]]
 
@@ -754,7 +755,7 @@ def allocate_direct_load(material, remaining_m3, remaining_ton, suppliers, vehic
                 vehicle_counters[vehicle_row.Veiculo] += 1
                 vehicle_id = f"{vehicle_row.Veiculo}_{vehicle_counters[vehicle_row.Veiculo]}"
                 
-                new_delivery = Delivery(f"Route{vehicle_counters[vehicle_row.Veiculo]}", vehicle_row.Veiculo, vehicle_id, day, period, distance)
+                new_delivery = Delivery(f"Route{vehicle_counters[vehicle_row.Veiculo]}", vehicle_row.Veiculo, vehicle_id, day, period)
                 new_delivery.add_stop(supplier, material, load_m3, load_ton, distance)
                 new_deliveries.append(new_delivery)
                 remaining_m3 -= load_m3
@@ -864,7 +865,7 @@ def allocate_load_with_distance_check(material, remaining_m3, remaining_ton, sup
             if available_time_slot:
                 vehicle_counters[vehicle] += 1
                 vehicle_id = f"{vehicle}_{vehicle_counters[vehicle]}"
-                new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period, total_distance)
+                new_delivery = Delivery(f"Route{vehicle_counters[vehicle]}", vehicle, vehicle_id, day, period)
                 for supplier, load_m3, load_ton, distance in route:
                     new_delivery.add_stop(supplier, material, load_m3, load_ton, distance)
                 new_deliveries.append(new_delivery)
@@ -892,33 +893,27 @@ def gerar_solucao_inicial(materials, suppliers, vehicles, densities, max_trips_p
             day = random.randint(1, 5)
             period = random.choice(['morning', 'afternoon'])
 
-            route = Delivery(f"Route{route_counter}", vehicle, f"{vehicle}_{route_counter}", day, period, 0)
-            total_distance = 0
+            route = Delivery(f"Route{route_counter}", vehicle, f"{vehicle}_{route_counter}", day, period)
+ 
             route_m3 = 0
             route_ton = 0
 
             available_suppliers = suppliers[suppliers[material] == 'X']
-            for _, supplier_row in available_suppliers.iterrows():
-                if route_m3 >= vehicle_row['Capacidade_m3'] or route_ton >= vehicle_row['Capacidade_ton']:
-                    break
+            supplier_row = random.choice(available_suppliers.index)
+            supplier = suppliers.loc[supplier_row, 'Fornecedor']
+            distance = suppliers.loc[supplier_row, 'DistanciaEntrega_km']
+            
+            load_m3 = min(remaining_m3, vehicle_row['Capacidade_m3'])
+            load_ton = min(remaining_ton, vehicle_row['Capacidade_ton'])
 
-                supplier = supplier_row['Fornecedor']
-                distance = supplier_row['DistanciaEntrega_km']
-                
-                load_m3 = min(remaining_m3, vehicle_row['Capacidade_m3'] - route_m3)
-                load_ton = min(remaining_ton, vehicle_row['Capacidade_ton'] - route_ton)
+            if load_m3 > 0 and load_ton > 0:
+                route.add_stop(supplier, material, load_m3, load_ton, distance)
+                remaining_m3 -= load_m3
+                remaining_ton -= load_ton
 
-                if load_m3 > 0 and load_ton > 0:
-                    route.add_stop(supplier, material, load_m3, load_ton, distance)
-                    route_m3 += load_m3
-                    route_ton += load_ton
-                    remaining_m3 -= load_m3
-                    remaining_ton -= load_ton
-                    total_distance += distance
-
-            route.total_distance = total_distance
-            deliveries.append(route)
-            route_counter += 1
+            if route.stops:
+                deliveries.append(route)
+                route_counter += 1
 
     return Solucao(deliveries, vehicles, max_trips_per_week)
 
@@ -1186,22 +1181,22 @@ def print_solution(solution):
     
 # Funções para ler os arquivos CSV
 def read_material_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
 def read_supplier_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
 def read_cost_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
 def read_vehicle_data(file_path):
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=';')
     df.columns = df.columns.str.strip()
     return df
 
@@ -1328,9 +1323,9 @@ def main():
         return
 
     # Configuração dos parâmetros do algoritmo genético
-    population_size = 50
-    generations = 100
-    elite_size = 5
+    population_size = 100
+    generations = 1000
+    elite_size = 10
     log_input_data(materials, suppliers, vehicles)
     
     difficulty = estimate_problem_difficulty(materials, suppliers, vehicles, max_trips_per_week)

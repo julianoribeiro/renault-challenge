@@ -1,8 +1,8 @@
-Fornecedor,M1,M2,M3,M4,DistanciaEntrega_km,Fornecedor1,Fornecedor2,Fornecedor3,Fornecedor4,Fornecedor5
-Fornecedor1,X,X,,,100,0,150,250,300,400
-Fornecedor2,,X,X,X,200,150,0,100,200,350
-Fornecedor3,X,,,X,300,250,100,0,150,300
-Fornecedor4,,X,X,,400,300,200,150,0,100
-Fornecedor5,X,,,X,500,400,350,300,100,0
+Fornecedor;M1;M2;M3;M4;DistanciaEntrega_km;Fornecedor1;Fornecedor2;Fornecedor3;Fornecedor4;Fornecedor5
+Fornecedor1;X;X;;;100;0;150;250;300;400
+Fornecedor2;;X;X;X;200;150;0;100;200;350
+Fornecedor3;X;;;X;300;250;100;0;150;300
+Fornecedor4;;X;X;;400;300;200;150;0;100
+Fornecedor5;X;;;X;500;400;350;300;100;0
 
 

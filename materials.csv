@@ -1,6 +1,6 @@
-Material,Quantidade_m3,Quantidade_ton
-M1,500,300
-M2,1500,250
-M3,120,200
-M4,300,50
+Material;Quantidade_m3;Quantidade_ton
+M1;500;300
+M2;1500;250
+M3;120;200
+M4;300;50
 

@@ -1,0 +1,293 @@
+{
+    "deliveries": [
+        {
+            "route_id": "Route1",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_1",
+            "day": 3,
+            "period": "morning",
+            "total_distance": 100,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M1",
+                    "quantity_m3": 284.1954128542752,
+                    "quantity_ton": 37.27152955465905,
+                    "distance": 100
+                }
+            ]
+        },
+        {
+            "route_id": "Route2",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_2",
+            "day": 3,
+            "period": "afternoon",
+            "total_distance": 500,
+            "stops": [
+                {
+                    "supplier": "Fornecedor5",
+                    "material": "M1",
+                    "quantity_m3": 86.94008146867989,
+                    "quantity_ton": 21.101961521524245,
+                    "distance": 500
+                }
+            ]
+        },
+        {
+            "route_id": "Route3",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_3",
+            "day": 4,
+            "period": "afternoon",
+            "total_distance": 300,
+            "stops": [
+                {
+                    "supplier": "Fornecedor3",
+                    "material": "M1",
+                    "quantity_m3": 71.86453029180055,
+                    "quantity_ton": 43.11871817508032,
+                    "distance": 300
+                }
+            ]
+        },
+        {
+            "route_id": "Route4",
+            "vehicle": "CarretaReta",
+            "vehicle_id": "CarretaReta_4",
+            "day": 5,
+            "period": "afternoon",
+            "total_distance": 300,
+            "stops": [
+                {
+                    "supplier": "Fornecedor3",
+                    "material": "M1",
+                    "quantity_m3": 49.01996732206688,
+                    "quantity_ton": 29.41198039324013,
+                    "distance": 300
+                }
+            ]
+        },
+        {
+            "route_id": "Route5",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_24",
+            "day": 1,
+            "period": "afternoon",
+            "total_distance": 400,
+            "stops": [
+                {
+                    "supplier": "Fornecedor4",
+                    "material": "M2",
+                    "quantity_m3": 116.06638153367535,
+                    "quantity_ton": 28.171451828561977,
+                    "distance": 400
+                }
+            ]
+        },
+        {
+            "route_id": "Route6",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_6",
+            "day": 1,
+            "period": "afternoon",
+            "total_distance": 200,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 172.4493804529645,
+                    "quantity_ton": 28.74156340882742,
+                    "distance": 200
+                }
+            ]
+        },
+        {
+            "route_id": "Route7",
+            "vehicle": "Fiorino",
+            "vehicle_id": "Fiorino_7",
+            "day": 1,
+            "period": "morning",
+            "total_distance": 100,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M2",
+                    "quantity_m3": 1.9528450407559168,
+                    "quantity_ton": 0.4328104413517997,
+                    "distance": 100
+                }
+            ]
+        },
+        {
+            "route_id": "Route8",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_8",
+            "day": 4,
+            "period": "morning",
+            "total_distance": 100,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M2",
+                    "quantity_m3": 224.8645284955817,
+                    "quantity_ton": 21.07224596776436,
+                    "distance": 100
+                }
+            ]
+        },
+        {
+            "route_id": "Route9",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_9",
+            "day": 4,
+            "period": "morning",
+            "total_distance": 400,
+            "stops": [
+                {
+                    "supplier": "Fornecedor4",
+                    "material": "M2",
+                    "quantity_m3": 223.39961300049652,
+                    "quantity_ton": 29.29830990170446,
+                    "distance": 400
+                }
+            ]
+        },
+        {
+            "route_id": "Route10",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_10",
+            "day": 5,
+            "period": "morning",
+            "total_distance": 400,
+            "stops": [
+                {
+                    "supplier": "Fornecedor4",
+                    "material": "M2",
+                    "quantity_m3": 223.39961300049652,
+                    "quantity_ton": 29.29830990170446,
+                    "distance": 400
+                }
+            ]
+        },
+        {
+            "route_id": "Route11",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_11",
+            "day": 4,
+            "period": "afternoon",
+            "total_distance": 100,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M2",
+                    "quantity_m3": 116.06638153367535,
+                    "quantity_ton": 28.171451828561977,
+                    "distance": 100
+                }
+            ]
+        },
+        {
+            "route_id": "Route12",
+            "vehicle": "CarretaReta",
+            "vehicle_id": "CarretaReta_12",
+            "day": 2,
+            "period": "afternoon",
+            "total_distance": 200,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 87.4624666409803,
+                    "quantity_ton": 14.577077773496715,
+                    "distance": 200
+                }
+            ]
+        },
+        {
+            "route_id": "Route14",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_14",
+            "day": 2,
+            "period": "morning",
+            "total_distance": 100,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M2",
+                    "quantity_m3": 223.39961300049652,
+                    "quantity_ton": 29.29830990170446,
+                    "distance": 100
+                }
+            ]
+        },
+        {
+            "route_id": "Route15",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_15",
+            "day": 1,
+            "period": "afternoon",
+            "total_distance": 200,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 107.40152137829739,
+                    "quantity_ton": 33.367462952480736,
+                    "distance": 200
+                }
+            ]
+        },
+        {
+            "route_id": "Route16",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_16",
+            "day": 5,
+            "period": "morning",
+            "total_distance": 400,
+            "stops": [
+                {
+                    "supplier": "Fornecedor4",
+                    "material": "M2",
+                    "quantity_m3": 110.93917730087712,
+                    "quantity_ton": 21.74836081164986,
+                    "distance": 400
+                }
+            ]
+        },
+        {
+            "route_id": "Route18",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_18",
+            "day": 3,
+            "period": "morning",
+            "total_distance": 300,
+            "stops": [
+                {
+                    "supplier": "Fornecedor3",
+                    "material": "M4",
+                    "quantity_m3": 201.64394444710783,
+                    "quantity_ton": 45.8281691925245,
+                    "distance": 300
+                }
+            ]
+        },
+        {
+            "route_id": "Route19",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_19",
+            "day": 2,
+            "period": "morning",
+            "total_distance": 300,
+            "stops": [
+                {
+                    "supplier": "Fornecedor3",
+                    "material": "M4",
+                    "quantity_m3": 97.50857407536199,
+                    "quantity_ton": 23.66712962994223,
+                    "distance": 300
+                }
+            ]
+        }
+    ]
+}
