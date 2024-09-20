@@ -2,7 +2,7 @@ Quantidade; Veiculo;Comprimento_m;Largura_m;Altura_m;Capacidade_m3;Capacidade_to
 40;BitremTopSidercomDolly(Kautex/Behr/Autometal);12.5;2.6;3.07;198.25;26.0
 60;BitremTopSider(ValeoTérmico);12.5;2.6;3.05;199.55;18.7
 10;CarretaMegaSider;14.8;2.5;3.13;110.0;25.0
-15;CarretaReta;14.8;2.5;2.8;96.0;25.0
+15;CarretaReta;14.8;2766767.0;2.8;96.0;25.0
 8;CarretaRebaixada;14.8;2.5;3.2;103.0;25.0
 10;CarretaRetaVanderleia(cavalo4x2);15.0;2.5;2.85;103.0;27.0
 10;CarretaRetaVanderleia(cavalo6x2);15.0;2.5;2.85;103.0;32.0
