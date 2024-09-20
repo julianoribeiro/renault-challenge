@@ -1,0 +1,6 @@
+numpy==2.1.1
+ortools==9.11.4210
+pandas==2.2.2
+plotly==5.24.1
+python-dotenv==1.0.1
+streamlit==1.38.0
