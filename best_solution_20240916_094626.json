@@ -1,0 +1,29 @@
+{
+    "fitness": 14492662.044652835,
+    "total_distance": 162.0397297881959,
+    "total_cost": 1587.9893519243199,
+    "total_routes": 1,
+    "total_cars_allocated": 1,
+    "deliveries": [
+        {
+            "route_id": "Route229",
+            "carrier": "CC",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca9",
+            "total_morphology": 1.0,
+            "total_distance": 162.0397297881959,
+            "cost": 1587.9893519243199,
+            "cars": [
+                {
+                    "vin": "93YCARRO001001018",
+                    "model": "Kardian",
+                    "origin": "830709, PR, S\u00e3o Jos\u00e9 dos Pinhais, Bairro Borda do Campo, Av. Renault, 1300, Borda do Campo",
+                    "destination": "88307303, SC, Itajai, AV VEREADOR ABRAHAO JOAO FRANC 3055",
+                    "city": "Itajai",
+                    "morphology": 1.0
+                }
+            ]
+        }
+    ]
+}
