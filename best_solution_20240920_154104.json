@@ -1,0 +1,924 @@
+{
+    "deliveries": [
+        {
+            "route_id": "Route1",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_62",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 401.1,
+            "stops": [
+                {
+                    "supplier": "Fornecedor14",
+                    "material": "M1",
+                    "quantity_m3": 113.24256841105831,
+                    "quantity_ton": 10.612057275303385,
+                    "distance": 401.1,
+                    "endereco": "R. Mal. Hermes, 999 - Centro C\u00edvico, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route2",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_90",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 869.305,
+            "stops": [
+                {
+                    "supplier": "Fornecedor5",
+                    "material": "M1",
+                    "quantity_m3": 198.25,
+                    "quantity_ton": 26.0,
+                    "distance": 869.305,
+                    "endereco": "R. Imac. Concei\u00e7\u00e3o, 1155 - Prado Velho, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route3",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_54",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca6",
+            "total_distance": 24.797,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M1",
+                    "quantity_m3": 169.09218090797359,
+                    "quantity_ton": 16.90921809079736,
+                    "distance": 24.797,
+                    "endereco": "R. Imac. Concei\u00e7\u00e3o, 1155 - Prado Velho, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route4",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_4",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca7",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 24.244857375366532,
+                    "distance": 30.654,
+                    "endereco": "Av. Vital Brasil, 1500 - Butant\u00e3, S\u00e3o Paulo - SP"
+                }
+            ]
+        },
+        {
+            "route_id": "Route5",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo4x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo4x2)_47",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 27.0,
+                    "distance": 861.352,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route6",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_69",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 32.0,
+                    "distance": 861.352,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route8",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo4x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo4x2)_65",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 95.56464800980267,
+                    "quantity_ton": 25.023981027456816,
+                    "distance": 30.654,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route9",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_61",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca9",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 110.0,
+                    "quantity_ton": 22.412095378115744,
+                    "distance": 30.654,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route10",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_106",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 395.052,
+            "stops": [
+                {
+                    "supplier": "Fornecedor7",
+                    "material": "M2",
+                    "quantity_m3": 198.25,
+                    "quantity_ton": 26.0,
+                    "distance": 395.052,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route11",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "HR",
+            "vehicle_id": "HR_11",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 6.0,
+                    "quantity_ton": 0.7437280584760068,
+                    "distance": 30.654,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route12",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_84",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 2.9337599772988314,
+                    "quantity_ton": 0.7334399943247079,
+                    "distance": 30.654,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route13",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_73",
+            "day": 3,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 198.25,
+                    "quantity_ton": 26.0,
+                    "distance": 30.654,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route14",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_14",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca7",
+            "total_distance": 395.052,
+            "stops": [
+                {
+                    "supplier": "Fornecedor7",
+                    "material": "M2",
+                    "quantity_m3": 110.0,
+                    "quantity_ton": 25.0,
+                    "distance": 395.052,
+                    "endereco": "Av. Vital Brasil, 1500 - Butant\u00e3, S\u00e3o Paulo - SP"
+                }
+            ]
+        },
+        {
+            "route_id": "Route15",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_62",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 199.55,
+                    "quantity_ton": 18.7,
+                    "distance": 30.654,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route16",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_73",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 32.0,
+                    "distance": 30.654,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route17",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_72",
+            "day": 3,
+            "period": "morning",
+            "dock": "Doca1",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 32.0,
+                    "distance": 30.654,
+                    "endereco": "Av. Vital Brasil, 1500 - Butant\u00e3, S\u00e3o Paulo - SP"
+                }
+            ]
+        },
+        {
+            "route_id": "Route18",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo4x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo4x2)_64",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca6",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 27.0,
+                    "distance": 30.654,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route19",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo4x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo4x2)_82",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca7",
+            "total_distance": 30.654,
+            "stops": [
+                {
+                    "supplier": "Fornecedor2",
+                    "material": "M2",
+                    "quantity_m3": 103.0,
+                    "quantity_ton": 19.79151109516378,
+                    "distance": 30.654,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route20",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_68",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca6",
+            "total_distance": 395.052,
+            "stops": [
+                {
+                    "supplier": "Fornecedor7",
+                    "material": "M2",
+                    "quantity_m3": 198.25,
+                    "quantity_ton": 26.0,
+                    "distance": 395.052,
+                    "endereco": "R. Jo\u00e3o Gava, 920 - Abranches, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route21",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_70",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca9",
+            "total_distance": 395.052,
+            "stops": [
+                {
+                    "supplier": "Fornecedor7",
+                    "material": "M2",
+                    "quantity_m3": 199.55,
+                    "quantity_ton": 18.7,
+                    "distance": 395.052,
+                    "endereco": "Av. Vital Brasil, 1500 - Butant\u00e3, S\u00e3o Paulo - SP"
+                }
+            ]
+        },
+        {
+            "route_id": "Route22",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_22",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 414.225,
+            "stops": [
+                {
+                    "supplier": "Fornecedor4",
+                    "material": "M3",
+                    "quantity_m3": 46.825676294879116,
+                    "quantity_ton": 5.853209536859891,
+                    "distance": 414.225,
+                    "endereco": "Pra\u00e7a da Luz, 2 - Luz, S\u00e3o Paulo - SP"
+                }
+            ]
+        },
+        {
+            "route_id": "Route23",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "Toco",
+            "vehicle_id": "Toco_43",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 414.225,
+            "stops": [
+                {
+                    "supplier": "Fornecedor4",
+                    "material": "M3",
+                    "quantity_m3": 8.001645841742139,
+                    "quantity_ton": 1.0002057302177674,
+                    "distance": 414.225,
+                    "endereco": "Pra\u00e7a da Luz, 2 - Luz, S\u00e3o Paulo - SP"
+                }
+            ]
+        },
+        {
+            "route_id": "Route24",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_38",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca4",
+            "total_distance": 31.361,
+            "stops": [
+                {
+                    "supplier": "Fornecedor12",
+                    "material": "M4",
+                    "quantity_m3": 75.8633287497132,
+                    "quantity_ton": 6.420394883943542,
+                    "distance": 31.361,
+                    "endereco": "Rua Oswaldo Maciel, 97 - Tabo\u00e3o, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route25",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_56",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 31.361,
+            "stops": [
+                {
+                    "supplier": "Fornecedor12",
+                    "material": "M4",
+                    "quantity_m3": 87.17752202113303,
+                    "quantity_ton": 21.149884339167507,
+                    "distance": 31.361,
+                    "endereco": "Rua Oswaldo Maciel, 97 - Tabo\u00e3o, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route26",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_26",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca5",
+            "total_distance": 31.361,
+            "stops": [
+                {
+                    "supplier": "Fornecedor12",
+                    "material": "M4",
+                    "quantity_m3": 93.1022079837343,
+                    "quantity_ton": 21.159592723575976,
+                    "distance": 31.361,
+                    "endereco": "Rua Oswaldo Maciel, 97 - Tabo\u00e3o, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route27",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_65",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca1",
+            "total_distance": 24.797,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M5",
+                    "quantity_m3": 69.13211644884944,
+                    "quantity_ton": 8.295853973861934,
+                    "distance": 24.797,
+                    "endereco": "R. Jo\u00e3o Miqueletto, 1500 - Alto Boqueir\u00e3o, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route28",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_28",
+            "day": 3,
+            "period": "morning",
+            "dock": "Doca4",
+            "total_distance": 34.809,
+            "stops": [
+                {
+                    "supplier": "Fornecedor15",
+                    "material": "M5",
+                    "quantity_m3": 84.1884593447722,
+                    "quantity_ton": 10.356732691484575,
+                    "distance": 34.809,
+                    "endereco": "R. Mal. Hermes, 999 - Centro C\u00edvico, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route29",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaReta",
+            "vehicle_id": "CarretaReta_29",
+            "day": 3,
+            "period": "morning",
+            "dock": "Doca6",
+            "total_distance": 24.797,
+            "stops": [
+                {
+                    "supplier": "Fornecedor1",
+                    "material": "M5",
+                    "quantity_m3": 78.21039462759863,
+                    "quantity_ton": 10.65899190245369,
+                    "distance": 24.797,
+                    "endereco": "R. Imac. Concei\u00e7\u00e3o, 1155 - Prado Velho, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route30",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_30",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca7",
+            "total_distance": 401.1,
+            "stops": [
+                {
+                    "supplier": "Fornecedor14",
+                    "material": "M5",
+                    "quantity_m3": 58.13455295128839,
+                    "quantity_ton": 9.749319483647024,
+                    "distance": 401.1,
+                    "endereco": "R. Mal. Hermes, 999 - Centro C\u00edvico, Curitiba - PR"
+                }
+            ]
+        },
+        {
+            "route_id": "Route31",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_53",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 851.401,
+            "stops": [
+                {
+                    "supplier": "Fornecedor8",
+                    "material": "M5",
+                    "quantity_m3": 46.48753405245161,
+                    "quantity_ton": 5.578504086294193,
+                    "distance": 851.401,
+                    "endereco": "R. Prof. Eurico Rabelo, Maracan\u00e3, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route32",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_64",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 859.919,
+            "stops": [
+                {
+                    "supplier": "Fornecedor10",
+                    "material": "M6",
+                    "quantity_m3": 194.40619890822376,
+                    "quantity_ton": 18.217970030487514,
+                    "distance": 859.919,
+                    "endereco": "Ipanema, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route33",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRebaixada",
+            "vehicle_id": "CarretaRebaixada_33",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 859.919,
+            "stops": [
+                {
+                    "supplier": "Fornecedor10",
+                    "material": "M6",
+                    "quantity_m3": 100.34496861712375,
+                    "quantity_ton": 24.35557490706887,
+                    "distance": 859.919,
+                    "endereco": "Ipanema, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route34",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_49",
+            "day": 3,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 859.919,
+            "stops": [
+                {
+                    "supplier": "Fornecedor10",
+                    "material": "M6",
+                    "quantity_m3": 100.34496861712375,
+                    "quantity_ton": 26.67982010034156,
+                    "distance": 859.919,
+                    "endereco": "Ipanema, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route35",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_37",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca5",
+            "total_distance": 859.919,
+            "stops": [
+                {
+                    "supplier": "Fornecedor10",
+                    "material": "M6",
+                    "quantity_m3": 98.36079616690385,
+                    "quantity_ton": 24.564762512418895,
+                    "distance": 859.919,
+                    "endereco": "Ipanema, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route36",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaMegaSider",
+            "vehicle_id": "CarretaMegaSider_36",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 859.919,
+            "stops": [
+                {
+                    "supplier": "Fornecedor10",
+                    "material": "M6",
+                    "quantity_m3": 99.31724194093249,
+                    "quantity_ton": 9.931724194093249,
+                    "distance": 859.919,
+                    "endereco": "Ipanema, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route37",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSidercomDolly(Kautex/Behr/Autometal)",
+            "vehicle_id": "BitremTopSidercomDolly(Kautex/Behr/Autometal)_56",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca5",
+            "total_distance": 859.919,
+            "stops": [
+                {
+                    "supplier": "Fornecedor10",
+                    "material": "M6",
+                    "quantity_m3": 193.13970901305615,
+                    "quantity_ton": 25.329797903351626,
+                    "distance": 859.919,
+                    "endereco": "Ipanema, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route38",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "Leve3/4",
+            "vehicle_id": "Leve3/4_38",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca3",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 9.52608192071929,
+                    "quantity_ton": 2.3815204801798227,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route39",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "HR",
+            "vehicle_id": "HR_39",
+            "day": 1,
+            "period": "morning",
+            "dock": "Doca6",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 4.763040960359645,
+                    "quantity_ton": 0.793840160059941,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route40",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "Fiorino",
+            "vehicle_id": "Fiorino_40",
+            "day": 2,
+            "period": "morning",
+            "dock": "Doca5",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 1.1231751205138925,
+                    "quantity_ton": 0.11231751205138925,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route41",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "Truck",
+            "vehicle_id": "Truck_41",
+            "day": 3,
+            "period": "morning",
+            "dock": "Doca9",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 35.72280720269734,
+                    "quantity_ton": 9.52608192071929,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route42",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "Toco",
+            "vehicle_id": "Toco_42",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca9",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 28.57824576215787,
+                    "quantity_ton": 4.763040960359645,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route43",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaReta",
+            "vehicle_id": "CarretaReta_43",
+            "day": 4,
+            "period": "morning",
+            "dock": "Doca1",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 76.20865536575432,
+                    "quantity_ton": 19.846004001498525,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route44",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_44",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca4",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 139.8260158529361,
+                    "quantity_ton": 13.103214715359085,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route45",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "BitremTopSider(ValeoT\u00e9rmico)",
+            "vehicle_id": "BitremTopSider(ValeoT\u00e9rmico)_45",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca8",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 158.41080393996123,
+                    "quantity_ton": 14.844810993120895,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route46",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo4x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo4x2)_46",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca2",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 81.76553648617391,
+                    "quantity_ton": 21.433684321618404,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        },
+        {
+            "route_id": "Route47",
+            "destination": "Av. Renault, 1300 - Roseira, S\u00e3o Jos\u00e9 dos Pinhais - PR",
+            "vehicle": "CarretaRetaVanderleia(cavalo6x2)",
+            "vehicle_id": "CarretaRetaVanderleia(cavalo6x2)_48",
+            "day": 5,
+            "period": "morning",
+            "dock": "Doca9",
+            "total_distance": 861.352,
+            "stops": [
+                {
+                    "supplier": "Fornecedor13",
+                    "material": "M7",
+                    "quantity_m3": 74.30382631140064,
+                    "quantity_ton": 23.084683902571076,
+                    "distance": 861.352,
+                    "endereco": "Parque Nacional da Tijuca - Alto da Boa Vista, Rio de Janeiro - RJ"
+                }
+            ]
+        }
+    ]
+}
